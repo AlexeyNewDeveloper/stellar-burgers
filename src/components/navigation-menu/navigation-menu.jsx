@@ -14,13 +14,35 @@ export default class NavigationMenu extends React.Component {
                     <li className={`${styles.item} pl-5 pr-5 pt-4 pb-4 mr-2`}>
                         <MenuItem
                             text="Конструктор"
-                            icon={<BurgerIcon type="primary" />}
+                            icon={
+                                <BurgerIcon
+                                    type={
+                                        this.props.tabsProp.constructor
+                                            ? "primary"
+                                            : "secondary"
+                                    }
+                                />
+                            }
+                            nameTab="constructor"
+                            funcActiveTab={this.props.tabsProp.funcActiveTab}
+                            activeTab={this.props.tabsProp.constructor}
                         />
                     </li>
                     <li className={`${styles.item} pl-5 pr-5 pt-4 pb-4`}>
                         <MenuItem
                             text="Лента заказов"
-                            icon={<ListIcon type="secondary" />}
+                            icon={
+                                <ListIcon
+                                    type={
+                                        this.props.tabsProp.orderFeed
+                                            ? "primary"
+                                            : "secondary"
+                                    }
+                                />
+                            }
+                            nameTab="orderFeed"
+                            funcActiveTab={this.props.tabsProp.funcActiveTab}
+                            activeTab={this.props.tabsProp.orderFeed}
                         />
                     </li>
                 </ul>
