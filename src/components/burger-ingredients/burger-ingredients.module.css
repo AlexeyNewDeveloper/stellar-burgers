@@ -1,5 +1,4 @@
 .section {
-    outline: 2px solid #4c4cff;
     inline-size: 600px;
     /* inline-size: 608px; */
     max-block-size: 912px;
@@ -10,7 +9,6 @@
 .ingredients {
     /* max-block-size: 100%; */
     max-block-size: 716px;
-    outline: 1px dashed #4c4cff;
     overflow-y: auto;
     scrollbar-width: auto;
     scrollbar-color: #8585ad #2f2f37;
@@ -22,7 +20,6 @@
 .ingredients::-webkit-scrollbar-track {
     background-color: #2f2f37;
     margin-bottom: 52px;
-    outline: 1px dashed #4c4cff;
 }
 
 .ingredients::-webkit-scrollbar {

@@ -2,24 +2,20 @@
     inline-size: 240px;
     block-size: 120px;
     object-fit: contain;
-    outline: 1px dashed #4c4cff;
 }
 
 .cost {
     display: flex;
-    outline: 1px dashed #4c4cff;
 }
 
 .priceNumber {
     padding-inline-end: 9px;
-    outline: 1px dashed #4c4cff;
 }
 
 .description {
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
-    outline: 1px dashed #4c4cff;
     text-align: center;
     color: #f2f2f3;
     width: 100%;
@@ -28,7 +24,6 @@
 
 .counter {
     position: absolute;
-    outline: 1px dashed #4c4cff;
     top: 0;
     right: 0;
     width: 32px;

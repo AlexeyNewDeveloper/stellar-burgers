@@ -21,10 +21,7 @@ export default class PlaceOrder extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div
-                    style={{ outline: "1px dashed #4c4cff" }}
-                    className="ml-10 mr-4"
-                >
+                <div className="ml-10 mr-4">
                     <Button type="primary" size="large" htmlType="button">
                         Оформить заказ
                     </Button>

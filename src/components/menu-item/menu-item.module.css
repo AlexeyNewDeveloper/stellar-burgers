@@ -1,5 +1,4 @@
 .icons {
-    outline: 1px dashed #4c4cff;
     width: 24px;
     height: 24px;
     display: flex;
@@ -23,7 +22,6 @@
 
 .border_dashed {
     box-sizing: border-box;
-    outline: 1px dashed #4c4cff;
 }
 
 .item-text {
