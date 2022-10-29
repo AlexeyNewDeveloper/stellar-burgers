@@ -1,0 +1,36 @@
+.icons {
+    outline: 1px dashed #4c4cff;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.item-link {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    color: #8585ad;
+    text-decoration: none;
+}
+
+.item-link:hover {
+    color: #f2f2f3;
+}
+
+.border_dashed {
+    box-sizing: border-box;
+    outline: 1px dashed #4c4cff;
+}
+
+.item-text {
+    white-space: nowrap;
+    font-size: 16px;
+}
+
+.item-text-active {
+    color: #f2f2f3;
+}

@@ -1,0 +1,27 @@
+.place-order {
+    display: flex;
+}
+
+.total {
+}
+
+.price-area {
+    display: flex;
+    margin-inline-start: auto;
+    padding: 14px 0;
+    outline: 1px dashed #4c4cff;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    transform: scale(1.5);
+    transform-origin: center;
+}
+
+.icon-area {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    width: 36px;
+}
