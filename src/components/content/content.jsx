@@ -8,7 +8,7 @@ export default class Content extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: { bun: [], main: [], sauce: [] },
+      data: { bun: [], sauce: [], main: [] },
     };
   }
 
@@ -34,7 +34,7 @@ export default class Content extends React.Component {
         }
         return acc;
       },
-      { bun: [], main: [], sauce: [] }
+      { bun: [], sauce: [], main: [] }
     );
     this.setState({ data: arrayData });
   };

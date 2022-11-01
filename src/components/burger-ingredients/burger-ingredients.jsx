@@ -2,24 +2,46 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import Tabs from "../tabs/tabs";
-import IngredientsWrapper from "../ingredients-wrapper/ingredients-wrapper";
-import TitleElement from "../title-element/title-element";
+import ItemCard from "../item-card/item-card";
 
 export default class BurgerIngredients extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      categories: {
+        main: "Начинки",
+        bun: "Булки",
+        sauce: "Соусы",
+      },
+    };
+  }
+
   render() {
     return (
       <section className={`${styles.section} mr-10 pt-10 `}>
-        <TitleElement tag="h1" className="mb-5" text="Соберите бургер" />
+        <h1 className={`${styles.title} text text_type_main-medium mb-5`}>
+          Соберите бургер
+        </h1>
         <Tabs />
         <div className={`${styles.ingredients}`}>
-          <TitleElement tag="h2" className="" text="Булки" />
-          <IngredientsWrapper data={this.props.data.bun} />
-
-          <TitleElement tag="h2" className="" text="Соусы" />
-          <IngredientsWrapper data={this.props.data.sauce} />
-
-          <TitleElement tag="h2" className="" text="Котлета" />
-          <IngredientsWrapper data={this.props.data.main} />
+          {Object.keys(this.props.data).map((key, index) => {
+            return (
+              <React.Fragment key={index}>
+                <h2 className={`${styles.subtitle} text text_type_main-medium`}>
+                  {this.state.categories[key]}
+                </h2>
+                <ul className={`${styles.items} pt-6 pr-4 pl-4 pb-10`}>
+                  {this.props.data[key].map((item) => {
+                    return (
+                      <li className={styles.item} key={item["_id"]}>
+                        <ItemCard item={item} />
+                      </li>
+                    );
+                  })}
+                </ul>
+              </React.Fragment>
+            );
+          })}
         </div>
       </section>
     );

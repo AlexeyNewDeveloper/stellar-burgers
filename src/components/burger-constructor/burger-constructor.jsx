@@ -3,8 +3,9 @@ import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
   DragIcon,
+  CurrencyIcon,
+  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PlaceOrder from "../place-order/place-order";
 
 export default class BurgerConstructor extends React.Component {
   render() {
@@ -95,7 +96,25 @@ export default class BurgerConstructor extends React.Component {
             />
           </li>
         </ul>
-        <PlaceOrder />
+        <div className={`${styles["place-order"]} mt-10`}>
+          <div className={`${styles["price-area"]}`}>
+            <span
+              className={`${styles.total} text text_type_digits-medium mr-2`}
+            >
+              610
+            </span>
+            <div className={`${styles["icon-area"]}`}>
+              <div className={`${styles.icon}`}>
+                <CurrencyIcon type="primary" />
+              </div>
+            </div>
+          </div>
+          <div className="ml-10 mr-4">
+            <Button type="primary" size="large" htmlType="button">
+              Оформить заказ
+            </Button>
+          </div>
+        </div>
       </section>
     );
   }
