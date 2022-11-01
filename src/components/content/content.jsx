@@ -13,17 +13,29 @@ export default class Content extends React.Component {
   }
 
   getDataForContent = () => {
-    const arrayData = { bun: [], main: [], sauce: [] };
-    this.props.data.forEach((item) => {
-      const { _id, name, type, price, image } = item;
-      if (type === "bun") {
-        arrayData.bun.push({ _id, name, type, price, image });
-      } else if (type === "main") {
-        arrayData.main.push({ _id, name, type, price, image });
-      } else if (type === "sauce") {
-        arrayData.sauce.push({ _id, name, type, price, image });
-      }
-    });
+    const arrayData = this.props.data.reduce(
+      (acc, current, index, arr) => {
+        if (current.type in acc) {
+          acc[current.type].push({
+            _id: current["_id"],
+            name: current.name,
+            type: current.type,
+            price: current.price,
+            image: current.image,
+          });
+        } else {
+          acc[current.type] = [].push({
+            _id: current["_id"],
+            name: current.name,
+            type: current.type,
+            price: current.price,
+            image: current.image,
+          });
+        }
+        return acc;
+      },
+      { bun: [], main: [], sauce: [] }
+    );
     this.setState({ data: arrayData });
   };
 

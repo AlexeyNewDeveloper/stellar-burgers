@@ -20,24 +20,6 @@ export default class MenuItem extends React.Component {
     };
   }
 
-  // makeActiveTab = (evt) => {
-  //     evt.preventDefault();
-
-  //     console.log({
-  //         ...this.state,
-  //         menuIcons: { ...this.state.menuIcons, account: "jjj" },
-  //     });
-  //     this.setState({ ...this.state, active: true });
-  // };
-
-  // componentDidMount() {
-  //     this.ref.current.addEventListener("click", this.makeActiveTab);
-  // }
-
-  // componentWillUnmount() {
-  //     this.ref.current.removeEventListener("click", this.makeActiveTab);
-  // }
-
   render() {
     return (
       <a
