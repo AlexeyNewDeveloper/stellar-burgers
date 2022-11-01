@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./content.module.css";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import ListOrder from "../list-order/list-order";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
 
 export default class Content extends React.Component {
     constructor(props) {
@@ -34,8 +35,12 @@ export default class Content extends React.Component {
         return (
             <main className={styles.main}>
                 <BurgerIngredients data={this.state.data} />
-                <ListOrder data={this.state.data} />
+                <BurgerConstructor data={this.state.data} />
             </main>
         );
     }
 }
+
+Content.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
+};

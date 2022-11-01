@@ -1,12 +1,12 @@
 import React from "react";
-import styles from "./list-order.module.css";
+import styles from "./burger-constructor.module.css";
 import {
     ConstructorElement,
     DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PlaceOrder from "../place-order/place-order";
 
-export default class ListOrder extends React.Component {
+export default class BurgerConstructor extends React.Component {
     render() {
         return (
             <section className={`${styles.section} pt-25 pl-4`}>

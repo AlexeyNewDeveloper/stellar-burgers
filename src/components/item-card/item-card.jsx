@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./item-card.module.css";
 import {
     CurrencyIcon,
@@ -38,3 +39,7 @@ export default class ItemCard extends React.Component {
         );
     }
 }
+
+ItemCard.propTypes = {
+    item: PropTypes.object.isRequired,
+};

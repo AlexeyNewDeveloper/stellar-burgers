@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./title-element.module.css";
 
 export default class TitleElement extends React.Component {
@@ -22,3 +23,8 @@ export default class TitleElement extends React.Component {
         }
     }
 }
+
+TitleElement.propTypes = {
+    className: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+};

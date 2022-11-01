@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import Tabs from "../tabs/tabs";
 import IngredientsWrapper from "../ingredients-wrapper/ingredients-wrapper";
@@ -28,3 +29,7 @@ export default class BurgerIngredients extends React.Component {
         );
     }
 }
+
+BurgerIngredients.propTypes = {
+    data: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
+};
