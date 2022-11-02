@@ -24,17 +24,22 @@ export default class BurgerIngredients extends React.Component {
         </h1>
         <Tabs />
         <div className={`${styles.ingredients}`}>
-          {Object.keys(this.props.data).map((key, index) => {
+          {Object.keys(this.props.mainData).map((key, index) => {
             return (
               <React.Fragment key={index}>
                 <h2 className={`${styles.subtitle} text text_type_main-medium`}>
                   {this.state.categories[key]}
                 </h2>
                 <ul className={`${styles.items} pt-6 pr-4 pl-4 pb-10`}>
-                  {this.props.data[key].map((item) => {
+                  {this.props.mainData[key].map((item, index) => {
                     return (
                       <li className={styles.item} key={item["_id"]}>
-                        <ItemCard item={item} />
+                        <ItemCard
+                          item={item}
+                          detailDataForPopup={this.props.detailDataForPopup[
+                            key
+                          ].find((i) => i["_id"] === item["_id"])}
+                        />
                       </li>
                     );
                   })}
@@ -49,5 +54,7 @@ export default class BurgerIngredients extends React.Component {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
+  mainData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
+  detailDataForPopup: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object))
+    .isRequired,
 };

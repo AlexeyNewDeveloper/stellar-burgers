@@ -8,46 +8,61 @@ export default class Content extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: { bun: [], sauce: [], main: [] },
+      mainData: { bun: [], sauce: [], main: [] },
+      detailDataForPopup: { bun: [], sauce: [], main: [] },
     };
   }
 
-  getDataForContent = () => {
-    const arrayData = this.props.data.reduce(
+  _getData(data, fields = []) {
+    return data.reduce(
       (acc, current, index, arr) => {
-        if (current.type in acc) {
-          acc[current.type].push({
-            _id: current["_id"],
-            name: current.name,
-            type: current.type,
-            price: current.price,
-            image: current.image,
-          });
-        } else {
-          acc[current.type] = [].push({
-            _id: current["_id"],
-            name: current.name,
-            type: current.type,
-            price: current.price,
-            image: current.image,
-          });
-        }
+        const itemObj = fields.reduce((accum, curr) => {
+          return { ...accum, [curr]: current[curr] };
+        }, {});
+
+        acc[current.type].push(itemObj);
         return acc;
       },
       { bun: [], sauce: [], main: [] }
     );
-    this.setState({ data: arrayData });
-  };
+  }
 
+  getDataForComponents = () => {
+    const arrayMainData = this._getData(this.props.data, [
+      "_id",
+      "name",
+      "type",
+      "price",
+      "image",
+    ]);
+    const arrayDetailData = this._getData(this.props.data, [
+      "_id",
+      "name",
+      "type",
+      "image_large",
+      "calories",
+      "proteins",
+      "fat",
+      "carbohydrates",
+    ]);
+
+    this.setState({
+      detailDataForPopup: arrayDetailData,
+      mainData: arrayMainData,
+    });
+  };
   componentDidMount() {
-    this.getDataForContent();
+    this.getDataForComponents();
   }
 
   render() {
     return (
       <main className={styles.main}>
-        <BurgerIngredients data={this.state.data} />
-        <BurgerConstructor data={this.state.data} />
+        <BurgerIngredients
+          mainData={this.state.mainData}
+          detailDataForPopup={this.state.detailDataForPopup}
+        />
+        <BurgerConstructor mainData={this.state.mainData} />
       </main>
     );
   }
