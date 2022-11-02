@@ -5,12 +5,12 @@ import styles from "./app.module.css";
 import { data } from "../../utils/data.js";
 
 function App() {
-    return (
-        <div className={styles.page}>
-            <AppHeader />
-            <Content data={data} />
-        </div>
-    );
+  return (
+    <div className={styles.page}>
+      <AppHeader />
+      <Content data={data} />
+    </div>
+  );
 }
 
 export default App;
