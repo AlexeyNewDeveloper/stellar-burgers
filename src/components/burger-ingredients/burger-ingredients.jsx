@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import Tabs from "../tabs/tabs";
-import ItemCard from "../item-card/item-card";
+import IngredientsCategory from "../ingredients-category/ingredients-category";
 
 export default class BurgerIngredients extends React.Component {
   constructor(props) {
@@ -27,23 +27,11 @@ export default class BurgerIngredients extends React.Component {
           {Object.keys(this.props.mainData).map((key, index) => {
             return (
               <React.Fragment key={index}>
-                <h2 className={`${styles.subtitle} text text_type_main-medium`}>
-                  {this.state.categories[key]}
-                </h2>
-                <ul className={`${styles.items} pt-6 pr-4 pl-4 pb-10`}>
-                  {this.props.mainData[key].map((item, index) => {
-                    return (
-                      <li className={styles.item} key={item["_id"]}>
-                        <ItemCard
-                          item={item}
-                          detailDataForPopup={this.props.detailDataForPopup[
-                            key
-                          ].find((i) => i["_id"] === item["_id"])}
-                        />
-                      </li>
-                    );
-                  })}
-                </ul>
+                <IngredientsCategory
+                  category={this.state.categories[key]}
+                  arrayOfIngredients={this.props.mainData[key]}
+                  arrayOfDetailDataForPopup={this.props.detailDataForPopup[key]}
+                />
               </React.Fragment>
             );
           })}
