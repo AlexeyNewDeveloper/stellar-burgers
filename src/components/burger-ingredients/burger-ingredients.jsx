@@ -3,15 +3,10 @@ import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import Tabs from "../tabs/tabs";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
+import { categories } from "../../utils/constants";
 
 export default class BurgerIngredients extends React.Component {
   render() {
-    const categories = {
-      main: "Начинки",
-      bun: "Булки",
-      sauce: "Соусы",
-    };
-
     return (
       <section className={`${styles.section} mr-10 pt-10 `}>
         <h1 className={`${styles.title} text text_type_main-medium mb-5`}>
