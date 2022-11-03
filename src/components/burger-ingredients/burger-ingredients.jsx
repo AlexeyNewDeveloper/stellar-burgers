@@ -21,13 +21,12 @@ export default class BurgerIngredients extends React.Component {
         <div className={`${styles.ingredients}`}>
           {Object.keys(this.props.mainData).map((key, index) => {
             return (
-              <React.Fragment key={index}>
-                <IngredientsCategory
-                  category={categories[key]}
-                  arrayOfIngredients={this.props.mainData[key]}
-                  arrayOfDetailDataForPopup={this.props.detailDataForPopup[key]}
-                />
-              </React.Fragment>
+              <IngredientsCategory
+                key={index}
+                category={categories[key]}
+                arrayOfIngredients={this.props.mainData[key]}
+                arrayOfDetailDataForPopup={this.props.detailDataForPopup[key]}
+              />
             );
           })}
         </div>
