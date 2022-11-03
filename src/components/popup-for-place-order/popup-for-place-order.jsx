@@ -59,5 +59,5 @@ export default class PopupForPlaceOrder extends React.Component {
 }
 
 PopupForPlaceOrder.propTypes = {
-  closePopupCallback: PropTypes.func,
+  closePopupCallback: PropTypes.func.isRequired,
 };

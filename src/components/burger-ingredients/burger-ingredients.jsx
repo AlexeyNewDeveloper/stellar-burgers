@@ -42,7 +42,29 @@ export default class BurgerIngredients extends React.Component {
 }
 
 BurgerIngredients.propTypes = {
-  mainData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
-  detailDataForPopup: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object))
-    .isRequired,
+  mainData: PropTypes.objectOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+      }).isRequired
+    ).isRequired
+  ).isRequired,
+  detailDataForPopup: PropTypes.objectOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        proteins: PropTypes.number.isRequired,
+        fat: PropTypes.number.isRequired,
+        carbohydrates: PropTypes.number.isRequired,
+        calories: PropTypes.number.isRequired,
+        image_large: PropTypes.string.isRequired,
+      }).isRequired
+    ).isRequired
+  ).isRequired,
 };

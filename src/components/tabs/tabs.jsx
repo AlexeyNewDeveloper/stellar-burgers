@@ -3,13 +3,13 @@ import styles from "./tabs.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 export default function Tabs(props) {
-  const [current, setCurrent] = React.useState("bulki");
+  const [current, setCurrent] = React.useState("buns");
   return (
     <div className={`${styles.tabs} mb-10`}>
-      <Tab value="bulki" active={current === "bulki"} onClick={setCurrent}>
+      <Tab value="buns" active={current === "buns"} onClick={setCurrent}>
         Булки
       </Tab>
-      <Tab value="souces" active={current === "souces"} onClick={setCurrent}>
+      <Tab value="sauces" active={current === "sauces"} onClick={setCurrent}>
         Соусы
       </Tab>
       <Tab

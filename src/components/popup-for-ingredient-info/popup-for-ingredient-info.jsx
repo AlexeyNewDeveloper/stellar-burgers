@@ -82,6 +82,15 @@ export default class PopupForIngredientInfo extends React.Component {
 }
 
 PopupForIngredientInfo.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
+    image_large: PropTypes.string.isRequired,
+  }).isRequired,
   closePopupCallback: PropTypes.func.isRequired,
 };
