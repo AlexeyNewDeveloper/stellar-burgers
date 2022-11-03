@@ -10,7 +10,6 @@ import {
 export default class MenuItem extends React.Component {
   constructor(props) {
     super(props);
-    this.ref = React.createRef();
     this.state = {
       menuIcons: {
         account: <ProfileIcon type="secondary" />,
@@ -25,7 +24,6 @@ export default class MenuItem extends React.Component {
       <a
         href="/"
         className={`${styles["item-link"]}  text text_type_main-default`}
-        ref={this.ref}
       >
         <div className={`${styles.icons} mr-2`}>
           {this.state.menuIcons[this.props.nameTab]}
