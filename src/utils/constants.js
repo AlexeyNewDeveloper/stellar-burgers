@@ -10,3 +10,5 @@ export const categories = {
   bun: "Булки",
   sauce: "Соусы",
 };
+
+export const modalRoot = document.getElementById("modals");

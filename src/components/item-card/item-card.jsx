@@ -5,32 +5,39 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PopupForIngredientInfo from "../popup-for-ingredient-info/popup-for-ingredient-info";
+import IngredientDetails from "../ingredients-detail/ingredients-detail";
+// import withModal from "../hocs/withModal";
+// import ModalOverlay from "../modal-overlay/modal-overlay";
 
-export default function ItemCard({ item }) {
-  const [state, setState] = React.useState({
-    openPopupForIngredientInfo: false,
-  });
-  const refItemCard = React.useRef();
+// const WithModalIngredientDetails = withModal({
+//   WrappedComponent: IngredientDetails,
+//   OverlayComponent: ModalOverlay,
+// });
 
-  React.useEffect(() => {
-    refItemCard.current.addEventListener("click", openPopupForDetail);
-    return () => {
-      refItemCard.current.removeEventListener("click", openPopupForDetail);
-    };
-  }, []);
+function ItemCard({ item, onElementClick }) {
+  // const [state, setState] = React.useState({
+  //   openPopupForIngredientInfo: false,
+  // });
+  // const refItemCard = React.useRef();
 
-  const openPopupForDetail = () => {
-    setState({ ...state, openPopupForIngredientInfo: true });
-  };
+  // React.useEffect(() => {
+  //   refItemCard.current.addEventListener("click", openPopupForDetail);
+  //   return () => {
+  //     refItemCard.current.removeEventListener("click", openPopupForDetail);
+  //   };
+  // }, []);
 
-  const closePopupForDetail = () => {
-    setState({ ...state, openPopupForIngredientInfo: false });
-  };
+  // const openPopupForDetail = () => {
+  //   setState({ ...state, openPopupForIngredientInfo: true });
+  // };
+
+  // const closePopupForDetail = () => {
+  //   setState({ ...state, openPopupForIngredientInfo: false });
+  // };
 
   return (
     <React.Fragment>
-      <div ref={refItemCard} className={`${styles.item}`}>
+      <div className={`${styles.item}`} onClick={onElementClick}>
         {item["_id"] === "60666c42cc7b410027a1a9b1" ? (
           <div className={`${styles.counter}`}>
             <Counter count={1} size="default" />
@@ -55,14 +62,6 @@ export default function ItemCard({ item }) {
           {item.name}
         </p>
       </div>
-      {state.openPopupForIngredientInfo ? (
-        <PopupForIngredientInfo
-          data={item}
-          closePopupCallback={closePopupForDetail}
-        />
-      ) : (
-        ""
-      )}
     </React.Fragment>
   );
 }
@@ -83,3 +82,5 @@ ItemCard.propTypes = {
     __v: PropTypes.number.isRequired,
   }).isRequired,
 };
+
+export default ItemCard;
