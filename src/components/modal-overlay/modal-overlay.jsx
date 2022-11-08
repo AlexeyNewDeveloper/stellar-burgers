@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./modal-overlay.module.css";
 
-export default function ModalOverlay({ children, onElementClick }) {
+export default function ModalOverlay({ children, onClick }) {
   return (
     <div className={`${styles.popup}`}>
       {children}
-      <div onClick={onElementClick} className={`${styles.overlay}`}></div>
+      <div onClick={onClick} className={`${styles.overlay}`}></div>
     </div>
   );
 }

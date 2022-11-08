@@ -1,13 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Modal from "../modal/modal";
+import ModalOverlay from "../modal-overlay/modal-overlay";
 import { modalRoot } from "../../utils/constants";
 
 const withModal =
   ({
     WrappedComponent,
-    OverlayComponent,
-    ContainerComponent,
     DetailInfoComponent,
+    OverlayComponent = ModalOverlay,
+    ContainerComponent = Modal,
   }) =>
   (props) => {
     const [state, setState] = React.useState({
@@ -37,11 +39,13 @@ const withModal =
 
     return (
       <>
-        <WrappedComponent {...props} onElementClick={openPopup} />
+        <WrappedComponent {...props} onClick={openPopup}>
+          {props.children}
+        </WrappedComponent>
         {state.openPopup &&
           ReactDOM.createPortal(
-            <OverlayComponent onElementClick={closePopup}>
-              <ContainerComponent onElementClick={closePopup}>
+            <OverlayComponent onClick={closePopup}>
+              <ContainerComponent onClick={closePopup}>
                 <DetailInfoComponent detailInfo={props.detailInfo} />
               </ContainerComponent>
             </OverlayComponent>,

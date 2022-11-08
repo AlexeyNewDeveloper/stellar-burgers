@@ -3,14 +3,10 @@ import PropTypes from "prop-types";
 import styles from "./ingredients-category.module.css";
 import ItemCard from "../item-card/item-card";
 import IngredientDetails from "../ingredients-detail/ingredients-detail";
-import Modal from "../modal/modal";
-import ModalOverlay from "../modal-overlay/modal-overlay";
 import withModal from "../hocs/withModal";
 
 const WithModalItemCard = withModal({
   WrappedComponent: ItemCard,
-  OverlayComponent: ModalOverlay,
-  ContainerComponent: Modal,
   DetailInfoComponent: IngredientDetails,
 });
 
@@ -29,7 +25,6 @@ export default function IngredientsCategory({
           return (
             <li className={styles.item} key={item["_id"]}>
               <WithModalItemCard item={item} detailInfo={item} />
-              {/* <ItemCard item={item} /> */}
             </li>
           );
         })}

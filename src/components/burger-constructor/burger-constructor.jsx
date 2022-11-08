@@ -6,25 +6,20 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PopupForPlaceOrder from "../popup-for-place-order/popup-for-place-order";
 import filterIngredients from "../../utils/utils";
+import withModal from "../hocs/withModal";
+import OrderDetails from "../order-details/order-details";
+
+const PlaceOrderButton = withModal({
+  WrappedComponent: Button,
+  DetailInfoComponent: OrderDetails,
+});
 
 export default function BurgerConstructor({ ingredients }) {
   const filtredIngredients = filterIngredients(ingredients, {
     bun: [],
     other: [],
   });
-
-  const [openPopupForPlaceOrder, setOpenPopupForPlaceOrder] =
-    React.useState(false);
-
-  const openPopup = () => {
-    this.setOpenPopupForPlaceOrder(true);
-  };
-
-  const closePopup = () => {
-    this.setOpenPopupForPlaceOrder(false);
-  };
 
   return (
     <section className={`${styles.section} pt-25 pl-4`}>
@@ -79,21 +74,11 @@ export default function BurgerConstructor({ ingredients }) {
           </div>
         </div>
         <div className="ml-10 mr-4">
-          <Button
-            type="primary"
-            size="large"
-            htmlType="button"
-            onClick={openPopup}
-          >
+          <PlaceOrderButton type="primary" size="large" htmlType="button">
             Оформить заказ
-          </Button>
+          </PlaceOrderButton>
         </div>
       </div>
-      {openPopupForPlaceOrder ? (
-        <PopupForPlaceOrder closePopupCallback={closePopup} />
-      ) : (
-        ""
-      )}
     </section>
   );
 }

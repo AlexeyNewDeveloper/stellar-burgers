@@ -5,39 +5,11 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import IngredientDetails from "../ingredients-detail/ingredients-detail";
-// import withModal from "../hocs/withModal";
-// import ModalOverlay from "../modal-overlay/modal-overlay";
 
-// const WithModalIngredientDetails = withModal({
-//   WrappedComponent: IngredientDetails,
-//   OverlayComponent: ModalOverlay,
-// });
-
-function ItemCard({ item, onElementClick }) {
-  // const [state, setState] = React.useState({
-  //   openPopupForIngredientInfo: false,
-  // });
-  // const refItemCard = React.useRef();
-
-  // React.useEffect(() => {
-  //   refItemCard.current.addEventListener("click", openPopupForDetail);
-  //   return () => {
-  //     refItemCard.current.removeEventListener("click", openPopupForDetail);
-  //   };
-  // }, []);
-
-  // const openPopupForDetail = () => {
-  //   setState({ ...state, openPopupForIngredientInfo: true });
-  // };
-
-  // const closePopupForDetail = () => {
-  //   setState({ ...state, openPopupForIngredientInfo: false });
-  // };
-
+function ItemCard({ item, onClick }) {
   return (
     <React.Fragment>
-      <div className={`${styles.item}`} onClick={onElementClick}>
+      <div className={`${styles.item}`} onClick={onClick}>
         {item["_id"] === "60666c42cc7b410027a1a9b1" ? (
           <div className={`${styles.counter}`}>
             <Counter count={1} size="default" />

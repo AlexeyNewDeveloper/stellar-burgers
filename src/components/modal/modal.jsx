@@ -7,7 +7,7 @@ export default function Modal(props) {
       <button
         type="button"
         className={`${styles.close}`}
-        onClick={props.onElementClick}
+        onClick={props.onClick}
       ></button>
       {props.children}
     </div>
