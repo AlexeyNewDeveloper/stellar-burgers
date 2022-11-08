@@ -3,75 +3,63 @@ import PropTypes from "prop-types";
 import styles from "./popup-for-ingredient-info.module.css";
 import { specifications } from "../../utils/constants";
 
-export default class PopupForIngredientInfo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.refPopup = React.createRef();
-  }
+export default function PopupForIngredientInfo(props) {
+  const refPopup = React.useRef();
+  React.useEffect(() => {
+    document.addEventListener("keydown", closePopupToKey);
+    refPopup.current.addEventListener("click", closePopupToOverlay);
+    return () => {
+      document.removeEventListener("keydown", closePopupToKey);
+      refPopup.current.removeEventListener("click", closePopupToOverlay);
+    };
+  }, []);
 
-  _closePopupToKey = (evt) => {
+  const closePopupToKey = (evt) => {
     if (evt.key === "Escape") {
-      this.props.closePopupCallback();
+      props.closePopupCallback();
     }
   };
 
-  _closePopupToOverlay = (evt) => {
+  const closePopupToOverlay = (evt) => {
     if (!evt.target.closest(`.${styles.container}`)) {
-      this.props.closePopupCallback();
+      props.closePopupCallback();
     }
   };
 
-  componentDidMount = () => {
-    document.addEventListener("keydown", this._closePopupToKey);
-    this.refPopup.current.addEventListener("click", this._closePopupToOverlay);
-  };
-
-  componentWillUnmount = () => {
-    document.removeEventListener("keydown", this._closePopupToKey);
-    this.refPopup.current.removeEventListener(
-      "click",
-      this._closePopupToOverlay
-    );
-  };
-
-  render() {
-    return (
-      <div ref={this.refPopup} className={`${styles.popup}`}>
-        <div className={`${styles.container}`}>
-          <div className={`${styles.title_area}`}>
-            <p className="text text_type_main-large">Детали ингредиента</p>
-            <button
-              type="button"
-              className={`${styles.close}`}
-              onClick={this.props.closePopupCallback}
-            ></button>
-          </div>
-          <img
-            src={this.props.data.image_large}
-            alt={this.props.data.name}
-            className={`${styles.image} mb-4`}
-          />
-          <p className="text text_type_main-medium mb-8">
-            {this.props.data.name}
-          </p>
-          <ul className={`${styles.specifications}`}>
-            {Object.keys(specifications).map((item, index) => {
-              return (
-                <li key={index} className={`${styles.parameter}`}>
-                  <p className="text text_type_main-default text_color_inactive">
-                    {specifications[item]}
-                  </p>
-                  <p className="text text_type_digits-default text_color_inactive">
-                    {this.props.data[item]}
-                  </p>
-                </li>
-              );
-            })}
-          </ul>
+  return (
+    <div ref={refPopup} className={`${styles.popup}`}>
+      <div className={`${styles.container}`}>
+        <div className={`${styles.title_area}`}>
+          <p className="text text_type_main-large">Детали ингредиента</p>
+          <button
+            type="button"
+            className={`${styles.close}`}
+            onClick={props.closePopupCallback}
+          ></button>
         </div>
+        <img
+          src={props.data.image_large}
+          alt={props.data.name}
+          className={`${styles.image} mb-4`}
+        />
+        <p className="text text_type_main-medium mb-8">{props.data.name}</p>
+        <ul className={`${styles.specifications}`}>
+          {Object.keys(specifications).map((item, index) => {
+            return (
+              <li key={index} className={`${styles.parameter}`}>
+                <p className="text text_type_main-default text_color_inactive">
+                  {specifications[item]}
+                </p>
+                <p className="text text_type_digits-default text_color_inactive">
+                  {props.data[item]}
+                </p>
+              </li>
+            );
+          })}
+        </ul>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 PopupForIngredientInfo.propTypes = {

@@ -4,16 +4,17 @@ import styles from "./content.module.css";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
-export default class Content extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      mainData: { bun: [], sauce: [], main: [] },
-      detailDataForPopup: { bun: [], sauce: [], main: [] },
-    };
-  }
+export default function Content(props) {
+  const [state, setState] = React.useState({
+    mainData: { bun: [], sauce: [], main: [] },
+    detailDataForPopup: { bun: [], sauce: [], main: [] },
+  });
 
-  _getData(data, fields = []) {
+  React.useEffect(() => {
+    getDataForComponents();
+  }, []);
+
+  function getData(data, fields = []) {
     return data.reduce(
       (acc, current, index, arr) => {
         const itemObj = fields.reduce((accum, curr) => {
@@ -27,15 +28,15 @@ export default class Content extends React.Component {
     );
   }
 
-  getDataForComponents = () => {
-    const arrayMainData = this._getData(this.props.data, [
+  const getDataForComponents = () => {
+    const arrayMainData = getData(props.data, [
       "_id",
       "name",
       "type",
       "price",
       "image",
     ]);
-    const arrayDetailData = this._getData(this.props.data, [
+    const arrayDetailData = getData(props.data, [
       "_id",
       "name",
       "type",
@@ -46,26 +47,21 @@ export default class Content extends React.Component {
       "carbohydrates",
     ]);
 
-    this.setState({
+    setState({
       detailDataForPopup: arrayDetailData,
       mainData: arrayMainData,
     });
   };
-  componentDidMount() {
-    this.getDataForComponents();
-  }
 
-  render() {
-    return (
-      <main className={styles.main}>
-        <BurgerIngredients
-          mainData={this.state.mainData}
-          detailDataForPopup={this.state.detailDataForPopup}
-        />
-        <BurgerConstructor mainData={this.state.mainData} />
-      </main>
-    );
-  }
+  return (
+    <main className={styles.main}>
+      <BurgerIngredients
+        mainData={state.mainData}
+        detailDataForPopup={state.detailDataForPopup}
+      />
+      <BurgerConstructor mainData={state.mainData} />
+    </main>
+  );
 }
 
 Content.propTypes = {

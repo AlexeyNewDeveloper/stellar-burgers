@@ -5,29 +5,27 @@ import Tabs from "../tabs/tabs";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import { categories } from "../../utils/constants";
 
-export default class BurgerIngredients extends React.Component {
-  render() {
-    return (
-      <section className={`${styles.section} mr-10 pt-10 `}>
-        <h1 className={`${styles.title} text text_type_main-medium mb-5`}>
-          Соберите бургер
-        </h1>
-        <Tabs />
-        <div className={`${styles.ingredients}`}>
-          {Object.keys(this.props.mainData).map((key, index) => {
-            return (
-              <IngredientsCategory
-                key={index}
-                category={categories[key]}
-                arrayOfIngredients={this.props.mainData[key]}
-                arrayOfDetailDataForPopup={this.props.detailDataForPopup[key]}
-              />
-            );
-          })}
-        </div>
-      </section>
-    );
-  }
+export default function BurgerIngredients(props) {
+  return (
+    <section className={`${styles.section} mr-10 pt-10 `}>
+      <h1 className={`${styles.title} text text_type_main-medium mb-5`}>
+        Соберите бургер
+      </h1>
+      <Tabs />
+      <div className={`${styles.ingredients}`}>
+        {Object.keys(props.mainData).map((key, index) => {
+          return (
+            <IngredientsCategory
+              key={index}
+              category={categories[key]}
+              arrayOfIngredients={props.mainData[key]}
+              arrayOfDetailDataForPopup={props.detailDataForPopup[key]}
+            />
+          );
+        })}
+      </div>
+    </section>
+  );
 }
 
 BurgerIngredients.propTypes = {
