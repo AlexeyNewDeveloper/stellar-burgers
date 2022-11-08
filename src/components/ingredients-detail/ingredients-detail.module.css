@@ -1,0 +1,33 @@
+.icon_complete {
+  inline-size: 120px;
+  block-size: 120px;
+  background-image: url(../../images/popup/icon_complete.svg);
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 107px 102px;
+}
+
+.image {
+  object-fit: contain;
+  inline-size: 480px;
+  block-size: 240px;
+}
+
+.title {
+  inline-size: 100%;
+}
+
+.specifications {
+  display: flex;
+  list-style-type: none;
+}
+
+.parameter {
+  text-align: center;
+  margin-right: 20px;
+}
+
+.parameter:last-child {
+  margin-right: 0;
+}

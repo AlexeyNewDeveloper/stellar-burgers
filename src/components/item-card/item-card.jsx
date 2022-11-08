@@ -5,76 +5,54 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PopupForIngredientInfo from "../popup-for-ingredient-info/popup-for-ingredient-info";
 
-export default class ItemCard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { openPopupForIngredientInfo: false };
-    this.refItemCard = React.createRef();
-  }
-
-  openPopupForDetail = () => {
-    this.setState({ ...this.state, openPopupForIngredientInfo: true });
-  };
-
-  closePopupForDetail = () => {
-    this.setState({ ...this.state, openPopupForIngredientInfo: false });
-  };
-
-  componentDidMount = () => {
-    this.refItemCard.current.addEventListener("click", this.openPopupForDetail);
-  };
-
-  componentWillUnmount = () => {
-    this.refItemCard.current.removeEventListener(
-      "click",
-      this.openPopupForDetail
-    );
-  };
-
-  render() {
-    return (
-      <React.Fragment>
-        <div ref={this.refItemCard} className={`${styles.item}`}>
-          {this.props.item["_id"] === "60666c42cc7b410027a1a9b1" ? (
-            <div className={`${styles.counter}`}>
-              <Counter count={1} size="default" />
-            </div>
-          ) : (
-            ""
-          )}
-          <img
-            src={this.props.item.image}
-            alt={this.props.item.name}
-            className={`${styles.image} ml-4 mr-4 mb-1`}
-          />
-          <div className={`${styles.cost} mb-1`}>
-            <span
-              className={`${styles.priceNumber} text text_type_digits-default`}
-            >
-              {this.props.item.price}
-            </span>
-            <CurrencyIcon type="primary" />
+function ItemCard({ item, onClick }) {
+  return (
+    <React.Fragment>
+      <div className={`${styles.item}`} onClick={onClick}>
+        {item["_id"] === "60666c42cc7b410027a1a9b1" ? (
+          <div className={`${styles.counter}`}>
+            <Counter count={1} size="default" />
           </div>
-          <p className={`${styles.description} text text_type_main-small`}>
-            {this.props.item.name}
-          </p>
-        </div>
-        {this.state.openPopupForIngredientInfo ? (
-          <PopupForIngredientInfo
-            data={this.props.detailDataForPopup}
-            closePopupCallback={this.closePopupForDetail}
-          />
         ) : (
           ""
         )}
-      </React.Fragment>
-    );
-  }
+        <img
+          src={item.image}
+          alt={item.name}
+          className={`${styles.image} ml-4 mr-4 mb-1`}
+        />
+        <div className={`${styles.cost} mb-1`}>
+          <span
+            className={`${styles.priceNumber} text text_type_digits-default`}
+          >
+            {item.price}
+          </span>
+          <CurrencyIcon type="primary" />
+        </div>
+        <p className={`${styles.description} text text_type_main-small`}>
+          {item.name}
+        </p>
+      </div>
+    </React.Fragment>
+  );
 }
 
 ItemCard.propTypes = {
-  item: PropTypes.object.isRequired,
-  detailDataForPopup: PropTypes.object.isRequired,
+  item: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    image_mobile: PropTypes.string.isRequired,
+    image_large: PropTypes.string.isRequired,
+    __v: PropTypes.number.isRequired,
+  }).isRequired,
 };
+
+export default ItemCard;
