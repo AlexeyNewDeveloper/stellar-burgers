@@ -3,22 +3,21 @@ import PropTypes from "prop-types";
 import styles from "./ingredients-category.module.css";
 import ItemCard from "../item-card/item-card";
 
-export default function IngredientsCategory(props) {
+export default function IngredientsCategory({
+  category,
+  arrayOfIngredients,
+  ...props
+}) {
   return (
     <React.Fragment>
       <h2 className={`${styles.subtitle} text text_type_main-medium`}>
-        {props.category}
+        {category}
       </h2>
       <ul className={`${styles.items} pt-6 pr-4 pl-4 pb-10`}>
-        {props.arrayOfIngredients.map((item, index) => {
+        {arrayOfIngredients.map((item, index) => {
           return (
             <li className={styles.item} key={item["_id"]}>
-              <ItemCard
-                item={item}
-                detailDataForPopup={props.arrayOfDetailDataForPopup.find(
-                  (itemDetail) => itemDetail["_id"] === item["_id"]
-                )}
-              />
+              <ItemCard item={item} />
             </li>
           );
         })}
@@ -34,20 +33,15 @@ IngredientsCategory.propTypes = {
       _id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
-  arrayOfDetailDataForPopup: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
       proteins: PropTypes.number.isRequired,
       fat: PropTypes.number.isRequired,
       carbohydrates: PropTypes.number.isRequired,
       calories: PropTypes.number.isRequired,
+      price: PropTypes.number.isRequired,
+      image: PropTypes.string.isRequired,
+      image_mobile: PropTypes.string.isRequired,
       image_large: PropTypes.string.isRequired,
+      __v: PropTypes.number.isRequired,
     }).isRequired
   ).isRequired,
 };

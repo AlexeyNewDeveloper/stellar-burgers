@@ -7,8 +7,14 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PopupForPlaceOrder from "../popup-for-place-order/popup-for-place-order";
+import filterIngredients from "../../utils/utils";
 
-export default function BurgerConstructor(props) {
+export default function BurgerConstructor({ ingredients }) {
+  const filtredIngredients = filterIngredients(ingredients, {
+    bun: [],
+    other: [],
+  });
+
   const [openPopupForPlaceOrder, setOpenPopupForPlaceOrder] =
     React.useState(false);
 
@@ -27,83 +33,37 @@ export default function BurgerConstructor(props) {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={1255}
-            thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+            text={filtredIngredients.bun[0].name}
+            price={filtredIngredients.bun[0].price}
+            thumbnail={filtredIngredients.bun[0].image}
           />
         </li>
         <ul className={`${styles.items} ${styles["changing-ingredients"]}`}>
-          <li
-            className={`${styles.item} ${styles["changing-ingredients__item"]} pl-8`}
-          >
-            <div className={`${styles["drag-icon"]}`}>
-              <DragIcon type="primary" />
-            </div>
-            <ConstructorElement
-              text="Соус традиционный галактический"
-              price={15}
-              thumbnail="https://code.s3.yandex.net/react/code/sauce-03.png"
-            />
-          </li>
-
-          <li
-            className={`${styles.item} ${styles["changing-ingredients__item"]} pl-8`}
-          >
-            <div className={`${styles["drag-icon"]}`}>
-              <DragIcon type="primary" />
-            </div>
-            <ConstructorElement
-              text="Мясо бессмертных моллюсков Protostomia"
-              price={1337}
-              thumbnail="https://code.s3.yandex.net/react/code/meat-02.png"
-            />
-          </li>
-          <li
-            className={`${styles.item} ${styles["changing-ingredients__item"]} pl-8`}
-          >
-            <div className={`${styles["drag-icon"]}`}>
-              <DragIcon type="primary" />
-            </div>
-
-            <ConstructorElement
-              text="Плоды Фалленианского дерева"
-              price={874}
-              thumbnail="https://code.s3.yandex.net/react/code/sp_1.png"
-            />
-          </li>
-          <li
-            className={`${styles.item} ${styles["changing-ingredients__item"]} pl-8`}
-          >
-            <div className={`${styles["drag-icon"]}`}>
-              <DragIcon type="primary" />
-            </div>
-            <ConstructorElement
-              text="Хрустящие минеральные кольца"
-              price={300}
-              thumbnail="https://code.s3.yandex.net/react/code/mineral_rings.png"
-            />
-          </li>
-
-          <li
-            className={`${styles.item} ${styles["changing-ingredients__item"]} pl-8`}
-          >
-            <div className={`${styles["drag-icon"]}`}>
-              <DragIcon type="primary" />
-            </div>
-            <ConstructorElement
-              text="Хрустящие минеральные кольца"
-              price={300}
-              thumbnail="https://code.s3.yandex.net/react/code/mineral_rings.png"
-            />
-          </li>
+          {filtredIngredients.other.map((item) => {
+            return (
+              <li
+                className={`${styles.item} ${styles["changing-ingredients__item"]} pl-8`}
+                key={item["_id"]}
+              >
+                <div className={`${styles["drag-icon"]}`}>
+                  <DragIcon type="primary" />
+                </div>
+                <ConstructorElement
+                  text={item.name}
+                  price={item.price}
+                  thumbnail={item.image}
+                />
+              </li>
+            );
+          })}
         </ul>
         <li className={`${styles.item} pl-8 mr-4 mt-4`}>
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text="Краторная булка N-200i (низ)"
-            price={1255}
-            thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+            text={filtredIngredients.bun[0].name}
+            price={filtredIngredients.bun[0].price}
+            thumbnail={filtredIngredients.bun[0].image}
           />
         </li>
       </ul>

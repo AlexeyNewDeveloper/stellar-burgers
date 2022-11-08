@@ -4,62 +4,62 @@ import styles from "./content.module.css";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
-export default function Content(props) {
-  const [state, setState] = React.useState({
-    mainData: { bun: [], sauce: [], main: [] },
-    detailDataForPopup: { bun: [], sauce: [], main: [] },
-  });
+export default function Content({ data }) {
+  // const [state, setState] = React.useState({
+  //   mainData: { bun: [], sauce: [], main: [] },
+  //   detailDataForPopup: { bun: [], sauce: [], main: [] },
+  // });
 
-  React.useEffect(() => {
-    getDataForComponents();
-  }, []);
+  // React.useEffect(() => {
+  //   getDataForComponents();
+  // }, []);
 
-  function getData(data, fields = []) {
-    return data.reduce(
-      (acc, current, index, arr) => {
-        const itemObj = fields.reduce((accum, curr) => {
-          return { ...accum, [curr]: current[curr] };
-        }, {});
+  // function getData(data, fields = []) {
+  //   return data.reduce(
+  //     (acc, current, index, arr) => {
+  //       const itemObj = fields.reduce((accum, curr) => {
+  //         return { ...accum, [curr]: current[curr] };
+  //       }, {});
 
-        acc[current.type].push(itemObj);
-        return acc;
-      },
-      { bun: [], sauce: [], main: [] }
-    );
-  }
+  //       acc[current.type].push(itemObj);
+  //       return acc;
+  //     },
+  //     { bun: [], sauce: [], main: [] }
+  //   );
+  // }
 
-  const getDataForComponents = () => {
-    const arrayMainData = getData(props.data, [
-      "_id",
-      "name",
-      "type",
-      "price",
-      "image",
-    ]);
-    const arrayDetailData = getData(props.data, [
-      "_id",
-      "name",
-      "type",
-      "image_large",
-      "calories",
-      "proteins",
-      "fat",
-      "carbohydrates",
-    ]);
+  // const getDataForComponents = () => {
+  //   const arrayMainData = getData(props.data, [
+  //     "_id",
+  //     "name",
+  //     "type",
+  //     "price",
+  //     "image",
+  //   ]);
+  //   const arrayDetailData = getData(props.data, [
+  //     "_id",
+  //     "name",
+  //     "type",
+  //     "image_large",
+  //     "calories",
+  //     "proteins",
+  //     "fat",
+  //     "carbohydrates",
+  //   ]);
 
-    setState({
-      detailDataForPopup: arrayDetailData,
-      mainData: arrayMainData,
-    });
-  };
+  //   setState({
+  //     detailDataForPopup: arrayDetailData,
+  //     mainData: arrayMainData,
+  //   });
+  // };
 
   return (
     <main className={styles.main}>
       <BurgerIngredients
-        mainData={state.mainData}
-        detailDataForPopup={state.detailDataForPopup}
+        ingredients={data}
+        // detailDataForPopup={state.detailDataForPopup}
       />
-      <BurgerConstructor mainData={state.mainData} />
+      <BurgerConstructor ingredients={data} />
     </main>
   );
 }
