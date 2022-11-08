@@ -16,25 +16,12 @@ const withModal =
       openPopup: false,
     });
 
-    React.useEffect(() => {
-      document.addEventListener("keydown", closePopupToKey);
-      return () => {
-        document.addEventListener("keydown", closePopupToKey);
-      };
-    }, []);
-
     const openPopup = () => {
       setState({ ...state, openPopup: true });
     };
 
     const closePopup = () => {
       setState({ ...state, openPopup: false });
-    };
-
-    const closePopupToKey = (evt) => {
-      if (evt.key === "Escape") {
-        closePopup();
-      }
     };
 
     return (
@@ -45,7 +32,7 @@ const withModal =
         {state.openPopup &&
           ReactDOM.createPortal(
             <OverlayComponent onClick={closePopup}>
-              <ContainerComponent onClick={closePopup}>
+              <ContainerComponent closePopup={closePopup}>
                 <DetailInfoComponent detailInfo={props.detailInfo} />
               </ContainerComponent>
             </OverlayComponent>,

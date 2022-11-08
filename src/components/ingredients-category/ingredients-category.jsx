@@ -17,7 +17,10 @@ export default function IngredientsCategory({
 }) {
   return (
     <React.Fragment>
-      <h2 className={`${styles.subtitle} text text_type_main-medium`}>
+      <h2
+        className={`${styles.subtitle} text text_type_main-medium`}
+        id={`category-${category}`}
+      >
         {category}
       </h2>
       <ul className={`${styles.items} pt-6 pr-4 pl-4 pb-10`}>

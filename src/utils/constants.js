@@ -12,3 +12,5 @@ export const categories = {
 };
 
 export const modalRoot = document.getElementById("modals");
+export const urlForGetData =
+  "https://norma.nomoreparties.space/api/ingredients";
