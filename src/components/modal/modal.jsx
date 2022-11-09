@@ -7,7 +7,7 @@ export default function Modal(props) {
   React.useEffect(() => {
     document.addEventListener("keydown", closePopupToKey);
     return () => {
-      document.addEventListener("keydown", closePopupToKey);
+      document.removeEventListener("keydown", closePopupToKey);
     };
   }, []);
 
@@ -31,4 +31,5 @@ export default function Modal(props) {
 
 Modal.propTypes = {
   children: PropTypes.element.isRequired,
+  closePopup: PropTypes.func.isRequired,
 };

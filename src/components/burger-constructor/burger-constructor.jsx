@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -9,6 +10,7 @@ import {
 import { filterIngredients } from "../../utils/utils";
 import withModal from "../hocs/withModal";
 import OrderDetails from "../order-details/order-details";
+import { propTypesForItemObj } from "../../prop-types";
 
 const PlaceOrderButton = withModal({
   WrappedComponent: Button,
@@ -82,3 +84,7 @@ export default function BurgerConstructor({ ingredients }) {
     </section>
   );
 }
+
+BurgerConstructor.propTypes = {
+  ingredients: PropTypes.arrayOf(propTypesForItemObj).isRequired,
+};

@@ -1,8 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import Modal from "../modal/modal";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { modalRoot } from "../../utils/constants";
+import { propTypesForItemDetailInfo } from "../../prop-types";
 
 const withModal =
   ({
@@ -39,5 +41,14 @@ const withModal =
       </>
     );
   };
+
+withModal.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.number.isRequired,
+    PropTypes.element.isRequired,
+  ]).isRequired,
+  detailInfo: propTypesForItemDetailInfo,
+};
 
 export default withModal;
