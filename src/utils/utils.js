@@ -9,6 +9,6 @@ export function filterIngredients(ingredientsArray, mockup) {
   }, mockup);
 }
 
-export function checkReponse(res) {
+export function checkResponse(res) {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 }
