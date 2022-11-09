@@ -1,8 +1,8 @@
-import React from "react";
 import PropTypes from "prop-types";
 import styles from "./content.module.css";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import { propTypesForItemObj } from "../../prop-types";
 
 export default function Content({ data }) {
   return (
@@ -12,3 +12,7 @@ export default function Content({ data }) {
     </main>
   );
 }
+
+Content.propTypes = {
+  data: PropTypes.arrayOf(propTypesForItemObj).isRequired,
+};

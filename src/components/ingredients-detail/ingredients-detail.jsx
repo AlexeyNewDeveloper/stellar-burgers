@@ -1,7 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
 import styles from "./ingredients-detail.module.css";
-import { specifications } from "../../utils/constants";
+import { SPECIFICATIONS } from "../../utils/constants";
+import { propTypesForItemDetailInfo } from "../../prop-types";
 
 export default function IngredientDetails(props) {
   return (
@@ -16,11 +15,11 @@ export default function IngredientDetails(props) {
       />
       <p className="text text_type_main-medium mb-8">{props.detailInfo.name}</p>
       <ul className={`${styles.specifications}`}>
-        {Object.keys(specifications).map((item, index) => {
+        {Object.keys(SPECIFICATIONS).map((item, index) => {
           return (
             <li key={index} className={`${styles.parameter}`}>
               <p className="text text_type_main-default text_color_inactive">
-                {specifications[item]}
+                {SPECIFICATIONS[item]}
               </p>
               <p className="text text_type_digits-default text_color_inactive">
                 {props.detailInfo[item]}
@@ -34,14 +33,5 @@ export default function IngredientDetails(props) {
 }
 
 IngredientDetails.propTypes = {
-  detailInfo: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    image_large: PropTypes.string.isRequired,
-  }).isRequired,
+  detailInfo: propTypesForItemDetailInfo,
 };

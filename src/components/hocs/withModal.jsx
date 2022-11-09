@@ -1,8 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import Modal from "../modal/modal";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import { modalRoot } from "../../utils/constants";
+import { MODAL_ROOT } from "../../utils/constants";
+import { propTypesForItemDetailInfo } from "../../prop-types";
 
 const withModal =
   ({
@@ -12,34 +14,41 @@ const withModal =
     ContainerComponent = Modal,
   }) =>
   (props) => {
-    const [state, setState] = React.useState({
-      openPopup: false,
-    });
+    const [openPopup, setOpenPopup] = React.useState(false);
 
-    const openPopup = () => {
-      setState({ ...state, openPopup: true });
+    const openPopupCallback = () => {
+      setOpenPopup(true);
     };
 
-    const closePopup = () => {
-      setState({ ...state, openPopup: false });
+    const closePopupCallback = () => {
+      setOpenPopup(false);
     };
 
     return (
       <>
-        <WrappedComponent {...props} onClick={openPopup}>
+        <WrappedComponent {...props} onClick={openPopupCallback}>
           {props.children}
         </WrappedComponent>
-        {state.openPopup &&
+        {openPopup &&
           ReactDOM.createPortal(
-            <OverlayComponent onClick={closePopup}>
-              <ContainerComponent closePopup={closePopup}>
+            <OverlayComponent onClick={closePopupCallback}>
+              <ContainerComponent closePopup={closePopupCallback}>
                 <DetailInfoComponent detailInfo={props.detailInfo} />
               </ContainerComponent>
             </OverlayComponent>,
-            modalRoot
+            MODAL_ROOT
           )}
       </>
     );
   };
+
+withModal.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.number.isRequired,
+    PropTypes.element.isRequired,
+  ]).isRequired,
+  detailInfo: propTypesForItemDetailInfo,
+};
 
 export default withModal;

@@ -2,7 +2,7 @@ import React from "react";
 import AppHeader from "../app-header/app-header";
 import Content from "../content/content";
 import styles from "./app.module.css";
-import { urlForGetData } from "../../utils/constants";
+import { getIngredients } from "../../utils/burger-api";
 
 function App() {
   const [state, setState] = React.useState({
@@ -12,23 +12,22 @@ function App() {
   });
 
   React.useEffect(() => {
-    if (!state.data) {
-      getData();
+    function getData() {
+      setState((prevState) => ({ ...prevState, isLoading: true }));
+      getIngredients()
+        .then((res) => {
+          setState((prevState) => ({ ...prevState, data: res.data }));
+        })
+        .catch(() => {
+          setState((prevState) => ({ ...prevState, hasError: true }));
+        })
+        .finally(() => {
+          setState((prevState) => ({ ...prevState, isLoading: false }));
+        });
     }
-  }, [state.data]);
 
-  async function getData() {
-    setState({ ...state, isLoading: true });
-    fetch(urlForGetData)
-      .then((res) => res.json())
-      .then((data) => {
-        setState({ ...state, data: data, isLoading: false });
-      })
-      .catch((error) => {
-        console.log(error);
-        setState({ ...state, hasError: true });
-      });
-  }
+    getData();
+  }, []);
 
   const { isLoading, hasError } = state;
   return (
@@ -36,9 +35,7 @@ function App() {
       {isLoading && "Загрузка..."}
       {hasError && "Произошла ошибка"}
       <AppHeader />
-      {!isLoading && !hasError && state.data && (
-        <Content data={state.data.data} />
-      )}
+      {state.data && <Content data={state.data} />}
     </div>
   );
 }

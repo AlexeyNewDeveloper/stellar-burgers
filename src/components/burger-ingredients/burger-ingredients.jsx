@@ -3,19 +3,18 @@ import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import Tabs from "../tabs/tabs";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
-import { categories } from "../../utils/constants";
-import filterIngredients from "../../utils/utils";
+import { CATEGORIES } from "../../utils/constants";
+import { filterIngredients } from "../../utils/utils";
+import { propTypesForItemObj } from "../../prop-types";
 
 export default function BurgerIngredients({ ingredients }) {
-  // const buns = ingredients.filter((item) => item.type === "bun");
-  // const mains = ingredients.filter((item) => item.type === "main");
-  // const sauces = ingredients.filter((item) => item.type === "sauce");
-
-  const filtredIngredients = filterIngredients(ingredients, {
-    bun: [],
-    sauce: [],
-    main: [],
-  });
+  const filtredIngredients = React.useMemo(() => {
+    return filterIngredients(ingredients, {
+      bun: [],
+      sauce: [],
+      main: [],
+    });
+  }, [ingredients]);
 
   return (
     <section className={`${styles.section} mr-10 pt-10 `}>
@@ -28,7 +27,7 @@ export default function BurgerIngredients({ ingredients }) {
           return (
             <IngredientsCategory
               key={index}
-              category={categories[key]}
+              category={CATEGORIES[key]}
               arrayOfIngredients={filtredIngredients[key]}
             />
           );
@@ -39,20 +38,5 @@ export default function BurgerIngredients({ ingredients }) {
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      image_mobile: PropTypes.string.isRequired,
-      image_large: PropTypes.string.isRequired,
-      __v: PropTypes.number.isRequired,
-    }).isRequired
-  ).isRequired,
+  ingredients: PropTypes.arrayOf(propTypesForItemObj).isRequired,
 };

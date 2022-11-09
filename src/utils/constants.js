@@ -1,16 +1,15 @@
-export const specifications = {
+export const SPECIFICATIONS = {
   calories: "Калории,ккал",
   proteins: "Белки, г",
   fat: "Жиры, г",
   carbohydrates: "Углеводы, г",
 };
 
-export const categories = {
+export const CATEGORIES = {
   main: "Начинки",
   bun: "Булки",
   sauce: "Соусы",
 };
 
-export const modalRoot = document.getElementById("modals");
-export const urlForGetData =
-  "https://norma.nomoreparties.space/api/ingredients";
+export const MODAL_ROOT = document.getElementById("modals");
+export const URL_FOR_GET_DATA = "https://norma.nomoreparties.space/api";
