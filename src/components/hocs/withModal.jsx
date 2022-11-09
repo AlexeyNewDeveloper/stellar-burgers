@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import Modal from "../modal/modal";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import { modalRoot } from "../../utils/constants";
+import { MODAL_ROOT } from "../../utils/constants";
 import { propTypesForItemDetailInfo } from "../../prop-types";
 
 const withModal =
@@ -36,7 +36,7 @@ const withModal =
                 <DetailInfoComponent detailInfo={props.detailInfo} />
               </ContainerComponent>
             </OverlayComponent>,
-            modalRoot
+            MODAL_ROOT
           )}
       </>
     );

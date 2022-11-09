@@ -11,11 +11,7 @@ const WithModalItemCard = withModal({
   DetailInfoComponent: IngredientDetails,
 });
 
-export default function IngredientsCategory({
-  category,
-  arrayOfIngredients,
-  ...props
-}) {
+export default function IngredientsCategory({ category, arrayOfIngredients }) {
   return (
     <React.Fragment>
       <h2
@@ -25,7 +21,7 @@ export default function IngredientsCategory({
         {category}
       </h2>
       <ul className={`${styles.items} pt-6 pr-4 pl-4 pb-10`}>
-        {arrayOfIngredients.map((item, index) => {
+        {arrayOfIngredients.map((item) => {
           return (
             <li className={styles.item} key={item["_id"]}>
               <WithModalItemCard item={item} detailInfo={item} />

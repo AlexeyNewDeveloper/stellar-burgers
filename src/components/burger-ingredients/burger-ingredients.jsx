@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import Tabs from "../tabs/tabs";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
-import { categories } from "../../utils/constants";
+import { CATEGORIES } from "../../utils/constants";
 import { filterIngredients } from "../../utils/utils";
 import { propTypesForItemObj } from "../../prop-types";
 
 export default function BurgerIngredients({ ingredients }) {
   const filtredIngredients = React.useMemo(() => {
-    filterIngredients(ingredients, {
+    return filterIngredients(ingredients, {
       bun: [],
       sauce: [],
       main: [],
@@ -27,7 +27,7 @@ export default function BurgerIngredients({ ingredients }) {
           return (
             <IngredientsCategory
               key={index}
-              category={categories[key]}
+              category={CATEGORIES[key]}
               arrayOfIngredients={filtredIngredients[key]}
             />
           );

@@ -21,7 +21,6 @@
 }
 
 .item {
-  /* outline: 1px dashed #4c4cff; */
   box-sizing: border-box;
 }
 
@@ -35,7 +34,6 @@
 .changing-ingredients__item {
   position: relative;
   margin-bottom: 16px;
-  /* margin-right: 8px; */
 }
 
 .changing-ingredients__item:last-child {

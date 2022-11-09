@@ -1,30 +1,29 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import styles from "./modal.module.css";
 
-export default function Modal(props) {
+export default function Modal({ closePopup, children }) {
   React.useEffect(() => {
+    const closePopupToKey = (evt) => {
+      if (evt.key === "Escape") {
+        closePopup();
+      }
+    };
     document.addEventListener("keydown", closePopupToKey);
     return () => {
       document.removeEventListener("keydown", closePopupToKey);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const closePopupToKey = (evt) => {
-    if (evt.key === "Escape") {
-      props.closePopup();
-    }
-  };
 
   return (
     <div className={`${styles.container}`}>
       <button
         type="button"
         className={`${styles.close}`}
-        onClick={props.closePopup}
+        onClick={closePopup}
       ></button>
-      {props.children}
+      {children}
     </div>
   );
 }

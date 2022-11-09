@@ -1,8 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
 import styles from "./order-details.module.css";
 
-export default function OrderDetails(props) {
+export default function OrderDetails() {
   return (
     <>
       <p className="text text_type_digits-large mb-8">034536</p>
