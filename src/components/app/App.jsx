@@ -3,6 +3,7 @@ import AppHeader from "../app-header/app-header";
 import Content from "../content/content";
 import styles from "./app.module.css";
 import { urlForGetData } from "../../utils/constants";
+import { checkReponse } from "../../utils/utils";
 
 function App() {
   const [state, setState] = React.useState({
@@ -11,24 +12,42 @@ function App() {
     isLoading: false,
   });
 
+  // React.useEffect(() => {
+  //   async function getData() {
+  //     setState({ ...state, isLoading: true });
+  //     fetch(urlForGetData)
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setState({ ...state, data: data, isLoading: false });
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //         setState({ ...state, hasError: true });
+  //       });
+  //   }
+  //   if (!state.data) {
+  //     getData();
+  //   }
+  // }, [state.data]);
   React.useEffect(() => {
-    if (!state.data) {
-      getData();
+    function getData() {
+      setState((prevState) => ({ ...prevState, isLoading: true }));
+      fetch(urlForGetData)
+        .then(checkReponse)
+        .then((res) => {
+          setState((prevState) => ({ ...prevState, data: res.data }));
+        })
+        .catch((error) => {
+          console.log(error);
+          setState((prevState) => ({ ...prevState, hasError: true }));
+        })
+        .finally(() => {
+          setState((prevState) => ({ ...prevState, isLoading: false }));
+        });
     }
-  }, [state.data]);
 
-  async function getData() {
-    setState({ ...state, isLoading: true });
-    fetch(urlForGetData)
-      .then((res) => res.json())
-      .then((data) => {
-        setState({ ...state, data: data, isLoading: false });
-      })
-      .catch((error) => {
-        console.log(error);
-        setState({ ...state, hasError: true });
-      });
-  }
+    getData();
+  }, []);
 
   const { isLoading, hasError } = state;
   return (
@@ -36,9 +55,7 @@ function App() {
       {isLoading && "Загрузка..."}
       {hasError && "Произошла ошибка"}
       <AppHeader />
-      {!isLoading && !hasError && state.data && (
-        <Content data={state.data.data} />
-      )}
+      {!isLoading && !hasError && state.data && <Content data={state.data} />}
     </div>
   );
 }

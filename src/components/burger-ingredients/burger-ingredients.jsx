@@ -4,7 +4,7 @@ import styles from "./burger-ingredients.module.css";
 import Tabs from "../tabs/tabs";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import { categories } from "../../utils/constants";
-import filterIngredients from "../../utils/utils";
+import { filterIngredients } from "../../utils/utils";
 
 export default function BurgerIngredients({ ingredients }) {
   // const buns = ingredients.filter((item) => item.type === "bun");

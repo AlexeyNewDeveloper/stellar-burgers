@@ -1,4 +1,4 @@
-export default function filterIngredients(ingredientsArray, mockup) {
+export function filterIngredients(ingredientsArray, mockup) {
   return ingredientsArray.reduce((acc, current, index, arr) => {
     if (current.type in acc) {
       acc[current.type].push(current);
@@ -7,4 +7,8 @@ export default function filterIngredients(ingredientsArray, mockup) {
     }
     return acc;
   }, mockup);
+}
+
+export function checkReponse(res) {
+  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 }

@@ -6,7 +6,7 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import filterIngredients from "../../utils/utils";
+import { filterIngredients } from "../../utils/utils";
 import withModal from "../hocs/withModal";
 import OrderDetails from "../order-details/order-details";
 
