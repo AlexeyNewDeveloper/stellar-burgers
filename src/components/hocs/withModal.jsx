@@ -12,27 +12,25 @@ const withModal =
     ContainerComponent = Modal,
   }) =>
   (props) => {
-    const [state, setState] = React.useState({
-      openPopup: false,
-    });
+    const [openPopup, setOpenPopup] = React.useState(false);
 
-    const openPopup = () => {
-      setState({ ...state, openPopup: true });
+    const openPopupCallback = () => {
+      setOpenPopup(true);
     };
 
-    const closePopup = () => {
-      setState({ ...state, openPopup: false });
+    const closePopupCallback = () => {
+      setOpenPopup(false);
     };
 
     return (
       <>
-        <WrappedComponent {...props} onClick={openPopup}>
+        <WrappedComponent {...props} onClick={openPopupCallback}>
           {props.children}
         </WrappedComponent>
-        {state.openPopup &&
+        {openPopup &&
           ReactDOM.createPortal(
-            <OverlayComponent onClick={closePopup}>
-              <ContainerComponent closePopup={closePopup}>
+            <OverlayComponent onClick={closePopupCallback}>
+              <ContainerComponent closePopup={closePopupCallback}>
                 <DetailInfoComponent detailInfo={props.detailInfo} />
               </ContainerComponent>
             </OverlayComponent>,

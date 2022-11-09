@@ -55,7 +55,7 @@ function App() {
       {isLoading && "Загрузка..."}
       {hasError && "Произошла ошибка"}
       <AppHeader />
-      {!isLoading && !hasError && state.data && <Content data={state.data} />}
+      {state.data && <Content data={state.data} />}
     </div>
   );
 }

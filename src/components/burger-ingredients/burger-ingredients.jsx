@@ -7,15 +7,13 @@ import { categories } from "../../utils/constants";
 import { filterIngredients } from "../../utils/utils";
 
 export default function BurgerIngredients({ ingredients }) {
-  // const buns = ingredients.filter((item) => item.type === "bun");
-  // const mains = ingredients.filter((item) => item.type === "main");
-  // const sauces = ingredients.filter((item) => item.type === "sauce");
-
-  const filtredIngredients = filterIngredients(ingredients, {
-    bun: [],
-    sauce: [],
-    main: [],
-  });
+  const filtredIngredients = React.useMemo(() => {
+    filterIngredients(ingredients, {
+      bun: [],
+      sauce: [],
+      main: [],
+    });
+  }, [ingredients]);
 
   return (
     <section className={`${styles.section} mr-10 pt-10 `}>
