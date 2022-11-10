@@ -1,0 +1,32 @@
+.section {
+  inline-size: 600px;
+  max-block-size: 912px;
+  block-size: 100%;
+  box-sizing: border-box;
+}
+
+.ingredients {
+  max-block-size: 716px;
+  overflow-y: auto;
+  scrollbar-width: auto;
+  scrollbar-color: #8585ad #2f2f37;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+.ingredients::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+  margin-bottom: 52px;
+}
+
+.ingredients::-webkit-scrollbar {
+  width: 8px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  color: #f2f2f3;
+}
