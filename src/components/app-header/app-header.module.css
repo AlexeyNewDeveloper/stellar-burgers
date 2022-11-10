@@ -39,4 +39,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #8585ad;
+}
+
+.item:hover {
+  color: #f2f2f3;
+}
+
+.primary_item {
+  color: #f2f2f3;
 }
