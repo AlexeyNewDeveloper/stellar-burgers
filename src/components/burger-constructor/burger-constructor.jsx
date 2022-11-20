@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.css";
 import {
@@ -10,13 +11,19 @@ import { filterIngredients } from "../../utils/utils";
 import withModal from "../hocs/withModal";
 import OrderDetails from "../order-details/order-details";
 import { propTypesForItemObj } from "../../prop-types";
+import { BurgerConstructorContext } from "../../services/burgerConstructorContext";
+import BurgerElement from "../burger-element/burger-element";
 
 const PlaceOrderButton = withModal({
   WrappedComponent: Button,
   DetailInfoComponent: OrderDetails,
 });
 
-export default function BurgerConstructor({ ingredients }) {
+export default function BurgerConstructor() {
+  const data = React.useContext(BurgerConstructorContext);
+  const ingredients = data.ingredients;
+  const totalPrice = data.totalPrice;
+
   const filtredIngredients = filterIngredients(ingredients, {
     bun: [],
     other: [],
@@ -24,49 +31,14 @@ export default function BurgerConstructor({ ingredients }) {
 
   return (
     <section className={`${styles.section} pt-25 pl-4`}>
-      <ul className={`${styles.items}`}>
-        <li className={`${styles.item} pl-8 mb-4 mr-4`}>
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={filtredIngredients.bun[0].name}
-            price={filtredIngredients.bun[0].price}
-            thumbnail={filtredIngredients.bun[0].image}
-          />
-        </li>
-        <ul className={`${styles.items} ${styles["changing-ingredients"]}`}>
-          {filtredIngredients.other.map((item) => {
-            return (
-              <li
-                className={`${styles.item} ${styles["changing-ingredients__item"]} pl-8`}
-                key={item["_id"]}
-              >
-                <div className={`${styles["drag-icon"]}`}>
-                  <DragIcon type="primary" />
-                </div>
-                <ConstructorElement
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                />
-              </li>
-            );
-          })}
-        </ul>
-        <li className={`${styles.item} pl-8 mr-4 mt-4`}>
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={filtredIngredients.bun[0].name}
-            price={filtredIngredients.bun[0].price}
-            thumbnail={filtredIngredients.bun[0].image}
-          />
-        </li>
-      </ul>
+      <BurgerElement
+        bun={filtredIngredients.bun[0]}
+        otherIngredients={filtredIngredients.other}
+      />
       <div className={`${styles["place-order"]} mt-10`}>
         <div className={`${styles["price-area"]}`}>
           <span className={`${styles.total} text text_type_digits-medium mr-2`}>
-            610
+            {totalPrice}
           </span>
           <div className={`${styles["icon-area"]}`}>
             <div className={`${styles.icon}`}>
@@ -84,6 +56,6 @@ export default function BurgerConstructor({ ingredients }) {
   );
 }
 
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(propTypesForItemObj).isRequired,
-};
+// BurgerConstructor.propTypes = {
+//   ingredients: PropTypes.arrayOf(propTypesForItemObj).isRequired,
+// };

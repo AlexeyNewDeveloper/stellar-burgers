@@ -1,11 +1,4 @@
-.section {
-  inline-size: 600px;
-  max-block-size: 912px;
-  padding-bottom: 52px;
-  box-sizing: border-box;
-}
-
-/* .drag-icon {
+.drag-icon {
   position: absolute;
   top: 28px;
   left: 0;
@@ -49,31 +42,4 @@
 
 .changing-ingredients::-webkit-scrollbar {
   width: 8px;
-} */
-
-.place-order {
-  display: flex;
-}
-
-.total {
-}
-
-.price-area {
-  display: flex;
-  margin-inline-start: auto;
-  padding: 14px 0;
-}
-
-.icon {
-  display: flex;
-  align-items: center;
-  transform: scale(1.5);
-  transform-origin: center;
-}
-
-.icon-area {
-  display: flex;
-  align-items: center;
-  height: 36px;
-  width: 36px;
 }
