@@ -1,7 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./order-details.module.css";
+import Spinner from "../spinner/spinner";
 
-export default function OrderDetails(props) {
+export default function OrderDetails({ orderObject }) {
   const [state, setState] = React.useState({
     data: null,
     hasError: false,
@@ -10,8 +12,8 @@ export default function OrderDetails(props) {
   React.useEffect(() => {
     function getData() {
       setState((prevState) => ({ ...prevState, isLoading: true }));
-      props.orderObject
-        .makeOrderCallback(props.orderObject.listOrder)
+      orderObject
+        .makeOrderCallback(orderObject.listOrder)
         .then((res) => {
           setState((prevState) => ({ ...prevState, data: res }));
         })
@@ -28,6 +30,7 @@ export default function OrderDetails(props) {
 
   return (
     <>
+      {state.isLoading && <Spinner />}
       <p className="text text_type_digits-large mb-8">
         {state.data && state.data.order.number}
       </p>
@@ -40,3 +43,10 @@ export default function OrderDetails(props) {
     </>
   );
 }
+
+OrderDetails.propTypes = {
+  orderObject: PropTypes.shape({
+    makeOrderCallback: PropTypes.func.isRequired,
+    listOrder: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  }).isRequired,
+};

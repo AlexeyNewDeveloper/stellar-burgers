@@ -1,0 +1,45 @@
+/* @import "compass/css3";
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500&display=swap"); */
+
+@keyframes rotation {
+  from {
+    transform: rotate(359deg);
+    -webkit-transform: rotate(359deg);
+  }
+  to {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+  }
+}
+
+.wrapper {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg {
+  height: 100px;
+  width: 100px;
+  -webkit-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+}
+
+.circle {
+  animation: rotation 1s infinite ease-in-out;
+  -webkit-animation: rotation 1s infinite ease-in-out;
+  -webkit-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+}
+
+.circle_s {
+  animation: rotation 3s infinite linear;
+  -webkit-animation: rotation 3s infinite linear;
+  -webkit-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+}

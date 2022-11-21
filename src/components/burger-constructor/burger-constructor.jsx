@@ -16,7 +16,7 @@ const PlaceOrderButton = withModal({
   DetailInfoComponent: OrderDetails,
 });
 
-function reducer(state, action) {
+function burgerConstructorReducer(state, action) {
   if (action.totalPrice) {
     const totalPrice = state.ingredients.reduce((acc, current) => {
       if (current.type === "bun") {
@@ -32,7 +32,7 @@ function reducer(state, action) {
 
 export default function BurgerConstructor() {
   const data = React.useContext(BurgerConstructorContext);
-  const [state, dispatch] = React.useReducer(reducer, data);
+  const [state, dispatch] = React.useReducer(burgerConstructorReducer, data);
 
   const ingredients = data.ingredients;
   const orderObject = {
