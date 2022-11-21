@@ -26,7 +26,7 @@ export default function OrderDetails({ orderObject }) {
     }
 
     getData();
-  }, []);
+  }, [orderObject]);
 
   return (
     <>

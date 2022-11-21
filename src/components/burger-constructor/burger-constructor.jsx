@@ -59,7 +59,7 @@ export default function BurgerConstructor() {
       />
       <div className={`${styles["place-order"]} mt-10`}>
         <div className={`${styles["price-area"]}`}>
-          <span className={`${styles.total} text text_type_digits-medium mr-2`}>
+          <span className={`text text_type_digits-medium mr-2`}>
             {state.totalPrice}
           </span>
           <div className={`${styles["icon-area"]}`}>
