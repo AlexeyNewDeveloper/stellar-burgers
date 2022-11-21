@@ -7,14 +7,11 @@ import { BurgerConstructorContext } from "../../services/burgerConstructorContex
 import { getDataForConstructor } from "../../utils/utils";
 
 export default function Content({ data }) {
-  const [ingredientsForBurgerConstructor, totalPrice] = getDataForConstructor({
-    data: data,
-    restrictedTypes: { bun: 1 },
-    deleteItem: true,
-  });
+  const [ingredientsForBurgerConstructor, listOrder] =
+    getDataForConstructor(data);
   const burgerConstructorData = {
     ingredients: ingredientsForBurgerConstructor,
-    totalPrice: totalPrice,
+    listOrder: listOrder,
   };
 
   return (

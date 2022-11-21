@@ -1,10 +1,10 @@
-import React from "react";
 import PropTypes from "prop-types";
 import styles from "./burger-element.module.css";
 import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { propTypesForItemObj } from "../../prop-types";
 
 export default function BurgerElement({ bun, otherIngredients }) {
   return (
@@ -49,3 +49,8 @@ export default function BurgerElement({ bun, otherIngredients }) {
     </ul>
   );
 }
+
+BurgerElement.propTypes = {
+  bun: propTypesForItemObj,
+  otherIngredients: PropTypes.arrayOf(propTypesForItemObj).isRequired,
+};

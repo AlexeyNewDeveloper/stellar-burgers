@@ -13,36 +13,35 @@ export function checkResponse(res) {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 }
 
-export function getDataForConstructor({
-  data = [],
-  restrictedTypes = { bun: 1 },
-  deleteItem = false,
-}) {
-  const arrayOfData = data.slice();
-  let totalPrice = 0;
-  if (arrayOfData.length) {
-    for (let type in restrictedTypes) {
-      let counter = 0;
-      arrayOfData.forEach((item, index) => {
-        if (item.type === type) {
-          if (counter < restrictedTypes[type]) {
-            counter += 1;
-          } else if (deleteItem) {
-            console.log(
-              `Удален ингредиент: ${arrayOfData[index].name}. Тип: ${arrayOfData[index].type}`
-            );
-            delete arrayOfData[index];
-          }
-        }
-      });
-    }
+export function getDataForConstructor(data) {
+  let arrayOfData = [];
+  let listOrder = [];
+  if (data.length) {
+    let flagOneBun = false;
+    arrayOfData = data.filter((item) => {
+      if (item.type === "bun" && !flagOneBun) {
+        flagOneBun = true;
+        return true;
+      } else if (item.type !== "bun") {
+        return true;
+      } else {
+        return false;
+      }
+    });
   }
-  totalPrice = calculateTotalPrice(arrayOfData);
-  return [arrayOfData, totalPrice];
+  listOrder = getListOrder(arrayOfData);
+  return [arrayOfData, listOrder];
 }
 
-export function calculateTotalPrice(ingredients) {
-  return ingredients.reduce((acc, current) => {
-    return (acc += current.price);
-  }, 0);
+export function getListOrder(arrayOfData) {
+  const listOrder = [];
+  arrayOfData.forEach((item) => {
+    if (item.type === "bun") {
+      listOrder.push(item["_id"]);
+      listOrder.push(item["_id"]);
+    } else {
+      listOrder.push(item["_id"]);
+    }
+  });
+  return listOrder;
 }

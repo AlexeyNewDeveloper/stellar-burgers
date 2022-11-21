@@ -24,16 +24,21 @@ const withModal =
       setOpenPopup(false);
     };
 
+    const { detailInfo, orderObject, ...otherProps } = props;
+
     return (
       <>
-        <WrappedComponent {...props} onClick={openPopupCallback}>
-          {props.children}
+        <WrappedComponent {...otherProps} onClick={openPopupCallback}>
+          {otherProps.children}
         </WrappedComponent>
         {openPopup &&
           ReactDOM.createPortal(
             <OverlayComponent onClick={closePopupCallback}>
               <ContainerComponent closePopup={closePopupCallback}>
-                <DetailInfoComponent detailInfo={props.detailInfo} />
+                <DetailInfoComponent
+                  detailInfo={detailInfo}
+                  orderObject={orderObject}
+                />
               </ContainerComponent>
             </OverlayComponent>,
             MODAL_ROOT

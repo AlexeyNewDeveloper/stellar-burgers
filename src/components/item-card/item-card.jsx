@@ -11,7 +11,7 @@ function ItemCard({ item, onClick }) {
   return (
     <React.Fragment>
       <div className={`${styles.item}`} onClick={onClick}>
-        {item["_id"] === "60666c42cc7b410027a1a9b1" ? (
+        {item["_id"] === "60d3b41abdacab0026a733c6" ? (
           <div className={`${styles.counter}`}>
             <Counter count={1} size="default" />
           </div>
