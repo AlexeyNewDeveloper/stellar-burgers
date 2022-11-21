@@ -12,7 +12,9 @@ function AppHeader() {
     <header className={`${styles.header} pt-4 pb-4`}>
       <nav className={styles.nav}>
         <ul className={styles.items}>
-          <li className={`${styles.item} pl-5 pr-5 pt-4 pb-4 mr-2`}>
+          <li
+            className={`${styles.item} ${styles.primary_item} pl-5 pr-5 pt-4 pb-4 mr-2`}
+          >
             <MenuItem text="Конструктор" icon={<BurgerIcon type="primary" />} />
           </li>
           <li className={`${styles.item} pl-5 pr-5 pt-4 pb-4`}>

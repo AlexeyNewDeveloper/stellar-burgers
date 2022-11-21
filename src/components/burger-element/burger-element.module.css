@@ -1,0 +1,45 @@
+.drag-icon {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.items {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  box-sizing: border-box;
+}
+
+.changing-ingredients {
+  max-block-size: 464px;
+  overflow-y: auto;
+  scrollbar-width: auto;
+  scrollbar-color: #8585ad #2f2f37;
+}
+
+.changing-ingredients__item {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.changing-ingredients__item:last-child {
+  margin-bottom: 0;
+}
+
+.changing-ingredients::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+.changing-ingredients::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+}
+
+.changing-ingredients::-webkit-scrollbar {
+  width: 8px;
+}
