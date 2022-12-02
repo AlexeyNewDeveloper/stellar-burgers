@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./order-details.module.css";
 import Spinner from "../spinner/spinner";
 import { useSelector, useDispatch } from "react-redux";

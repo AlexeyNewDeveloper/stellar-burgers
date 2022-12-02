@@ -4,14 +4,11 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { filterIngredients, getListOrder } from "../../utils/utils";
+import { filterIngredients } from "../../utils/utils";
 import withModal from "../hocs/withModal";
 import OrderDetails from "../order-details/order-details";
-import { BurgerConstructorContext } from "../../services/burgerConstructorContext";
 import BurgerElement from "../burger-element/burger-element";
-import { makeOrder } from "../../utils/burger-api";
-import { useDispatch, useSelector } from "react-redux";
-import { GET_INGREDIENTS_FOR_CONSTRUCTOR } from "../../services/actions/actions";
+import { useSelector } from "react-redux";
 
 const PlaceOrderButton = withModal({
   WrappedComponent: Button,
