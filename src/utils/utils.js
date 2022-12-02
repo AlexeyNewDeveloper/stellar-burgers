@@ -13,9 +13,8 @@ export function checkResponse(res) {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 }
 
-export function getDataForConstructor(data) {
+export function getIngredientsForConstructor(data) {
   let arrayOfData = [];
-  let listOrder = [];
   if (data.length) {
     let flagOneBun = false;
     arrayOfData = data.filter((item) => {
@@ -29,8 +28,7 @@ export function getDataForConstructor(data) {
       }
     });
   }
-  listOrder = getListOrder(arrayOfData);
-  return [arrayOfData, listOrder];
+  return arrayOfData;
 }
 
 export function getListOrder(arrayOfData) {
