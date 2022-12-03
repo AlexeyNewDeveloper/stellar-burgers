@@ -43,3 +43,22 @@ export function getListOrder(arrayOfData) {
   });
   return listOrder;
 }
+
+export function enableObserver({ targetId, rootId, optionalFunction }) {
+  const options = {
+    root: document.querySelector(`#${rootId}`),
+    rootMargin: "0px 0px -90% 0px",
+    threshold: 0.6,
+  };
+  const observerCallback = function (entries, observer) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        optionalFunction(entry.target.id);
+      }
+    });
+  };
+  const observer = new IntersectionObserver(observerCallback, options);
+
+  const target = document.querySelector(`#${targetId}`);
+  observer.observe(target);
+}

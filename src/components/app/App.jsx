@@ -2,7 +2,6 @@ import React from "react";
 import AppHeader from "../app-header/app-header";
 import Content from "../content/content";
 import styles from "./app.module.css";
-import { getIngredients } from "../../utils/burger-api";
 
 function App() {
   return (
