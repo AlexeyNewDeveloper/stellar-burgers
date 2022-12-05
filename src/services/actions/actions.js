@@ -12,8 +12,8 @@ export const MAKE_ORDER_FAILED = "MAKE_ORDER_FAILED";
 export const OPEN_POPUP = "OPEN_POPUP";
 export const CLOSE_POPUP = "CLOSE_POPUP";
 
-// export const GET_INGREDIENTS_FOR_CONSTRUCTOR =
-//   "GET_INGREDIENTS_FOR_CONSTRUCTOR";
+export const ADD_INGREDIENT = "ADD_INGREDIENT";
+export const DELETE_INGREDIENT = "DELETE_INGREDIENT";
 
 export function getIngredientsAction() {
   return function (dispatch) {
@@ -37,7 +37,8 @@ export function getIngredientsAction() {
 export function makeOrderAction() {
   return function (dispatch, getState) {
     const orderList = getListOrder(
-      getState().getIngredientsReducer.ingredientsForConstructor
+      getState().burgerConstructorTargetReducer.ingredientsForConstructor
+        .ingredients
     );
 
     dispatch({

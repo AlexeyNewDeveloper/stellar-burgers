@@ -11,6 +11,15 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
+  border-width: 3px;
+  border-style: dashed;
+  min-block-size: 696px;
+}
+
+.items-inner {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 .item {

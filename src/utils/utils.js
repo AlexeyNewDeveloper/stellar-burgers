@@ -62,3 +62,29 @@ export function enableObserver({ targetId, rootId, optionalFunction }) {
   const target = document.querySelector(`#${targetId}`);
   observer.observe(target);
 }
+
+export function calcTotalPrice(arrayIngredients, ...otherIngredient) {
+  const allIngredients = arrayIngredients.concat(otherIngredient);
+  return allIngredients.reduce((acc, current) => {
+    return current.type === "bun"
+      ? (acc += current.price * 2)
+      : (acc += current.price);
+  }, 0);
+}
+
+export function countItems(ingredients, ...otherIngredient) {
+  let allIngredients = [];
+  if (otherIngredient.some((item) => !item)) {
+    allIngredients = ingredients;
+  } else {
+    allIngredients = ingredients.concat(otherIngredient);
+  }
+  return allIngredients.reduce((acc, current) => {
+    if (current["_id"] in acc) {
+      acc[current["_id"]] = acc[current["_id"]] + 1;
+    } else {
+      acc[current["_id"]] = 1;
+    }
+    return acc;
+  }, {});
+}

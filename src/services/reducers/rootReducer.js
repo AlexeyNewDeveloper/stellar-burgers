@@ -4,6 +4,7 @@ import {
   openPopupReducer,
   closePopupReducer,
   makeOrderReducer,
+  burgerConstructorTargetReducer,
 } from "./reducers";
 
 export const rootReducer = combineReducers({
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
   openPopupReducer,
   closePopupReducer,
   makeOrderReducer,
+  burgerConstructorTargetReducer,
 });

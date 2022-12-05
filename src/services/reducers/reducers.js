@@ -7,12 +7,18 @@ import {
   MAKE_ORDER,
   MAKE_ORDER_SUCCESS,
   MAKE_ORDER_FAILED,
+  ADD_INGREDIENT,
+  DELETE_INGREDIENT,
 } from "../actions/actions";
-import { getIngredientsForConstructor } from "../../utils/utils";
+import { calcTotalPrice } from "../../utils/utils";
 
 const initialState = {
   ingredients: [],
-  ingredientsForConstructor: [],
+  ingredientsForConstructor: {
+    ingredients: [],
+    totalPrice: 0,
+    bun: null,
+  },
   currentDetailInfoIngredient: {},
   orderObj: {
     number: null,
@@ -105,9 +111,9 @@ export const getIngredientsReducer = (state = initialState, action) => {
         ingredientsRequest: false,
         ingredientsFailed: false,
         ingredients: action.ingredients,
-        ingredientsForConstructor: getIngredientsForConstructor(
-          action.ingredients
-        ),
+        // ingredientsForConstructor: getIngredientsForConstructor(
+        //   action.ingredients
+        // ),
       };
     }
     case GET_INGREDIENTS_FAILED: {
@@ -123,21 +129,63 @@ export const getIngredientsReducer = (state = initialState, action) => {
   }
 };
 
-// export const getIngredientsForConstructorReducer = (
-//   state = initialState,
-//   action
-// ) => {
-//   switch (action.type) {
-//     case GET_INGREDIENTS_FOR_CONSTRUCTOR: {
-//       return {
-//         ...state,
-//         ingredientsForConstructor: getIngredientsForConstructor(
-//           state.ingredients
-//         ),
-//       };
-//     }
-//     default: {
-//       return state;
-//     }
-//   }
-// };
+export const burgerConstructorTargetReducer = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case ADD_INGREDIENT: {
+      if (action.ingredient.type === "bun") {
+        return {
+          ...state,
+          ingredientsForConstructor: {
+            ...state.ingredientsForConstructor,
+            totalPrice: calcTotalPrice(
+              [...state.ingredientsForConstructor.ingredients],
+              action.ingredient
+            ),
+            bun: action.ingredient,
+          },
+        };
+      } else {
+        return {
+          ...state,
+          ingredientsForConstructor: {
+            ...state.ingredientsForConstructor,
+            ingredients: [
+              ...state.ingredientsForConstructor.ingredients,
+              action.ingredient,
+            ],
+            totalPrice: calcTotalPrice(
+              [...state.ingredientsForConstructor.ingredients],
+              action.ingredient,
+              state.ingredientsForConstructor.bun
+                ? state.ingredientsForConstructor.bun
+                : { price: 0 }
+            ),
+          },
+        };
+      }
+    }
+    case DELETE_INGREDIENT: {
+      let ingredients = state.ingredientsForConstructor.ingredients;
+      ingredients.splice(action.deleteIndex, 1);
+      return {
+        ...state,
+        ingredientsForConstructor: {
+          ...state.ingredientsForConstructor,
+          ingredients: ingredients,
+          totalPrice: calcTotalPrice(
+            ingredients,
+            state.ingredientsForConstructor.bun
+              ? state.ingredientsForConstructor.bun
+              : { price: 0 }
+          ),
+        },
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+};
