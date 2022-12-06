@@ -4,63 +4,28 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { filterIngredients } from "../../utils/utils";
 import withModal from "../hocs/withModal";
 import OrderDetails from "../order-details/order-details";
-import { BurgerConstructorContext } from "../../services/burgerConstructorContext";
-import BurgerElement from "../burger-element/burger-element";
-import { makeOrder } from "../../utils/burger-api";
+import ConstructorArea from "../constructor-area/constructor-area";
+import { useSelector } from "react-redux";
 
 const PlaceOrderButton = withModal({
   WrappedComponent: Button,
   DetailInfoComponent: OrderDetails,
 });
 
-function burgerConstructorReducer(state, action) {
-  if (action.totalPrice) {
-    const totalPrice = state.ingredients.reduce((acc, current) => {
-      if (current.type === "bun") {
-        acc += current.price * 2;
-      } else {
-        acc += current.price;
-      }
-      return acc;
-    }, 0);
-    return { ...state, totalPrice: totalPrice };
-  }
-}
-
 export default function BurgerConstructor() {
-  const data = React.useContext(BurgerConstructorContext);
-  const [state, dispatch] = React.useReducer(burgerConstructorReducer, data);
-
-  const ingredients = data.ingredients;
-  const orderObject = {
-    makeOrderCallback: makeOrder,
-    listOrder: data.listOrder,
-  };
-
-  const filtredIngredients = React.useMemo(() => {
-    return filterIngredients(ingredients, {
-      bun: [],
-      other: [],
-    });
-  }, [ingredients]);
-
-  React.useEffect(() => {
-    dispatch({ totalPrice: true });
-  }, []);
+  const { totalPrice, bun } = useSelector(
+    (state) => state.burgerConstructorTargetReducer.ingredientsForConstructor
+  );
 
   return (
     <section className={`${styles.section} pt-25 pl-4`}>
-      <BurgerElement
-        bun={filtredIngredients.bun[0]}
-        otherIngredients={filtredIngredients.other}
-      />
+      <ConstructorArea />
       <div className={`${styles["place-order"]} mt-10`}>
         <div className={`${styles["price-area"]}`}>
           <span className={`text text_type_digits-medium mr-2`}>
-            {state.totalPrice}
+            {totalPrice}
           </span>
           <div className={`${styles["icon-area"]}`}>
             <div className={`${styles.icon}`}>
@@ -73,7 +38,7 @@ export default function BurgerConstructor() {
             type="primary"
             size="large"
             htmlType="button"
-            orderObject={orderObject}
+            disabled={!totalPrice || !bun}
           >
             Оформить заказ
           </PlaceOrderButton>
