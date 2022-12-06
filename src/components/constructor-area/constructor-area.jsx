@@ -1,33 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
 import styles from "./constructor-area.module.css";
-import {
-  ConstructorElement,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { filterIngredients } from "../../utils/utils";
-import { propTypesForItemObj } from "../../prop-types";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import ConstructorIngredient from "../constructor-ingredient/constructor-ingredient";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
 } from "../../services/actions/actions";
+// import update from "immutability-helper";
 
 export default function ConstructorArea() {
   const dispatch = useDispatch();
   const { ingredients, bun } = useSelector(
     (state) => state.burgerConstructorTargetReducer.ingredientsForConstructor
   );
-  const haveAnyIngredient = ingredients.length || bun;
-  // const filtredIngredients = React.useMemo(() => {
-  //   return filterIngredients(ingredients, {
-  //     bun: [],
-  //     other: [],
-  //   });
-  // }, [ingredients]);
-
-  // const bunObject = filtredIngredients.bun[0];
 
   const [{ isHover }, dropRef] = useDrop({
     accept: "ingredient",
@@ -41,6 +27,13 @@ export default function ConstructorArea() {
       });
     },
   });
+  const [{ isHoverInner }, dropInnerRef] = useDrop({
+    accept: "constructorIngredient",
+    collect: (monitor) => ({
+      isHoverInner: monitor.isOver(),
+    }),
+    drop(item) {},
+  });
 
   const handleDeleteElement = (index) => {
     dispatch({
@@ -49,11 +42,14 @@ export default function ConstructorArea() {
     });
   };
 
-  const borderColor = isHover ? "red" : "transparent";
   return (
-    <ul ref={dropRef} className={`${styles.items}`} style={{ borderColor }}>
+    <ul
+      ref={dropRef}
+      className={`${styles.items}`}
+      style={{ outlineColor: isHover ? "red" : "transparent" }}
+    >
       <li className={`${styles.item} pl-8 mb-4 mr-4`}>
-        {haveAnyIngredient && (
+        {bun && (
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -62,32 +58,29 @@ export default function ConstructorArea() {
             thumbnail={bun ? bun.image : null}
           />
         )}
+        {!bun && ingredients.length !== 0 && (
+          <div className={`${styles["empty-bun-top"]}`}>Добавьте булку!</div>
+        )}
       </li>
       <ul
         className={`${styles["items-inner"]} ${styles["changing-ingredients"]}`}
+        ref={dropInnerRef}
+        style={{ outlineColor: isHoverInner ? "green" : "transparent" }}
       >
         {ingredients.length !== 0 &&
           ingredients.map((item, index) => {
             return (
-              <li
-                className={`${styles.item} ${styles["changing-ingredients__item"]} pl-8`}
+              <ConstructorIngredient
                 key={index}
-              >
-                <div className={`${styles["drag-icon"]}`}>
-                  <DragIcon type="primary" />
-                </div>
-                <ConstructorElement
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                  handleClose={() => handleDeleteElement(index)}
-                />
-              </li>
+                item={item}
+                index={index}
+                handleDeleteElement={handleDeleteElement}
+              />
             );
           })}
       </ul>
       <li className={`${styles.item} pl-8 mr-4 mt-4`}>
-        {haveAnyIngredient && (
+        {bun && (
           <ConstructorElement
             type="bottom"
             isLocked={true}
@@ -95,6 +88,9 @@ export default function ConstructorArea() {
             price={bun ? bun.price : 0}
             thumbnail={bun ? bun.image : null}
           />
+        )}
+        {!bun && ingredients.length !== 0 && (
+          <div className={`${styles["empty-bun-bottom"]}`}>Добавьте булку!</div>
         )}
       </li>
     </ul>

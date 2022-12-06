@@ -1,18 +1,9 @@
-.drag-icon {
-  position: absolute;
-  top: 28px;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .items {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  border-width: 3px;
-  border-style: dashed;
+  outline-width: 3px;
+  outline-style: dashed;
   min-block-size: 696px;
 }
 
@@ -20,10 +11,8 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-
-.item {
-  box-sizing: border-box;
+  outline-width: 3px;
+  outline-style: dashed;
 }
 
 .changing-ingredients {
@@ -31,15 +20,6 @@
   overflow-y: auto;
   scrollbar-width: auto;
   scrollbar-color: #8585ad #2f2f37;
-}
-
-.changing-ingredients__item {
-  position: relative;
-  margin-bottom: 16px;
-}
-
-.changing-ingredients__item:last-child {
-  margin-bottom: 0;
 }
 
 .changing-ingredients::-webkit-scrollbar-thumb {
@@ -51,4 +31,27 @@
 
 .changing-ingredients::-webkit-scrollbar {
   width: 8px;
+}
+
+.empty-bun-top {
+  padding: 16px 24px;
+  border-radius: 88px 88px 40px 40px;
+  background-color: #373740;
+  max-width: 536px;
+  width: 100%;
+  min-height: 80px;
+  font-family: "Jet Brains Mono";
+  font-size: 20px;
+  line-height: 24px;
+  color: #f2f2f3;
+  flex-grow: 1;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-bun-bottom {
+  composes: empty-bun-top;
+  border-radius: 40px 40px 88px 88px;
 }

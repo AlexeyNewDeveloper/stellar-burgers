@@ -20,12 +20,9 @@ function ItemCard({ item, onClick }) {
     countedItems = countItems(ingredients, bun);
   }
 
-  const [{ isDrag }, dragRef] = useDrag({
+  const [, dragRef] = useDrag({
     type: "ingredient",
     item: item,
-    collect: (monitor) => ({
-      isDrag: monitor.isDragging(),
-    }),
   });
 
   return (

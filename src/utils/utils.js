@@ -31,9 +31,10 @@ export function getIngredientsForConstructor(data) {
   return arrayOfData;
 }
 
-export function getListOrder(arrayOfData) {
+export function getListOrder(data) {
+  const arrayData = [].concat(data.ingredients, data.bun);
   const listOrder = [];
-  arrayOfData.forEach((item) => {
+  arrayData.forEach((item) => {
     if (item.type === "bun") {
       listOrder.push(item["_id"]);
       listOrder.push(item["_id"]);

@@ -9,6 +9,7 @@ import {
   MAKE_ORDER_FAILED,
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
+  MOVE_INGREDIENT,
 } from "../actions/actions";
 import { calcTotalPrice } from "../../utils/utils";
 
@@ -18,6 +19,7 @@ const initialState = {
     ingredients: [],
     totalPrice: 0,
     bun: null,
+    // ingredientsForDNDinside: [],
   },
   currentDetailInfoIngredient: {},
   orderObj: {
@@ -181,6 +183,18 @@ export const burgerConstructorTargetReducer = (
               ? state.ingredientsForConstructor.bun
               : { price: 0 }
           ),
+        },
+      };
+    }
+    case MOVE_INGREDIENT: {
+      let ingredients = state.ingredientsForConstructor.ingredients.slice();
+      ingredients.splice(action.dragIndex, 1);
+      ingredients.splice(action.hoverIndex, 0, action.element);
+      return {
+        ...state,
+        ingredientsForConstructor: {
+          ...state.ingredientsForConstructor,
+          ingredients: ingredients,
         },
       };
     }

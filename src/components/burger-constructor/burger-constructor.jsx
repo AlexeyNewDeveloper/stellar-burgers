@@ -3,7 +3,6 @@ import styles from "./burger-constructor.module.css";
 import {
   CurrencyIcon,
   Button,
-  ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import withModal from "../hocs/withModal";
 import OrderDetails from "../order-details/order-details";
