@@ -5,10 +5,11 @@ import IngredientsCategory from "../ingredients-category/ingredients-category";
 import { CATEGORIES } from "../../utils/constants";
 import { filterIngredients } from "../../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { getIngredientsAction } from "../../services/actions/actions";
+import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
+import { TYPE_BUN } from "../../utils/constants";
 
 export default function BurgerIngredients() {
-  const [activeTab, setActiveTab] = React.useState("bun");
+  const [activeTab, setActiveTab] = React.useState(TYPE_BUN);
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
     (state) => state.getIngredientsReducer
   );

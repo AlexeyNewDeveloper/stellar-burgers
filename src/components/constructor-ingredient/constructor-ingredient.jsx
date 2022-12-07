@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./constructor-ingredient.module.css";
 import {
   ConstructorElement,
@@ -6,13 +7,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd/dist/hooks";
-import { MOVE_INGREDIENT } from "../../services/actions/actions";
+import {
+  MOVE_INGREDIENT,
+  DELETE_INGREDIENT,
+} from "../../services/actions/burgerConstructorTargetAction";
+import { propTypesForItemObj } from "../../prop-types";
 
-export default function ConstructorIngredient({
-  item,
-  index,
-  handleDeleteElement,
-}) {
+export default function ConstructorIngredient({ item, index }) {
   const elementRef = React.useRef(null);
   const dispatch = useDispatch();
   const [{ isDrag }, dragRef] = useDrag({
@@ -61,12 +62,17 @@ export default function ConstructorIngredient({
     },
   });
 
-  const opacity = isDrag ? "0.5" : "1";
+  const handleDeleteElement = (index) => {
+    dispatch({
+      type: DELETE_INGREDIENT,
+      deleteIndex: index,
+    });
+  };
 
   return (
     <li
       className={`${styles.item} ${styles["changing-ingredients__item"]} pl-8`}
-      style={{ opacity }}
+      style={{ opacity: isDrag ? "0.5" : "1" }}
       ref={(el) => {
         dragRef(el);
         dropRef(el);
@@ -86,3 +92,8 @@ export default function ConstructorIngredient({
     </li>
   );
 }
+
+ConstructorIngredient.propTypes = {
+  item: propTypesForItemObj,
+  index: PropTypes.number.isRequired,
+};

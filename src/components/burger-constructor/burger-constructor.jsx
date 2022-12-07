@@ -8,6 +8,7 @@ import withModal from "../hocs/withModal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorArea from "../constructor-area/constructor-area";
 import { useSelector } from "react-redux";
+import { calcTotalPrice } from "../../utils/utils";
 
 const PlaceOrderButton = withModal({
   WrappedComponent: Button,
@@ -15,9 +16,18 @@ const PlaceOrderButton = withModal({
 });
 
 export default function BurgerConstructor() {
-  const { totalPrice, bun } = useSelector(
+  const { ingredients, bun } = useSelector(
     (state) => state.burgerConstructorTargetReducer.ingredientsForConstructor
   );
+
+  const totalPrice = calcTotalPrice(ingredients, bun);
+
+  // useMemo работает с задержкой
+
+  // const totalPrice = React.useMemo(
+  //   () => calcTotalPrice(ingredients, bun),
+  //   [ingredients, bun]
+  // );
 
   return (
     <section className={`${styles.section} pt-25 pl-4`}>

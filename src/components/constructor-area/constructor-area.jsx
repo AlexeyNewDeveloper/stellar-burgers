@@ -3,11 +3,7 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import ConstructorIngredient from "../constructor-ingredient/constructor-ingredient";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
-import {
-  ADD_INGREDIENT,
-  DELETE_INGREDIENT,
-} from "../../services/actions/actions";
-// import update from "immutability-helper";
+import { ADD_INGREDIENT } from "../../services/actions/burgerConstructorTargetAction";
 
 export default function ConstructorArea() {
   const dispatch = useDispatch();
@@ -34,13 +30,6 @@ export default function ConstructorArea() {
     }),
     drop(item) {},
   });
-
-  const handleDeleteElement = (index) => {
-    dispatch({
-      type: DELETE_INGREDIENT,
-      deleteIndex: index,
-    });
-  };
 
   return (
     <ul
@@ -70,12 +59,7 @@ export default function ConstructorArea() {
         {ingredients.length !== 0 &&
           ingredients.map((item, index) => {
             return (
-              <ConstructorIngredient
-                key={index}
-                item={item}
-                index={index}
-                handleDeleteElement={handleDeleteElement}
-              />
+              <ConstructorIngredient key={index} item={item} index={index} />
             );
           })}
       </ul>

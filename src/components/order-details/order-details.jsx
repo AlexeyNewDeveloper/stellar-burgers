@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./order-details.module.css";
 import Spinner from "../spinner/spinner";
 import { useSelector, useDispatch } from "react-redux";
-import { makeOrderAction } from "../../services/actions/actions";
+import { makeOrderAction } from "../../services/actions/makeOrderAction";
 
 export default function OrderDetails() {
   const { orderObj, makeOrderRequest, makeOrderFailed } = useSelector(

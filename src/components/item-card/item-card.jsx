@@ -15,10 +15,14 @@ function ItemCard({ item, onClick }) {
     (state) => state.burgerConstructorTargetReducer.ingredientsForConstructor
   );
 
-  let countedItems = {};
-  if (ingredients.length || bun) {
-    countedItems = countItems(ingredients, bun);
-  }
+  const countedItems =
+    ingredients.length || bun ? countItems(ingredients, bun) : {};
+
+  // useMemo работает с задержкой
+
+  // const countedItems = React.useMemo(() => {
+  //   return ingredients.length || bun ? countItems(ingredients, bun) : {};
+  // }, [ingredients, bun]);
 
   const [, dragRef] = useDrag({
     type: "ingredient",

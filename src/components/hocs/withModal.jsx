@@ -6,7 +6,10 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import { MODAL_ROOT } from "../../utils/constants";
 import { propTypesForItemDetailInfo } from "../../prop-types";
 import { useDispatch } from "react-redux";
-import { OPEN_POPUP, CLOSE_POPUP } from "../../services/actions/actions";
+import {
+  OPEN_POPUP,
+  CLOSE_POPUP,
+} from "../../services/actions/popupDetailInfoAction";
 
 const withModal =
   ({
@@ -23,7 +26,7 @@ const withModal =
     const openPopupCallback = () => {
       setOpenPopup(true);
       if (detailInfo) {
-        dispatch({ type: OPEN_POPUP, ingredient: detailInfo });
+        dispatch({ type: OPEN_POPUP, modalData: detailInfo });
       }
     };
 
@@ -43,7 +46,7 @@ const withModal =
           ReactDOM.createPortal(
             <OverlayComponent onClick={closePopupCallback}>
               <ContainerComponent closePopup={closePopupCallback}>
-                <DetailInfoComponent detailInfo={detailInfo} />
+                <DetailInfoComponent />
               </ContainerComponent>
             </OverlayComponent>,
             MODAL_ROOT
