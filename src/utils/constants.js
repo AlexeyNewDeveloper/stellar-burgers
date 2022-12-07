@@ -1,3 +1,7 @@
+export const TYPE_BUN = "bun";
+export const TYPE_SAUCE = "sauce";
+export const TYPE_MAIN = "main";
+
 export const SPECIFICATIONS = {
   calories: "Калории,ккал",
   proteins: "Белки, г",

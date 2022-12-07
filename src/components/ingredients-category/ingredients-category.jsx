@@ -19,11 +19,14 @@ export default function IngredientsCategory({
   setActiveTab,
 }) {
   React.useEffect(() => {
-    enableObserver({
+    const [observer, target] = enableObserver({
       targetId: categoryKey,
       rootId: "ingredientsArea",
       optionalFunction: setActiveTab,
     });
+    return () => {
+      observer.unobserve(target);
+    };
   }, []);
 
   return (
@@ -49,5 +52,7 @@ export default function IngredientsCategory({
 
 IngredientsCategory.propTypes = {
   category: PropTypes.string.isRequired,
+  categoryKey: PropTypes.string.isRequired,
+  setActiveTab: PropTypes.func.isRequired,
   arrayOfIngredients: PropTypes.arrayOf(propTypesForItemObj).isRequired,
 };

@@ -1,3 +1,5 @@
+import { TYPE_BUN } from "./constants";
+
 export function filterIngredients(ingredientsArray, mockup) {
   return ingredientsArray.reduce((acc, current, index, arr) => {
     if (current.type in acc) {
@@ -18,10 +20,10 @@ export function getIngredientsForConstructor(data) {
   if (data.length) {
     let flagOneBun = false;
     arrayOfData = data.filter((item) => {
-      if (item.type === "bun" && !flagOneBun) {
+      if (item.type === TYPE_BUN && !flagOneBun) {
         flagOneBun = true;
         return true;
-      } else if (item.type !== "bun") {
+      } else if (item.type !== TYPE_BUN) {
         return true;
       } else {
         return false;
@@ -32,17 +34,7 @@ export function getIngredientsForConstructor(data) {
 }
 
 export function getListOrder(data) {
-  const arrayData = [].concat(data.ingredients, data.bun);
-  const listOrder = [];
-  arrayData.forEach((item) => {
-    if (item.type === "bun") {
-      listOrder.push(item["_id"]);
-      listOrder.push(item["_id"]);
-    } else {
-      listOrder.push(item["_id"]);
-    }
-  });
-  return listOrder;
+  return [data.bun, ...data.ingredients, data.bun].map((item) => item["_id"]);
 }
 
 export function enableObserver({ targetId, rootId, optionalFunction }) {
@@ -62,12 +54,13 @@ export function enableObserver({ targetId, rootId, optionalFunction }) {
 
   const target = document.querySelector(`#${targetId}`);
   observer.observe(target);
+  return [observer, target];
 }
 
-export function calcTotalPrice(arrayIngredients, ...otherIngredient) {
-  const allIngredients = arrayIngredients.concat(otherIngredient);
+export function calcTotalPrice(arrayIngredients, bun) {
+  const allIngredients = arrayIngredients.concat(bun ? bun : { price: 0 });
   return allIngredients.reduce((acc, current) => {
-    return current.type === "bun"
+    return current.type === TYPE_BUN
       ? (acc += current.price * 2)
       : (acc += current.price);
   }, 0);
