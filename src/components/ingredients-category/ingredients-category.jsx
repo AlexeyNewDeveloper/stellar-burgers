@@ -5,18 +5,35 @@ import ItemCard from "../item-card/item-card";
 import IngredientDetails from "../ingredients-detail/ingredients-detail";
 import withModal from "../hocs/withModal";
 import { propTypesForItemObj } from "../../prop-types";
+import { enableObserver } from "../../utils/utils";
 
 const WithModalItemCard = withModal({
   WrappedComponent: ItemCard,
   DetailInfoComponent: IngredientDetails,
 });
 
-export default function IngredientsCategory({ category, arrayOfIngredients }) {
+export default function IngredientsCategory({
+  category,
+  arrayOfIngredients,
+  categoryKey,
+  setActiveTab,
+}) {
+  React.useEffect(() => {
+    const [observer, target] = enableObserver({
+      targetId: categoryKey,
+      rootId: "ingredientsArea",
+      optionalFunction: setActiveTab,
+    });
+    return () => {
+      observer.unobserve(target);
+    };
+  }, []);
+
   return (
     <React.Fragment>
       <h2
         className={`${styles.subtitle} text text_type_main-medium`}
-        id={`category-${category}`}
+        id={`${categoryKey}`}
       >
         {category}
       </h2>
@@ -35,5 +52,7 @@ export default function IngredientsCategory({ category, arrayOfIngredients }) {
 
 IngredientsCategory.propTypes = {
   category: PropTypes.string.isRequired,
+  categoryKey: PropTypes.string.isRequired,
+  setActiveTab: PropTypes.func.isRequired,
   arrayOfIngredients: PropTypes.arrayOf(propTypesForItemObj).isRequired,
 };

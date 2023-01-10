@@ -6,14 +6,35 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { propTypesForItemObj } from "../../prop-types";
+import { useDrag } from "react-dnd/dist/hooks";
+import { useSelector } from "react-redux";
+import { countItems } from "../../utils/utils";
 
 function ItemCard({ item, onClick }) {
+  const { ingredients, bun } = useSelector(
+    (state) => state.burgerConstructorTargetReducer.ingredientsForConstructor
+  );
+
+  const countedItems =
+    ingredients.length || bun ? countItems(ingredients, bun) : {};
+
+  // useMemo работает с задержкой
+
+  // const countedItems = React.useMemo(() => {
+  //   return ingredients.length || bun ? countItems(ingredients, bun) : {};
+  // }, [ingredients, bun]);
+
+  const [, dragRef] = useDrag({
+    type: "ingredient",
+    item: item,
+  });
+
   return (
     <React.Fragment>
-      <div className={`${styles.item}`} onClick={onClick}>
-        {item["_id"] === "60d3b41abdacab0026a733c6" ? (
+      <div ref={dragRef} className={`${styles.item}`} onClick={onClick}>
+        {item["_id"] in countedItems ? (
           <div className={`${styles.counter}`}>
-            <Counter count={1} size="default" />
+            <Counter count={countedItems[item["_id"]]} size="default" />
           </div>
         ) : (
           ""

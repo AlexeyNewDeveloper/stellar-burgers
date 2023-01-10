@@ -1,3 +1,5 @@
+import { TYPE_BUN } from "./constants";
+
 export function filterIngredients(ingredientsArray, mockup) {
   return ingredientsArray.reduce((acc, current, index, arr) => {
     if (current.type in acc) {
@@ -13,35 +15,70 @@ export function checkResponse(res) {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 }
 
-export function getDataForConstructor(data) {
+export function getIngredientsForConstructor(data) {
   let arrayOfData = [];
-  let listOrder = [];
   if (data.length) {
     let flagOneBun = false;
     arrayOfData = data.filter((item) => {
-      if (item.type === "bun" && !flagOneBun) {
+      if (item.type === TYPE_BUN && !flagOneBun) {
         flagOneBun = true;
         return true;
-      } else if (item.type !== "bun") {
+      } else if (item.type !== TYPE_BUN) {
         return true;
       } else {
         return false;
       }
     });
   }
-  listOrder = getListOrder(arrayOfData);
-  return [arrayOfData, listOrder];
+  return arrayOfData;
 }
 
-export function getListOrder(arrayOfData) {
-  const listOrder = [];
-  arrayOfData.forEach((item) => {
-    if (item.type === "bun") {
-      listOrder.push(item["_id"]);
-      listOrder.push(item["_id"]);
+export function getListOrder(data) {
+  return [data.bun, ...data.ingredients, data.bun].map((item) => item["_id"]);
+}
+
+export function enableObserver({ targetId, rootId, optionalFunction }) {
+  const options = {
+    root: document.querySelector(`#${rootId}`),
+    rootMargin: "0px 0px -90% 0px",
+    threshold: 0.6,
+  };
+  const observerCallback = function (entries, observer) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        optionalFunction(entry.target.id);
+      }
+    });
+  };
+  const observer = new IntersectionObserver(observerCallback, options);
+
+  const target = document.querySelector(`#${targetId}`);
+  observer.observe(target);
+  return [observer, target];
+}
+
+export function calcTotalPrice(arrayIngredients, bun) {
+  const allIngredients = arrayIngredients.concat(bun ? bun : { price: 0 });
+  return allIngredients.reduce((acc, current) => {
+    return current.type === TYPE_BUN
+      ? (acc += current.price * 2)
+      : (acc += current.price);
+  }, 0);
+}
+
+export function countItems(ingredients, ...otherIngredient) {
+  let allIngredients = [];
+  if (otherIngredient.some((item) => !item)) {
+    allIngredients = ingredients;
+  } else {
+    allIngredients = ingredients.concat(otherIngredient);
+  }
+  return allIngredients.reduce((acc, current) => {
+    if (current["_id"] in acc) {
+      acc[current["_id"]] = acc[current["_id"]] + 1;
     } else {
-      listOrder.push(item["_id"]);
+      acc[current["_id"]] = 1;
     }
-  });
-  return listOrder;
+    return acc;
+  }, {});
 }

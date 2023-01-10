@@ -1,0 +1,57 @@
+.items {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  outline-width: 3px;
+  outline-style: dashed;
+  min-block-size: 696px;
+}
+
+.items-inner {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  outline-width: 3px;
+  outline-style: dashed;
+}
+
+.changing-ingredients {
+  max-block-size: 464px;
+  overflow-y: auto;
+  scrollbar-width: auto;
+  scrollbar-color: #8585ad #2f2f37;
+}
+
+.changing-ingredients::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+.changing-ingredients::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+}
+
+.changing-ingredients::-webkit-scrollbar {
+  width: 8px;
+}
+
+.empty-bun-top {
+  padding: 16px 24px;
+  border-radius: 88px 88px 40px 40px;
+  background-color: #373740;
+  max-width: 536px;
+  width: 100%;
+  min-height: 80px;
+  font-family: "Jet Brains Mono";
+  font-size: 20px;
+  line-height: 24px;
+  color: #f2f2f3;
+  flex-grow: 1;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-bun-bottom {
+  composes: empty-bun-top;
+  border-radius: 40px 40px 88px 88px;
+}
