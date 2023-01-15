@@ -7,6 +7,7 @@ import {
   ForgotPassword,
   ResetPassword,
   NotFound404,
+  PersonalAccount,
 } from "../../pages";
 import styles from "./app.module.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -14,11 +15,15 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 function App() {
   return (
     <div className={styles.page}>
-      <AppHeader />
       <BrowserRouter>
+        {/* <Route path="/"> */}
+        <AppHeader />
         <Switch>
           <Route path="/" exact={true}>
             <Content />
+          </Route>
+          <Route path="/profile">
+            <PersonalAccount />
           </Route>
           <Route path="/forgot-password">
             <ForgotPassword />
@@ -36,6 +41,7 @@ function App() {
             <NotFound404 />
           </Route>
         </Switch>
+        {/* </Route> */}
       </BrowserRouter>
     </div>
   );

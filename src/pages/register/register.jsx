@@ -6,7 +6,9 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { URL_FOR_GET_DATA } from "../../utils/constants";
+import { checkResponse } from "../../utils/utils";
 
 export default function Register() {
   const [value, setValue] = React.useState({
@@ -14,9 +16,43 @@ export default function Register() {
     email: "",
     password: "",
   });
+  const [requestStatus, setRequestStatus] = React.useState({
+    loading: false,
+    success: false,
+    failed: false,
+    redirect: false,
+  });
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
+
+  const registerCallback = (e) => {
+    e.preventDefault();
+    setRequestStatus({ ...requestStatus, loading: true });
+    fetch(`${URL_FOR_GET_DATA}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        email: value.email,
+        password: value.password,
+        name: value.name,
+      }),
+    })
+      .then(checkResponse)
+      .then((res) => {
+        if (res.success) {
+          setRequestStatus({ loading: false, success: true });
+        } else {
+          setRequestStatus({ loading: false, success: false, failed: true });
+        }
+      })
+      .catch((err) => {
+        setRequestStatus({ loading: false, success: false, failed: true });
+      });
+  };
+
   return (
     <section className={styles.container}>
       <div className={styles.content}>
@@ -48,6 +84,7 @@ export default function Register() {
               type="primary"
               size="medium"
               extraClass={styles.button}
+              onClick={registerCallback}
             >
               Зарегистрироваться
             </Button>

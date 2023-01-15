@@ -16,15 +16,7 @@
   text-decoration: none;
 }
 
-.border_dashed {
-  box-sizing: border-box;
-}
-
 .item-text {
   white-space: nowrap;
   font-size: 16px;
-}
-
-.item-text-active {
-  color: #f2f2f3;
 }
