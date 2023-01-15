@@ -1,13 +1,13 @@
-.items {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
 .item {
   margin-bottom: 24px;
 }
 
-.item:last-of-type {
-  margin-bottom: 0;
+.button_cancel {
+  padding: 16px 20px;
+}
+
+.button_container {
+  inline-size: 100%;
+  display: flex;
+  justify-content: end;
 }

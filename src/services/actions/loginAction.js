@@ -2,16 +2,16 @@ import { URL_FOR_GET_DATA } from "../../utils/constants";
 import { checkResponse } from "../../utils/utils";
 import { GET_USER } from "./userAction";
 
-export const REGISTRATION = "REGISTRATION";
-export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
-export const REGISTRATION_FAILED = "REGISTRATION_FAILED";
+export const LOGIN = "LOGIN";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILED = "LOGIN_FAILED";
 
-export function registerAction(value) {
+export function loginAction(value) {
   return function (dispatch) {
     dispatch({
-      type: REGISTRATION,
+      type: LOGIN,
     });
-    fetch(`${URL_FOR_GET_DATA}/auth/register`, {
+    fetch(`${URL_FOR_GET_DATA}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -19,25 +19,24 @@ export function registerAction(value) {
       body: JSON.stringify({
         email: value.email,
         password: value.password,
-        name: value.name,
       }),
     })
       .then(checkResponse)
       .then((res) => {
         if (res.success) {
           dispatch({
-            type: REGISTRATION_SUCCESS,
+            type: LOGIN_SUCCESS,
           });
           dispatch({
             type: GET_USER,
             user: res,
           });
         } else {
-          dispatch({ type: REGISTRATION_FAILED });
+          dispatch({ type: LOGIN_FAILED });
         }
       })
       .catch((err) => {
-        dispatch({ type: REGISTRATION_FAILED });
+        dispatch({ type: LOGIN_FAILED });
       });
   };
 }

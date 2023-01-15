@@ -9,13 +9,18 @@
 
 .items {
   margin: 0;
-  margin-right: 60px;
+  margin-bottom: 80px;
   list-style: none;
   padding: 0;
 }
 
+.wrapper_item {
+  margin-right: 60px;
+  max-inline-size: 320px;
+  inline-size: 100%;
+}
+
 .item {
-  min-inline-size: 320px;
   min-block-size: 64px;
   display: flex;
   align-items: center;
@@ -28,7 +33,18 @@
   color: #8585ad;
   text-decoration: none;
 }
+.link:hover {
+  color: #f2f2f3;
+}
 
 .active_link {
+  color: #f2f2f3;
+}
+
+.button_logout {
+}
+
+.button_logout:hover {
+  cursor: pointer;
   color: #f2f2f3;
 }
