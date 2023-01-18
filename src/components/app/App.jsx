@@ -10,7 +10,8 @@ import {
   PersonalAccount,
 } from "../../pages";
 import styles from "./app.module.css";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ProtectedRoute } from "../protected-route/protected-route";
 
 function App() {
   return (
@@ -18,29 +19,58 @@ function App() {
       <BrowserRouter>
         {/* <Route path="/"> */}
         <AppHeader />
-        <Switch>
-          <Route path="/" exact={true}>
-            <Content />
-          </Route>
-          <Route path="/profile">
-            <PersonalAccount />
-          </Route>
-          <Route path="/forgot-password">
-            <ForgotPassword />
-          </Route>
-          <Route path="/reset-password">
-            <ResetPassword />
-          </Route>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route>
-            <NotFound404 />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/" exact={true} element={<Content />} />
+
+          <Route
+            path="/profile/*"
+            element={
+              <ProtectedRoute
+                authorized={false}
+                protectedElement={<PersonalAccount />}
+              />
+            }
+          />
+
+          <Route
+            path="/forgot-password"
+            element={
+              <ProtectedRoute
+                authorized={true}
+                protectedElement={<ForgotPassword />}
+              />
+            }
+          />
+
+          <Route
+            path="/reset-password"
+            element={
+              <ProtectedRoute
+                authorized={true}
+                protectedElement={<ResetPassword />}
+              />
+            }
+          />
+
+          <Route
+            path="/register"
+            element={
+              <ProtectedRoute
+                authorized={true}
+                protectedElement={<Register />}
+              />
+            }
+          />
+
+          <Route
+            path="/login"
+            element={
+              <ProtectedRoute authorized={true} protectedElement={<Login />} />
+            }
+          />
+
+          <Route path="*" element={<NotFound404 />} />
+        </Routes>
         {/* </Route> */}
       </BrowserRouter>
     </div>

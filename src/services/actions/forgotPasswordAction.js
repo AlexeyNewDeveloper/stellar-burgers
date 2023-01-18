@@ -1,17 +1,18 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
 import { checkResponse } from "../../utils/utils";
-import { GET_USER } from "./userAction";
 
-export const LOGIN = "LOGIN";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAILED = "LOGIN_FAILED";
+export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
+export const FORGOT_PASSWORD_REQUEST_SUCCESS =
+  "FORGOT_PASSWORD_REQUEST_SUCCESS";
+export const FORGOT_PASSWORD_REQUEST_FAILED = "FORGOT_PASSWORD_REQUEST_FAILED";
+export const FORGOT_PASSWORD_INITIAL_STATE = "FORGOT_PASSWORD_INITIAL_STATE";
 
-export function loginAction(value) {
+export function forgotPasswordAction(email) {
   return function (dispatch) {
     dispatch({
-      type: LOGIN,
+      type: FORGOT_PASSWORD_REQUEST,
     });
-    fetch(`${URL_FOR_GET_DATA}/auth/login`, {
+    fetch(`${URL_FOR_GET_DATA}/password-reset`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -22,27 +23,21 @@ export function loginAction(value) {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify({
-        email: value.email,
-        password: value.password,
+        email: email,
       }),
     })
       .then(checkResponse)
       .then((res) => {
         if (res.success) {
           dispatch({
-            type: LOGIN_SUCCESS,
+            type: FORGOT_PASSWORD_REQUEST_SUCCESS,
           });
-          dispatch({
-            type: GET_USER,
-            user: res,
-          });
-          sessionStorage.setItem("user", JSON.stringify(res));
         } else {
-          dispatch({ type: LOGIN_FAILED });
+          dispatch({ type: FORGOT_PASSWORD_REQUEST_FAILED });
         }
       })
       .catch((err) => {
-        dispatch({ type: LOGIN_FAILED });
+        dispatch({ type: FORGOT_PASSWORD_REQUEST_FAILED });
       });
   };
 }

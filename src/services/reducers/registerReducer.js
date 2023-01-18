@@ -11,18 +11,23 @@ export const registerReducer = (state = registerInitialState, action) => {
       return {
         ...state,
         registerRequest: true,
+        registerRequestSuccess: false,
+        registerRequestFailed: false,
       };
     }
     case REGISTRATION_SUCCESS: {
       return {
         ...state,
+        registerRequestSuccess: true,
         registerRequest: false,
-        registerData: action.registerData,
+        registerRequestFailed: false,
+        // registerData: action.registerData,
       };
     }
     case REGISTRATION_FAILED: {
       return {
         ...state,
+        registerRequestSuccess: false,
         registerRequest: false,
         registerRequestFailed: true,
       };

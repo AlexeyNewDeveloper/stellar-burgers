@@ -59,7 +59,7 @@ export default function ConstructorArea() {
         {ingredients.length !== 0 &&
           ingredients.map((item, index) => {
             return (
-              <ConstructorIngredient key={index} item={item} index={index} />
+              <ConstructorIngredient key={index} item={item} index={index} /> // сделать для key uuid, а не index
             );
           })}
       </ul>

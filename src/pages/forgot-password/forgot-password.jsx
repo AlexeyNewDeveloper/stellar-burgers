@@ -4,65 +4,46 @@ import {
   EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
-import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
+import { Link, Navigate } from "react-router-dom";
+import { forgotPasswordAction } from "../../services/actions/forgotPasswordAction";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function ForgotPassword() {
   const [value, setValue] = React.useState({ email: "" });
-  const [requestStatus, setRequestStatus] = React.useState({
-    loading: false,
-    success: false,
-    failed: false,
-    redirect: false,
-  });
+  const [redirect, setRedirect] = React.useState(false);
+  const dispatch = useDispatch();
+  const {
+    forgotPasswordRequest,
+    forgotPasswordRequestSuccess,
+    forgotPasswordRequestFailed,
+  } = useSelector((state) => state.forgotPasswordReducer);
 
   React.useEffect(() => {
-    if (requestStatus.success) {
+    if (forgotPasswordRequestSuccess) {
       setTimeout(() => {
-        setRequestStatus({ ...requestStatus, redirect: true });
+        setRedirect(true);
       }, 5000);
     }
-  });
+  }, [forgotPasswordRequestSuccess]);
 
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
   const getNewPassword = (e) => {
     e.preventDefault();
-    setRequestStatus({ ...requestStatus, loading: true });
-    fetch(`${URL_FOR_GET_DATA}/password-reset`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({
-        email: value.email,
-      }),
-    })
-      .then(checkResponse)
-      .then((res) => {
-        if (res.success) {
-          setRequestStatus({ loading: false, success: true });
-        } else {
-          setRequestStatus({ loading: false, success: false, failed: true });
-        }
-      })
-      .catch((err) => {
-        setRequestStatus({ loading: false, success: false, failed: true });
-      });
+    dispatch(forgotPasswordAction(value.email));
   };
 
   return (
     <section className={styles.container}>
       <div className={styles.content}>
-        {requestStatus.success ? (
+        {forgotPasswordRequestSuccess ? (
           <div className={styles.container_success}>
             <p className={styles.text_redirect}>
               Через 5 секунд вы будете перенаправлены на страницу сброса пароля.
               Код для сброса пароля отправлен на{" "}
               <span className={styles.email_redirect}>{value.email}</span>
-              {requestStatus.redirect && <Redirect to="/reset-password" />}
+              {redirect && <Navigate to="/reset-password" replace={true} />}
             </p>
           </div>
         ) : (
@@ -84,7 +65,7 @@ export default function ForgotPassword() {
                   extraClass={styles.button}
                   onClick={getNewPassword}
                 >
-                  {requestStatus.loading ? "Загрузка..." : "Восстановить"}
+                  {forgotPasswordRequest ? "Загрузка..." : "Восстановить"}
                 </Button>
               </fieldset>
             </form>

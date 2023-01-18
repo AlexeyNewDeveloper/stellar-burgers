@@ -1,11 +1,13 @@
 import PropTypes from "prop-types";
 import styles from "./menu-item.module.css";
 
-export default function MenuItem(props) {
+export default function MenuItem({ text, icon, activeClassName }) {
   return (
     <>
-      <div className={`${styles.icons} mr-2`}>{props.icon}</div>
-      <span className={`${styles["item-text"]}`}>{props.text}</span>
+      <div className={`${styles.icons} mr-2`}>{icon}</div>
+      <span className={`${styles["item-text"]} ${activeClassName}`}>
+        {text}
+      </span>
     </>
   );
 }
@@ -13,4 +15,6 @@ export default function MenuItem(props) {
 MenuItem.propTypes = {
   text: PropTypes.string.isRequired,
   icon: PropTypes.element.isRequired,
+  activeClassName: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
+    .isRequired,
 };

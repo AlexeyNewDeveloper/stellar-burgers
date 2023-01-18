@@ -6,7 +6,7 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerAction } from "../../services/actions/registerAction";
 
@@ -19,7 +19,9 @@ export default function Register() {
   const { registerRequest, registerRequestFailed } = useSelector(
     (state) => state.registerReducer
   );
-  const { user } = useSelector((state) => state.userReducer);
+  const { registerRequestSuccess } = useSelector(
+    (state) => state.registerReducer
+  );
   const dispatch = useDispatch();
 
   const onChange = (e) => {
@@ -33,8 +35,8 @@ export default function Register() {
 
   return registerRequestFailed ? (
     <p>Произошла ошибка</p>
-  ) : user ? (
-    <Redirect to="/" />
+  ) : registerRequestSuccess ? (
+    <Navigate to="/" replace={true} />
   ) : (
     <section className={styles.container}>
       <div className={styles.content}>

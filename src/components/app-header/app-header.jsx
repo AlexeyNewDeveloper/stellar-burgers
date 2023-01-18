@@ -21,30 +21,31 @@ function AppHeader() {
           >
             <NavLink
               to="/"
-              exact={true}
               className={`${styles["item-link"]}  text text_type_main-default`}
-              activeClassName={`${styles["item-text-active"]}`}
             >
-              <MenuItem
-                text="Конструктор"
-                icon={
-                  <BurgerIcon
-                    type={location.pathname === "/" ? "primary" : "secondary"}
-                  />
-                }
-              />
+              {({ isActive }) => (
+                <MenuItem
+                  text="Конструктор"
+                  activeClassName={isActive && `${styles["item-text-active"]}`}
+                  icon={
+                    <BurgerIcon type={isActive ? "primary" : "secondary"} />
+                  }
+                />
+              )}
             </NavLink>
           </li>
           <li className={`${styles.item} pl-5 pr-5 pt-4 pb-4`}>
             <NavLink
               to="/nopath"
               className={`${styles["item-link"]}  text text_type_main-default`}
-              activeClassName={`${styles["item-text-active"]}`}
             >
-              <MenuItem
-                text="Лента заказов"
-                icon={<ListIcon type="secondary" />}
-              />
+              {({ isActive }) => (
+                <MenuItem
+                  text="Лента заказов"
+                  activeClassName={isActive && `${styles["item-text-active"]}`}
+                  icon={<ListIcon type={isActive ? "primary" : "secondary"} />}
+                />
+              )}
             </NavLink>
           </li>
         </ul>
@@ -56,18 +57,14 @@ function AppHeader() {
         <NavLink
           to="/profile"
           className={`${styles["item-link"]}  text text_type_main-default`}
-          activeClassName={`${styles["item-text-active"]}`}
         >
-          <MenuItem
-            text="Личный кабинет"
-            icon={
-              <ProfileIcon
-                type={
-                  location.pathname === "/profile" ? "primary" : "secondary"
-                }
-              />
-            }
-          />
+          {({ isActive }) => (
+            <MenuItem
+              text="Личный кабинет"
+              activeClassName={isActive && `${styles["item-text-active"]}`}
+              icon={<ProfileIcon type={isActive ? "primary" : "secondary"} />}
+            />
+          )}
         </NavLink>
       </div>
     </header>

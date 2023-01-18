@@ -5,7 +5,7 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../services/actions/loginAction";
 
@@ -27,8 +27,6 @@ export default function Login() {
 
   return loginRequestFailed ? (
     <p>Произошла ошибка</p>
-  ) : user ? (
-    <Redirect to="/" />
   ) : (
     <section className={styles.container}>
       <div className={styles.content}>

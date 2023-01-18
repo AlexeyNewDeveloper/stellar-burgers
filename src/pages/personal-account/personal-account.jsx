@@ -6,9 +6,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   NavLink,
-  Redirect,
+  Navigate,
   Route,
-  Switch,
+  Routes,
   useLocation,
 } from "react-router-dom";
 import Profile from "../profile/profile";
@@ -27,18 +27,17 @@ export default function PersonalAccount() {
     dispatch(logoutAction(user.refreshToken));
   };
 
-  return !user ? (
-    <Redirect to="/login" />
-  ) : (
+  return (
     <section className={styles.container}>
       <div className={styles.wrapper_item}>
         <ul className={styles.items}>
           <li className={`${styles.item}`}>
             <NavLink
               to="/profile"
-              className={`${styles.link}`}
-              activeClassName={styles.active_link}
-              exact={true}
+              className={({ isActive }) =>
+                `${styles.link} ${isActive && styles.active_link}`
+              }
+              end
             >
               Профиль
             </NavLink>
@@ -46,8 +45,9 @@ export default function PersonalAccount() {
           <li className={`${styles.item}`}>
             <NavLink
               to="/profile/orders"
-              className={styles.link}
-              activeClassName={styles.active_link}
+              className={({ isActive }) =>
+                `${styles.link} ${isActive && styles.active_link}`
+              }
             >
               История заказов
             </NavLink>
@@ -63,14 +63,11 @@ export default function PersonalAccount() {
         </ul>
         <HelpingText route={location.pathname} />
       </div>
-      <Switch>
-        <Route path="/profile" exact={true}>
-          <Profile />
-        </Route>
-        <Route path="/profile/orders">
-          <OrderHistory />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/" exact={true} element={<Profile />} />
+
+        <Route path="/orders" element={<OrderHistory />} />
+      </Routes>
     </section>
   );
 }

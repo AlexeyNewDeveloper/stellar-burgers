@@ -5,55 +5,46 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
-import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
+import { Link, Navigate } from "react-router-dom";
+import { resetPasswordAction } from "../../services/actions/resetPasswordAction";
+import { useSelector, useDispatch } from "react-redux";
+import { RESET_PASSWORD_INITIAL_STATE } from "../../services/actions/resetPasswordAction";
+import { FORGOT_PASSWORD_INITIAL_STATE } from "../../services/actions/forgotPasswordAction";
 
 export default function ResetPassword() {
-  const [value, setValue] = React.useState({ password: "", codeForReset: "" });
-  const [requestStatus, setRequestStatus] = React.useState({
-    loading: false,
-    success: false,
-    failed: false,
-    redirect: false,
-  });
+  const [value, setValue] = React.useState({ password: "", token: "" });
+  const [resetSuccess, setResetSuccess] = React.useState(false);
+  const dispatch = useDispatch();
+  const {
+    resetPasswordRequest,
+    resetPasswordRequestSuccess,
+    resetPasswordRequestFailed,
+  } = useSelector((state) => state.resetPasswordReducer);
+  const { forgotPasswordRequestSuccess, forgotPasswordRequestFailed } =
+    useSelector((state) => state.forgotPasswordReducer);
+
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
 
   const redirectToLogin = (e) => {
     e.preventDefault();
-    setRequestStatus({ ...requestStatus, redirect: true });
+    dispatch({ type: FORGOT_PASSWORD_INITIAL_STATE });
+    dispatch({ type: RESET_PASSWORD_INITIAL_STATE });
+    setResetSuccess(true);
   };
 
   const resetPassword = (e) => {
     e.preventDefault();
-    setRequestStatus({ ...requestStatus, loading: true });
-    fetch(`${URL_FOR_GET_DATA}/password-reset/reset`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({
-        password: value.password,
-        token: value.codeForReset,
-      }),
-    })
-      .then(checkResponse)
-      .then((res) => {
-        if (res.success) {
-          setRequestStatus({ loading: false, success: true });
-        } else {
-          setRequestStatus({ loading: false, success: false, failed: true });
-        }
-      })
-      .catch((err) => {
-        setRequestStatus({ loading: false, success: false, failed: true });
-      });
+    dispatch(resetPasswordAction(value.password, value.token));
   };
 
-  return requestStatus.redirect ? (
-    <Redirect to="/login" />
+  if (!forgotPasswordRequestSuccess && !resetSuccess) {
+    return <Navigate to="/forgot-password" replace={true} />;
+  }
+
+  return resetSuccess ? (
+    <Navigate to="/login" replace={true} />
   ) : (
     <section className={styles.container}>
       <div className={styles.content}>
@@ -66,33 +57,35 @@ export default function ResetPassword() {
               onChange={onChange}
               name={"password"}
               value={value.password}
-              disabled={requestStatus.success}
+              disabled={resetPasswordRequestSuccess}
             />
             <Input
               placeholder="Введите код из письма"
               type="text"
               extraClass={styles.input}
               onChange={onChange}
-              name={"codeForReset"}
-              value={value.codeForReset}
-              disabled={requestStatus.success}
+              name={"token"}
+              value={value.token}
+              disabled={resetPasswordRequestSuccess}
             />
             <Button
               htmlType="submit"
               type="primary"
-              size={requestStatus.success ? "large" : "medium"}
+              size={resetPasswordRequestSuccess ? "large" : "medium"}
               extraClass={styles.button}
-              onClick={!requestStatus.success ? resetPassword : redirectToLogin}
+              onClick={
+                !resetPasswordRequestSuccess ? resetPassword : redirectToLogin
+              }
             >
-              {requestStatus.success
+              {resetPasswordRequestSuccess
                 ? "Войти"
-                : requestStatus.loading
+                : resetPasswordRequest
                 ? "Загрузка..."
                 : "Сохранить"}
             </Button>
           </fieldset>
         </form>
-        {requestStatus.success ? (
+        {resetPasswordRequestSuccess ? (
           <p className={`${styles.text} ${styles.text_success}`}>
             Пароль успешно изменен.
           </p>
