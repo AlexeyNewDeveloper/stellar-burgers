@@ -12,16 +12,11 @@ import {
 import styles from "./app.module.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route/protected-route";
-import IngredientDetails from "../ingredients-detail/ingredients-detail";
-import { useSelector } from "react-redux";
 
 function App() {
-  const { openPopup } = useSelector((state) => state.popupDetailInfoReducer);
-
   return (
     <div className={styles.page}>
       <BrowserRouter>
-        {/* <Route path="/"> */}
         <AppHeader />
         <Routes>
           <Route path="/*" exact={true} element={<Content />} />
@@ -73,16 +68,8 @@ function App() {
             }
           />
 
-          {!openPopup && (
-            <Route
-              path="/ingredients/:id"
-              element={<IngredientDetails noModal={true} />}
-            />
-          )}
-
           <Route path="*" element={<NotFound404 />} />
         </Routes>
-        {/* </Route> */}
       </BrowserRouter>
     </div>
   );

@@ -1,5 +1,4 @@
 import styles from "./app-header.module.css";
-import React from "react";
 import {
   Logo,
   BurgerIcon,
@@ -7,10 +6,11 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import MenuItem from "../menu-item/menu-item";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function AppHeader() {
-  const location = useLocation();
+  const { user } = useSelector((state) => state.userReducer);
 
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
@@ -61,8 +61,14 @@ function AppHeader() {
           {({ isActive }) => (
             <MenuItem
               text="Личный кабинет"
-              activeClassName={isActive && `${styles["item-text-active"]}`}
-              icon={<ProfileIcon type={isActive ? "primary" : "secondary"} />}
+              activeClassName={
+                user ? isActive && `${styles["item-text-active"]}` : ""
+              }
+              icon={
+                <ProfileIcon
+                  type={user && isActive ? "primary" : "secondary"}
+                />
+              }
             />
           )}
         </NavLink>

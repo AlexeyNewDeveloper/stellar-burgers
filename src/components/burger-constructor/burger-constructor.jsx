@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./burger-constructor.module.css";
 import {
   CurrencyIcon,
@@ -49,6 +48,7 @@ export default function BurgerConstructor() {
             size="large"
             htmlType="button"
             disabled={!totalPrice || !bun}
+            orderButton={true}
           >
             Оформить заказ
           </PlaceOrderButton>

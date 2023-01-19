@@ -6,7 +6,6 @@ import IngredientDetails from "../ingredients-detail/ingredients-detail";
 import withModal from "../hocs/withModal";
 import { propTypesForItemObj } from "../../prop-types";
 import { enableObserver } from "../../utils/utils";
-import { Route, Routes } from "react-router-dom";
 
 const WithModalItemCard = withModal({
   WrappedComponent: ItemCard,

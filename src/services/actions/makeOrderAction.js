@@ -5,7 +5,7 @@ export const MAKE_ORDER = "MAKE_ORDER";
 export const MAKE_ORDER_SUCCESS = "MAKE_ORDER_SUCCESS";
 export const MAKE_ORDER_FAILED = "MAKE_ORDER_FAILED";
 
-export function makeOrderAction() {
+export function makeOrderAction(token) {
   return function (dispatch, getState) {
     const orderList = getListOrder(
       getState().burgerConstructorTargetReducer.ingredientsForConstructor
@@ -18,6 +18,7 @@ export function makeOrderAction() {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
+        authorization: token,
       },
       body: JSON.stringify({
         ingredients: orderList,

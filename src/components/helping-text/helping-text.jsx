@@ -1,4 +1,5 @@
 import styles from "./helping-text.module.css";
+import PropTypes from "prop-types";
 
 export default function HelpingText({ route }) {
   switch (route) {
@@ -14,3 +15,7 @@ export default function HelpingText({ route }) {
       return;
   }
 }
+
+HelpingText.propTypes = {
+  route: PropTypes.string.isRequired,
+};

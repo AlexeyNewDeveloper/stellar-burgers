@@ -11,7 +11,7 @@ import {
   CLOSE_POPUP,
 } from "../../services/actions/popupDetailInfoAction";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import IngredientDetails from "../ingredients-detail/ingredients-detail";
+import { useSelector } from "react-redux";
 
 const withModal =
   ({
@@ -21,13 +21,14 @@ const withModal =
     ContainerComponent = Modal,
   }) =>
   (props) => {
-    const { detailInfo, ...otherProps } = props;
+    const { detailInfo, orderButton, ...otherProps } = props;
     const [openPopup, setOpenPopup] = React.useState(false);
+    const { user } = useSelector((state) => state.userReducer);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const openPopupCallback = () => {
-      setOpenPopup(true);
+      user ? setOpenPopup(true) : navigate("/login", { state: { from: "/" } });
       if (detailInfo) {
         dispatch({ type: OPEN_POPUP, modalData: detailInfo });
         navigate(`/ingredients/${props.item["_id"]}`);
@@ -42,6 +43,8 @@ const withModal =
       }
     };
 
+    const modalRoutePath = orderButton ? "*" : "/ingredients/:id";
+
     return (
       <>
         <WrappedComponent {...otherProps} onClick={openPopupCallback}>
@@ -49,7 +52,7 @@ const withModal =
         </WrappedComponent>
         <Routes>
           <Route
-            path="/ingredients/:id"
+            path={`${modalRoutePath}`}
             element={
               <>
                 {openPopup &&
@@ -76,6 +79,7 @@ withModal.propTypes = {
     PropTypes.element.isRequired,
   ]).isRequired,
   detailInfo: propTypesForItemDetailInfo,
+  orderButton: PropTypes.bool,
 };
 
 export default withModal;

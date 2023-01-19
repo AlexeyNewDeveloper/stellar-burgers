@@ -4,6 +4,7 @@ import ConstructorIngredient from "../constructor-ingredient/constructor-ingredi
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import { ADD_INGREDIENT } from "../../services/actions/burgerConstructorTargetAction";
+import { v4 as uuidv4 } from "uuid";
 
 export default function ConstructorArea() {
   const dispatch = useDispatch();
@@ -59,7 +60,7 @@ export default function ConstructorArea() {
         {ingredients.length !== 0 &&
           ingredients.map((item, index) => {
             return (
-              <ConstructorIngredient key={index} item={item} index={index} /> // сделать для key uuid, а не index
+              <ConstructorIngredient key={uuidv4()} item={item} index={index} /> // сделать для key uuid, а не index
             );
           })}
       </ul>

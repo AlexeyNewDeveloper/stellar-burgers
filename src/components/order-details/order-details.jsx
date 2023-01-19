@@ -3,21 +3,30 @@ import styles from "./order-details.module.css";
 import Spinner from "../spinner/spinner";
 import { useSelector, useDispatch } from "react-redux";
 import { makeOrderAction } from "../../services/actions/makeOrderAction";
+import { updateAccessTokenAction } from "../../services/actions/userAction";
 
 export default function OrderDetails() {
   const { orderObj, makeOrderRequest, makeOrderFailed } = useSelector(
     (state) => state.makeOrderReducer
   );
+  const { user } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(makeOrderAction());
-  }, []);
+    if (makeOrderFailed) {
+      dispatch(
+        updateAccessTokenAction(
+          JSON.parse(sessionStorage.getItem("user")).refreshToken
+        )
+      );
+    }
+    dispatch(makeOrderAction(user.accessToken));
+  }, [makeOrderFailed, user.accessToken]);
 
   return (
     <>
       {makeOrderRequest && <Spinner />}
-      {makeOrderFailed && "Ошибка"}
+      {makeOrderFailed && "Ошибка, пробую еще раз..."}
       <p className="text text_type_digits-large mb-8">{orderObj.number}</p>
       <p className="text text_type_main-medium mb-15">Идентификатор заказа</p>
       <div className={`${styles.icon_complete} mb-15`}></div>
