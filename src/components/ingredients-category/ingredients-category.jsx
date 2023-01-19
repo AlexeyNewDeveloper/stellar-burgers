@@ -6,7 +6,7 @@ import IngredientDetails from "../ingredients-detail/ingredients-detail";
 import withModal from "../hocs/withModal";
 import { propTypesForItemObj } from "../../prop-types";
 import { enableObserver } from "../../utils/utils";
-import { Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 const WithModalItemCard = withModal({
   WrappedComponent: ItemCard,
@@ -38,6 +38,7 @@ export default function IngredientsCategory({
       >
         {category}
       </h2>
+
       <ul className={`${styles.items} pt-6 pr-4 pl-4 pb-10`}>
         {arrayOfIngredients.map((item) => {
           return (

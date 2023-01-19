@@ -10,12 +10,14 @@ export const popupDetailInfoReducer = (
       return {
         ...state,
         currentDetailInfoIngredient: action.modalData,
+        openPopup: true,
       };
     }
     case CLOSE_POPUP: {
       return {
         ...state,
         currentDetailInfoIngredient: null,
+        openPopup: false,
       };
     }
     default: {
