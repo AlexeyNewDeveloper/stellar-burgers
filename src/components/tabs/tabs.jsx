@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./tabs.module.css";
+import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TYPE_BUN, TYPE_SAUCE, TYPE_MAIN } from "../../utils/constants";
 
@@ -32,3 +33,7 @@ export default function Tabs({ activeTab }) {
     </div>
   );
 }
+
+Tabs.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+};

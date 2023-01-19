@@ -1,4 +1,5 @@
 import styles from "./ingredients-detail.module.css";
+import PropTypes from "prop-types";
 import React from "react";
 import { SPECIFICATIONS } from "../../utils/constants";
 import { useSelector, useDispatch } from "react-redux";
@@ -67,3 +68,7 @@ export default function IngredientDetails({ noModal }) {
         </>
       );
 }
+
+IngredientDetails.propTypes = {
+  noModal: PropTypes.bool.isRequired,
+};
