@@ -12,6 +12,7 @@ import {
 import styles from "./app.module.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route/protected-route";
+import { useSelector } from "react-redux";
 
 function App() {
   return (

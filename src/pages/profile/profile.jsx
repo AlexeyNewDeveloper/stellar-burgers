@@ -13,16 +13,17 @@ import {
   updateAccessTokenAction,
   updateUserDataAction,
 } from "../../services/actions/userAction";
+import { UPDATE_TOKEN_INITIAL_STATE } from "../../services/actions/userAction";
 // import { getCookie } from "../../utils/utils";
 
 export default function Profile() {
-  const updatedFields = {};
   const [value, setValue] = React.useState({
     password: { changed: false, value: "" },
     email: { changed: false, value: "" },
     name: { changed: false, value: "" },
   });
   const [updatingUserData, setUpdatingUserData] = React.useState(false);
+  const [updatedFields, setUpdatedFields] = React.useState({});
   const [changed, setChanged] = React.useState(false);
   const dispatch = useDispatch();
   const {
@@ -32,49 +33,74 @@ export default function Profile() {
     updateUserDataRequestFailed,
     updateUserDataRequest,
     updateUserDataSuccess,
+    updateTokenRequestSuccess,
+    editableDataRequestSuccess,
   } = useSelector((state) => state.userReducer);
 
   React.useEffect(() => {
-    if (editableDataRequestFailed || updateUserDataRequestFailed) {
-      dispatch(
-        updateAccessTokenAction(
-          JSON.parse(sessionStorage.getItem("user")).refreshToken
-        )
-      );
-    }
-    if (!editableUser) {
-      dispatch(getUserDataAction(user.accessToken));
-    }
-    if (editableUser) {
+    if (editableUser && !updatingUserData) {
       setValue({
         password: { ...value.password, value: "password" },
         email: { ...value.email, value: editableUser.user.email },
         name: { ...value.name, value: editableUser.user.name },
       });
     }
-    if (!updateUserDataSuccess && updatingUserData) {
-      dispatch(updateUserDataAction(updatedFields, user.accessToken));
-    }
-    if (updateUserDataSuccess) {
+
+    if (updateUserDataSuccess && updatingUserData) {
       setUpdatingUserData(false);
     }
+
+    if (
+      !editableUser &&
+      (!editableDataRequestFailed || updateTokenRequestSuccess)
+    ) {
+      dispatch(getUserDataAction(user.accessToken));
+    }
+
+    if (
+      !updateUserDataSuccess &&
+      updatingUserData &&
+      updateTokenRequestSuccess
+    ) {
+      dispatch(updateUserDataAction(updatedFields, user.accessToken));
+    }
+
+    if (
+      updateTokenRequestSuccess &&
+      (updateUserDataSuccess || !editableDataRequestFailed)
+    ) {
+      dispatch({ type: UPDATE_TOKEN_INITIAL_STATE });
+    }
+
+    if (
+      (editableDataRequestFailed || updateUserDataRequestFailed) &&
+      !updateTokenRequestSuccess
+    ) {
+      dispatch(
+        updateAccessTokenAction(
+          JSON.parse(sessionStorage.getItem("user")).refreshToken
+        )
+      );
+    }
   }, [
-    editableUser,
-    user.accessToken,
-    updateUserDataSuccess,
-    // updatingUserData,
-    updateUserDataRequestFailed,
+    editableDataRequestSuccess,
+    updateTokenRequestSuccess,
     editableDataRequestFailed,
+    updateUserDataRequestFailed,
+    updatingUserData,
   ]);
 
   const editUserData = (e) => {
     e.preventDefault();
+    const updatedFieldsTempObj = {};
     for (const [field, fieldValue] of Object.entries(value)) {
       if (fieldValue.changed) {
-        updatedFields[field] = fieldValue.value;
+        updatedFieldsTempObj[field] = fieldValue.value;
       }
     }
-    dispatch(updateUserDataAction(updatedFields, user.accessToken));
+
+    dispatch(updateUserDataAction(updatedFieldsTempObj, user.accessToken));
+    setUpdatedFields(updatedFieldsTempObj);
     setUpdatingUserData(true);
     setChanged(false);
   };
