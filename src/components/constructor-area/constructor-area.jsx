@@ -5,12 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import { ADD_INGREDIENT } from "../../services/actions/burgerConstructorTargetAction";
 import { v4 as uuidv4 } from "uuid";
+import { getBurgerConstructorTargetState } from "../../services/selectors/burgerConstructorTargetStateSelector";
 
 export default function ConstructorArea() {
   const dispatch = useDispatch();
-  const { ingredients, bun } = useSelector(
-    (state) => state.burgerConstructorTargetReducer.ingredientsForConstructor
-  );
+  const { ingredients, bun } = useSelector(getBurgerConstructorTargetState);
 
   const [{ isHover }, dropRef] = useDrop({
     accept: "ingredient",

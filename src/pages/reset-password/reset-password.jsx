@@ -10,17 +10,17 @@ import { resetPasswordAction } from "../../services/actions/resetPasswordAction"
 import { useSelector, useDispatch } from "react-redux";
 import { RESET_PASSWORD_INITIAL_STATE } from "../../services/actions/resetPasswordAction";
 import { FORGOT_PASSWORD_INITIAL_STATE } from "../../services/actions/forgotPasswordAction";
+import { getResetPasswordState } from "../../services/selectors/resetPasswordStateSelector";
+import { getForgotPasswordState } from "../../services/selectors/forgotPasswordStateSelector";
 
 export default function ResetPassword() {
   const [value, setValue] = React.useState({ password: "", token: "" });
   const [resetSuccess, setResetSuccess] = React.useState(false);
   const dispatch = useDispatch();
   const { resetPasswordRequest, resetPasswordRequestSuccess } = useSelector(
-    (state) => state.resetPasswordReducer
+    getResetPasswordState
   );
-  const { forgotPasswordRequestSuccess } = useSelector(
-    (state) => state.forgotPasswordReducer
-  );
+  const { forgotPasswordRequestSuccess } = useSelector(getForgotPasswordState);
 
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });

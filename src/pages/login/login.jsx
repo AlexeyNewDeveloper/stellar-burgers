@@ -8,12 +8,11 @@ import {
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../services/actions/loginAction";
+import { getLoginState } from "../../services/selectors/loginStateSelector";
 
 export default function Login() {
   const [value, setValue] = React.useState({ email: "", password: "" });
-  const { loginRequest, loginRequestFailed } = useSelector(
-    (state) => state.loginReducer
-  );
+  const { loginRequest, loginRequestFailed } = useSelector(getLoginState);
   const dispatch = useDispatch();
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });

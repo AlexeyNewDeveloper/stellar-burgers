@@ -6,11 +6,12 @@ import OrderHistory from "../order-history/order-history";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../services/actions/userAction";
 import HelpingText from "../../components/helping-text/helping-text";
+import { getUserState } from "../../services/selectors/userStateSelectors";
 
 export default function PersonalAccount() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.userReducer);
+  const { user } = useSelector(getUserState);
   const logout = () => {
     dispatch(logoutAction(user.refreshToken));
   };

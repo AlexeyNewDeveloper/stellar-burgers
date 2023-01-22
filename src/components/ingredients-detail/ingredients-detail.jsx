@@ -5,14 +5,12 @@ import { SPECIFICATIONS } from "../../utils/constants";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
+import { getPopupDetailInfoState } from "../../services/selectors/popupDetailInfoStateSelector";
+import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
 
 export default function IngredientDetails({ noModal }) {
-  const { currentDetailInfoIngredient } = useSelector(
-    (state) => state.popupDetailInfoReducer
-  );
-  const { ingredients, ingredientsRequest } = useSelector(
-    (state) => state.getIngredientsReducer
-  );
+  const { currentDetailInfoIngredient } = useSelector(getPopupDetailInfoState);
+  const { ingredients, ingredientsRequest } = useSelector(getIngredientsState);
   const { id } = useParams();
   const dispatch = useDispatch();
 

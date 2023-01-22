@@ -12,6 +12,7 @@ import {
 } from "../../services/actions/popupDetailInfoAction";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getUserState } from "../../services/selectors/userStateSelectors";
 
 const withModal =
   ({
@@ -23,7 +24,7 @@ const withModal =
   (props) => {
     const { detailInfo, orderButton, ...otherProps } = props;
     const [openPopup, setOpenPopup] = React.useState(false);
-    const { user } = useSelector((state) => state.userReducer);
+    const { user } = useSelector(getUserState);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

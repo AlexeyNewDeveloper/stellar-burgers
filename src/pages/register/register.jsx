@@ -9,6 +9,7 @@ import {
 import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerAction } from "../../services/actions/registerAction";
+import { getRegisterState } from "../../services/selectors/registerStateSelector";
 
 export default function Register() {
   const [value, setValue] = React.useState({
@@ -16,12 +17,9 @@ export default function Register() {
     email: "",
     password: "",
   });
-  const { registerRequest, registerRequestFailed } = useSelector(
-    (state) => state.registerReducer
-  );
-  const { registerRequestSuccess } = useSelector(
-    (state) => state.registerReducer
-  );
+  const { registerRequest, registerRequestFailed, registerRequestSuccess } =
+    useSelector(getRegisterState);
+
   const dispatch = useDispatch();
 
   const onChange = (e) => {

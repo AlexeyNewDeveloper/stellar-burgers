@@ -8,6 +8,7 @@ import OrderDetails from "../order-details/order-details";
 import ConstructorArea from "../constructor-area/constructor-area";
 import { useSelector } from "react-redux";
 import { calcTotalPrice } from "../../utils/utils";
+import { getBurgerConstructorTargetState } from "../../services/selectors/burgerConstructorTargetStateSelector";
 
 const PlaceOrderButton = withModal({
   WrappedComponent: Button,
@@ -15,9 +16,7 @@ const PlaceOrderButton = withModal({
 });
 
 export default function BurgerConstructor() {
-  const { ingredients, bun } = useSelector(
-    (state) => state.burgerConstructorTargetReducer.ingredientsForConstructor
-  );
+  const { ingredients, bun } = useSelector(getBurgerConstructorTargetState);
 
   const totalPrice = calcTotalPrice(ingredients, bun);
 

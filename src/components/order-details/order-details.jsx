@@ -4,12 +4,13 @@ import Spinner from "../spinner/spinner";
 import { useSelector, useDispatch } from "react-redux";
 import { makeOrderAction } from "../../services/actions/makeOrderAction";
 import { updateAccessTokenAction } from "../../services/actions/userAction";
+import { getUserState } from "../../services/selectors/userStateSelectors";
 
 export default function OrderDetails() {
   const { orderObj, makeOrderRequest, makeOrderFailed } = useSelector(
     (state) => state.makeOrderReducer
   );
-  const { user } = useSelector((state) => state.userReducer);
+  const { user } = useSelector(getUserState);
   const dispatch = useDispatch();
 
   React.useEffect(() => {

@@ -1,9 +1,10 @@
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { getUserState } from "../../services/selectors/userStateSelectors";
 
 export function ProtectedRoute({ protectedElement, authorized }) {
-  const { user } = useSelector((state) => state.userReducer);
+  const { user } = useSelector(getUserState);
 
   if (authorized) {
     return <>{user ? <Navigate to="/" /> : protectedElement}</>;

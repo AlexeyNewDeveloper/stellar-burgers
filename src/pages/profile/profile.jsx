@@ -13,7 +13,7 @@ import {
   updateUserDataAction,
 } from "../../services/actions/userAction";
 import { UPDATE_TOKEN_INITIAL_STATE } from "../../services/actions/userAction";
-// import { getCookie } from "../../utils/utils";
+import { getUserState } from "../../services/selectors/userStateSelectors";
 
 export default function Profile() {
   const [value, setValue] = React.useState({
@@ -34,7 +34,7 @@ export default function Profile() {
     updateUserDataSuccess,
     updateTokenRequestSuccess,
     editableDataRequestSuccess,
-  } = useSelector((state) => state.userReducer);
+  } = useSelector(getUserState);
 
   React.useEffect(() => {
     if (editableUser && !updatingUserData) {

@@ -7,13 +7,14 @@ import {
 import { Link, Navigate } from "react-router-dom";
 import { forgotPasswordAction } from "../../services/actions/forgotPasswordAction";
 import { useSelector, useDispatch } from "react-redux";
+import { getForgotPasswordState } from "../../services/selectors/forgotPasswordStateSelector";
 
 export default function ForgotPassword() {
   const [value, setValue] = React.useState({ email: "" });
   const [redirect, setRedirect] = React.useState(false);
   const dispatch = useDispatch();
   const { forgotPasswordRequest, forgotPasswordRequestSuccess } = useSelector(
-    (state) => state.forgotPasswordReducer
+    getForgotPasswordState
   );
 
   React.useEffect(() => {
