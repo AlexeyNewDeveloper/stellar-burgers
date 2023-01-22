@@ -10,6 +10,7 @@ export const GET_EDITABLE_DATA = "GET_EDITABLE_DATA";
 export const USER_EDITABLE_DATA_REQUEST = "USER_EDITABLE_DATA_REQUEST";
 export const USER_EDITABLE_DATA_REQUEST_FAILED =
   "USER_EDITABLE_DATA_REQUEST_FAILED";
+export const UPDATE_TOKEN_INITIAL_STATE = "UPDATE_TOKEN_INITIAL_STATE";
 export const UPDATE_ACCESS_TOKEN = "UPDATE_ACCESS_TOKEN";
 export const UPDATE_ACCESS_TOKEN_REQUEST = "UPDATE_ACCESS_TOKEN_REQUEST";
 export const UPDATE_ACCESS_TOKEN_REQUEST_FAILED =
@@ -89,11 +90,9 @@ export function getUserDataAction(accessToken) {
 
 export function updateAccessTokenAction(refreshToken) {
   return function (dispatch) {
-    console.log("Пытаюсь получить новый токен");
     dispatch({
       type: UPDATE_ACCESS_TOKEN_REQUEST,
     });
-    console.log("Отсылаю рефреш токен", refreshToken);
     fetch(`${URL_FOR_GET_DATA}/auth/token`, {
       method: "POST",
       mode: "cors",
@@ -111,9 +110,6 @@ export function updateAccessTokenAction(refreshToken) {
       .then(checkResponse)
       .then((res) => {
         if (res.success) {
-          console.log(
-            `Токен получен. Новое значение главного токена: ${res.accessToken}`
-          );
           dispatch({
             type: UPDATE_ACCESS_TOKEN,
             accessToken: res.accessToken,
@@ -128,9 +124,6 @@ export function updateAccessTokenAction(refreshToken) {
             })
           );
           // setCookie("refreshToken", res.refreshToken);
-          console.log(
-            `Смотрим, что в сессии: ${sessionStorage.getItem("user")}`
-          );
         } else {
           dispatch({ type: UPDATE_ACCESS_TOKEN_REQUEST_FAILED });
         }

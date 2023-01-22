@@ -6,6 +6,7 @@ import {
   GET_EDITABLE_DATA,
   USER_EDITABLE_DATA_REQUEST,
   USER_EDITABLE_DATA_REQUEST_FAILED,
+  UPDATE_TOKEN_INITIAL_STATE,
   UPDATE_ACCESS_TOKEN,
   UPDATE_ACCESS_TOKEN_REQUEST,
   UPDATE_ACCESS_TOKEN_REQUEST_FAILED,
@@ -14,7 +15,6 @@ import {
   UPDATE_USER_DATA_REQUEST_FAILED,
 } from "../actions/userAction";
 import { userInitialState } from "../states/userState";
-import { getCookie, setCookie } from "../../utils/utils";
 
 export const userReducer = (state = userInitialState, action) => {
   switch (action.type) {
@@ -41,18 +41,21 @@ export const userReducer = (state = userInitialState, action) => {
       };
     }
     case LOGOUT_USER: {
+      const initialUserState = {};
+      for (const key in state) {
+        initialUserState[key] = false;
+      }
       return {
-        ...state,
+        ...initialUserState,
         user: null,
         editableUser: null,
-        userRequest: false,
-        userRequestFailed: false,
       };
     }
     case GET_EDITABLE_DATA: {
       return {
         ...state,
         editableUser: action.editableUser,
+        editableDataRequestSuccess: true,
         editableDataRequest: false,
         editableDataRequestFailed: false,
       };
@@ -61,6 +64,7 @@ export const userReducer = (state = userInitialState, action) => {
       return {
         ...state,
         editableDataRequest: true,
+        editableDataRequestSuccess: false,
         editableDataRequestFailed: false,
       };
     }
@@ -68,7 +72,16 @@ export const userReducer = (state = userInitialState, action) => {
       return {
         ...state,
         editableDataRequest: false,
+        editableDataRequestSuccess: false,
         editableDataRequestFailed: true,
+      };
+    }
+    case UPDATE_TOKEN_INITIAL_STATE: {
+      return {
+        ...state,
+        updateTokenRequestSuccess: false,
+        updateTokenRequest: false,
+        updateTokenRequestFailed: false,
       };
     }
     case UPDATE_ACCESS_TOKEN: {
@@ -79,6 +92,7 @@ export const userReducer = (state = userInitialState, action) => {
           accessToken: action.accessToken,
           refreshToken: action.refreshToken,
         },
+        updateTokenRequestSuccess: true,
         updateTokenRequest: false,
         updateTokenRequestFailed: false,
       };
@@ -88,12 +102,14 @@ export const userReducer = (state = userInitialState, action) => {
         ...state,
         updateTokenRequest: true,
         updateTokenRequestFailed: false,
+        updateTokenRequestSuccess: false,
       };
     }
     case UPDATE_ACCESS_TOKEN_REQUEST_FAILED: {
       return {
         ...state,
         updateTokenRequest: false,
+        updateTokenRequestSuccess: false,
         updateTokenRequestFailed: true,
       };
     }

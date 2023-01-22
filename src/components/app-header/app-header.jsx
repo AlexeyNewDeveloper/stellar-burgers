@@ -8,9 +8,10 @@ import {
 import MenuItem from "../menu-item/menu-item";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getUserState } from "../../services/selectors/userStateSelectors";
 
 function AppHeader() {
-  const { user } = useSelector((state) => state.userReducer);
+  const { user } = useSelector(getUserState);
 
   return (
     <header className={`${styles.header} pt-4 pb-4`}>

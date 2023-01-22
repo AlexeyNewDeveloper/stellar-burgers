@@ -1,4 +1,3 @@
-import React from "react";
 import AppHeader from "../app-header/app-header";
 import Content from "../content/content";
 import {

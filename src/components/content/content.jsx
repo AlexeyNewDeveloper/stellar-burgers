@@ -6,9 +6,10 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import IngredientDetails from "../ingredients-detail/ingredients-detail";
+import { getPopupDetailInfoState } from "../../services/selectors/popupDetailInfoStateSelector";
 
 export default function Content() {
-  const { openPopup } = useSelector((state) => state.popupDetailInfoReducer);
+  const { openPopup } = useSelector(getPopupDetailInfoState);
 
   return (
     <Routes>

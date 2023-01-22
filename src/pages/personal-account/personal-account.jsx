@@ -1,28 +1,17 @@
 import styles from "./personal-account.module.css";
-import {
-  PasswordInput,
-  Input,
-  EmailInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  NavLink,
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+
+import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import Profile from "../profile/profile";
 import OrderHistory from "../order-history/order-history";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../services/actions/userAction";
 import HelpingText from "../../components/helping-text/helping-text";
+import { getUserState } from "../../services/selectors/userStateSelectors";
 
 export default function PersonalAccount() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { user, userRequest, userRequestFailed } = useSelector(
-    (state) => state.userReducer
-  );
+  const { user } = useSelector(getUserState);
   const logout = () => {
     dispatch(logoutAction(user.refreshToken));
   };

@@ -6,23 +6,23 @@ import {
   EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUserDataAction,
   updateAccessTokenAction,
   updateUserDataAction,
 } from "../../services/actions/userAction";
-// import { getCookie } from "../../utils/utils";
+import { UPDATE_TOKEN_INITIAL_STATE } from "../../services/actions/userAction";
+import { getUserState } from "../../services/selectors/userStateSelectors";
 
 export default function Profile() {
-  const updatedFields = {};
   const [value, setValue] = React.useState({
     password: { changed: false, value: "" },
     email: { changed: false, value: "" },
     name: { changed: false, value: "" },
   });
   const [updatingUserData, setUpdatingUserData] = React.useState(false);
+  const [updatedFields, setUpdatedFields] = React.useState({});
   const [changed, setChanged] = React.useState(false);
   const dispatch = useDispatch();
   const {
@@ -32,51 +32,79 @@ export default function Profile() {
     updateUserDataRequestFailed,
     updateUserDataRequest,
     updateUserDataSuccess,
-  } = useSelector((state) => state.userReducer);
+    updateTokenRequestSuccess,
+    editableDataRequestSuccess,
+  } = useSelector(getUserState);
 
   React.useEffect(() => {
-    if (editableDataRequestFailed || updateUserDataRequestFailed) {
-      dispatch(
-        updateAccessTokenAction(
-          JSON.parse(sessionStorage.getItem("user")).refreshToken
-        )
-      );
-    }
-    if (!editableUser) {
-      dispatch(getUserDataAction(user.accessToken));
-    }
-    if (editableUser) {
+    if (editableUser && !updatingUserData) {
       setValue({
         password: { ...value.password, value: "password" },
         email: { ...value.email, value: editableUser.user.email },
         name: { ...value.name, value: editableUser.user.name },
       });
     }
-    if (!updateUserDataSuccess && updatingUserData) {
-      dispatch(updateUserDataAction(updatedFields, user.accessToken));
-    }
-    if (updateUserDataSuccess) {
+
+    if (updateUserDataSuccess && updatingUserData) {
       setUpdatingUserData(false);
     }
+
+    if (
+      !editableUser &&
+      (!editableDataRequestFailed || updateTokenRequestSuccess)
+    ) {
+      dispatch(getUserDataAction(user.accessToken));
+    }
+
+    if (
+      !updateUserDataSuccess &&
+      updatingUserData &&
+      updateTokenRequestSuccess
+    ) {
+      dispatch(updateUserDataAction(updatedFields, user.accessToken));
+    }
+
+    if (
+      updateTokenRequestSuccess &&
+      (updateUserDataSuccess || !editableDataRequestFailed)
+    ) {
+      dispatch({ type: UPDATE_TOKEN_INITIAL_STATE });
+    }
+
+    if (
+      (editableDataRequestFailed || updateUserDataRequestFailed) &&
+      !updateTokenRequestSuccess
+    ) {
+      dispatch(
+        updateAccessTokenAction(
+          JSON.parse(sessionStorage.getItem("user")).refreshToken
+        )
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    editableUser,
-    user.accessToken,
-    updateUserDataSuccess,
-    // updatingUserData,
-    updateUserDataRequestFailed,
+    editableDataRequestSuccess,
+    updateTokenRequestSuccess,
     editableDataRequestFailed,
+    updateUserDataRequestFailed,
+    updatingUserData,
   ]);
 
   const editUserData = (e) => {
     e.preventDefault();
+    const updatedFieldsTempObj = {};
     for (const [field, fieldValue] of Object.entries(value)) {
       if (fieldValue.changed) {
-        updatedFields[field] = fieldValue.value;
+        updatedFieldsTempObj[field] = fieldValue.value;
       }
     }
-    dispatch(updateUserDataAction(updatedFields, user.accessToken));
+
+    dispatch(updateUserDataAction(updatedFieldsTempObj, user.accessToken));
+    setUpdatedFields(updatedFieldsTempObj);
     setUpdatingUserData(true);
     setChanged(false);
+
+    return false;
   };
 
   const cancelChanges = (e) => {
@@ -99,7 +127,7 @@ export default function Profile() {
     });
   };
   return (
-    <form>
+    <form onSubmit={editUserData}>
       <Input
         type="text"
         placeholder="Имя"
@@ -132,7 +160,7 @@ export default function Profile() {
       />
       <div className={styles.button_container}>
         <Button
-          htmlType="submit"
+          htmlType="button"
           type="secondary"
           size="medium"
           extraClass={styles.button_cancel}
@@ -146,7 +174,6 @@ export default function Profile() {
           type="primary"
           size="medium"
           disabled={!editableUser || !changed}
-          onClick={editUserData}
         >
           {updateUserDataRequest ? "Сохраняю..." : "Сохранить"}
         </Button>

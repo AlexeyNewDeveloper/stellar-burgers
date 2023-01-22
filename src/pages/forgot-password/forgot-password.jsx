@@ -7,16 +7,15 @@ import {
 import { Link, Navigate } from "react-router-dom";
 import { forgotPasswordAction } from "../../services/actions/forgotPasswordAction";
 import { useSelector, useDispatch } from "react-redux";
+import { getForgotPasswordState } from "../../services/selectors/forgotPasswordStateSelector";
 
 export default function ForgotPassword() {
   const [value, setValue] = React.useState({ email: "" });
   const [redirect, setRedirect] = React.useState(false);
   const dispatch = useDispatch();
-  const {
-    forgotPasswordRequest,
-    forgotPasswordRequestSuccess,
-    forgotPasswordRequestFailed,
-  } = useSelector((state) => state.forgotPasswordReducer);
+  const { forgotPasswordRequest, forgotPasswordRequestSuccess } = useSelector(
+    getForgotPasswordState
+  );
 
   React.useEffect(() => {
     if (forgotPasswordRequestSuccess) {
@@ -32,6 +31,7 @@ export default function ForgotPassword() {
   const getNewPassword = (e) => {
     e.preventDefault();
     dispatch(forgotPasswordAction(value.email));
+    return false;
   };
 
   return (
@@ -48,7 +48,7 @@ export default function ForgotPassword() {
           </div>
         ) : (
           <>
-            <form>
+            <form onSubmit={getNewPassword}>
               <fieldset className={styles.fieldset}>
                 <legend className={styles.title}>Восстановление пароля</legend>
                 <EmailInput
@@ -63,7 +63,6 @@ export default function ForgotPassword() {
                   type="primary"
                   size="medium"
                   extraClass={styles.button}
-                  onClick={getNewPassword}
                 >
                   {forgotPasswordRequest ? "Загрузка..." : "Восстановить"}
                 </Button>

@@ -9,11 +9,10 @@ import { propTypesForItemObj } from "../../prop-types";
 import { useDrag } from "react-dnd/dist/hooks";
 import { useSelector } from "react-redux";
 import { countItems } from "../../utils/utils";
+import { getBurgerConstructorTargetState } from "../../services/selectors/burgerConstructorTargetStateSelector";
 
 function ItemCard({ item, onClick }) {
-  const { ingredients, bun } = useSelector(
-    (state) => state.burgerConstructorTargetReducer.ingredientsForConstructor
-  );
+  const { ingredients, bun } = useSelector(getBurgerConstructorTargetState);
 
   const countedItems =
     ingredients.length || bun ? countItems(ingredients, bun) : {};

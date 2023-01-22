@@ -5,16 +5,14 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../services/actions/loginAction";
+import { getLoginState } from "../../services/selectors/loginStateSelector";
 
 export default function Login() {
   const [value, setValue] = React.useState({ email: "", password: "" });
-  const { loginRequest, loginRequestFailed } = useSelector(
-    (state) => state.loginReducer
-  );
-  const { user } = useSelector((state) => state.userReducer);
+  const { loginRequest, loginRequestFailed } = useSelector(getLoginState);
   const dispatch = useDispatch();
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
@@ -23,6 +21,7 @@ export default function Login() {
   const loginCallback = (e) => {
     e.preventDefault();
     dispatch(loginAction(value));
+    return false;
   };
 
   return loginRequestFailed ? (
@@ -30,7 +29,7 @@ export default function Login() {
   ) : (
     <section className={styles.container}>
       <div className={styles.content}>
-        <form>
+        <form onSubmit={loginCallback}>
           <fieldset className={styles.fieldset}>
             <legend className={styles.title}>Вход</legend>
             <EmailInput
@@ -50,7 +49,6 @@ export default function Login() {
               type="primary"
               size="medium"
               extraClass={styles.button}
-              onClick={loginCallback}
             >
               {loginRequest ? "Загрузка" : "Войти"}
             </Button>

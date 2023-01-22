@@ -9,6 +9,7 @@ import {
 import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerAction } from "../../services/actions/registerAction";
+import { getRegisterState } from "../../services/selectors/registerStateSelector";
 
 export default function Register() {
   const [value, setValue] = React.useState({
@@ -16,12 +17,9 @@ export default function Register() {
     email: "",
     password: "",
   });
-  const { registerRequest, registerRequestFailed } = useSelector(
-    (state) => state.registerReducer
-  );
-  const { registerRequestSuccess } = useSelector(
-    (state) => state.registerReducer
-  );
+  const { registerRequest, registerRequestFailed, registerRequestSuccess } =
+    useSelector(getRegisterState);
+
   const dispatch = useDispatch();
 
   const onChange = (e) => {
@@ -31,6 +29,7 @@ export default function Register() {
   const registerCallback = (e) => {
     e.preventDefault();
     dispatch(registerAction(value));
+    return false;
   };
 
   return registerRequestFailed ? (
@@ -40,7 +39,7 @@ export default function Register() {
   ) : (
     <section className={styles.container}>
       <div className={styles.content}>
-        <form>
+        <form onSubmit={registerCallback}>
           <fieldset className={styles.fieldset}>
             <legend className={styles.title}>Регистрация</legend>
             <Input
@@ -68,7 +67,6 @@ export default function Register() {
               type="primary"
               size="medium"
               extraClass={styles.button}
-              onClick={registerCallback}
             >
               {registerRequest ? "Загрузка..." : "Зарегистрироваться"}
             </Button>
