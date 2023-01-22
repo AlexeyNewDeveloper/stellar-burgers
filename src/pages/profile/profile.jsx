@@ -6,7 +6,6 @@ import {
   EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUserDataAction,
@@ -82,6 +81,7 @@ export default function Profile() {
         )
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     editableDataRequestSuccess,
     updateTokenRequestSuccess,

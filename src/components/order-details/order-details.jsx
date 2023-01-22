@@ -21,6 +21,7 @@ export default function OrderDetails() {
       );
     }
     dispatch(makeOrderAction(user.accessToken));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [makeOrderFailed, user.accessToken]);
 
   return (

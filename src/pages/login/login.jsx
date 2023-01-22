@@ -5,7 +5,7 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../services/actions/loginAction";
 
@@ -14,7 +14,6 @@ export default function Login() {
   const { loginRequest, loginRequestFailed } = useSelector(
     (state) => state.loginReducer
   );
-  const { user } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });

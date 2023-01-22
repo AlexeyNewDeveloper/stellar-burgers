@@ -10,7 +10,7 @@ export default function IngredientDetails({ noModal }) {
   const { currentDetailInfoIngredient } = useSelector(
     (state) => state.popupDetailInfoReducer
   );
-  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
+  const { ingredients, ingredientsRequest } = useSelector(
     (state) => state.getIngredientsReducer
   );
   const { id } = useParams();
@@ -20,6 +20,7 @@ export default function IngredientDetails({ noModal }) {
 
   React.useEffect(() => {
     dispatch(getIngredientsAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (noModal && id) {

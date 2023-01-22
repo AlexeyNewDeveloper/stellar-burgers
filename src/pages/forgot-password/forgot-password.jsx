@@ -12,11 +12,9 @@ export default function ForgotPassword() {
   const [value, setValue] = React.useState({ email: "" });
   const [redirect, setRedirect] = React.useState(false);
   const dispatch = useDispatch();
-  const {
-    forgotPasswordRequest,
-    forgotPasswordRequestSuccess,
-    forgotPasswordRequestFailed,
-  } = useSelector((state) => state.forgotPasswordReducer);
+  const { forgotPasswordRequest, forgotPasswordRequestSuccess } = useSelector(
+    (state) => state.forgotPasswordReducer
+  );
 
   React.useEffect(() => {
     if (forgotPasswordRequestSuccess) {

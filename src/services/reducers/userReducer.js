@@ -15,7 +15,6 @@ import {
   UPDATE_USER_DATA_REQUEST_FAILED,
 } from "../actions/userAction";
 import { userInitialState } from "../states/userState";
-import { getCookie, setCookie } from "../../utils/utils";
 
 export const userReducer = (state = userInitialState, action) => {
   switch (action.type) {

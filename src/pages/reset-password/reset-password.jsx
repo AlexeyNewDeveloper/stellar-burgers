@@ -15,13 +15,12 @@ export default function ResetPassword() {
   const [value, setValue] = React.useState({ password: "", token: "" });
   const [resetSuccess, setResetSuccess] = React.useState(false);
   const dispatch = useDispatch();
-  const {
-    resetPasswordRequest,
-    resetPasswordRequestSuccess,
-    resetPasswordRequestFailed,
-  } = useSelector((state) => state.resetPasswordReducer);
-  const { forgotPasswordRequestSuccess, forgotPasswordRequestFailed } =
-    useSelector((state) => state.forgotPasswordReducer);
+  const { resetPasswordRequest, resetPasswordRequestSuccess } = useSelector(
+    (state) => state.resetPasswordReducer
+  );
+  const { forgotPasswordRequestSuccess } = useSelector(
+    (state) => state.forgotPasswordReducer
+  );
 
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
