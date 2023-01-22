@@ -31,6 +31,7 @@ export default function Register() {
   const registerCallback = (e) => {
     e.preventDefault();
     dispatch(registerAction(value));
+    return false;
   };
 
   return registerRequestFailed ? (
@@ -40,7 +41,7 @@ export default function Register() {
   ) : (
     <section className={styles.container}>
       <div className={styles.content}>
-        <form>
+        <form onSubmit={registerCallback}>
           <fieldset className={styles.fieldset}>
             <legend className={styles.title}>Регистрация</legend>
             <Input
@@ -68,7 +69,6 @@ export default function Register() {
               type="primary"
               size="medium"
               extraClass={styles.button}
-              onClick={registerCallback}
             >
               {registerRequest ? "Загрузка..." : "Зарегистрироваться"}
             </Button>

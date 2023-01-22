@@ -23,6 +23,7 @@ export default function Login() {
   const loginCallback = (e) => {
     e.preventDefault();
     dispatch(loginAction(value));
+    return false;
   };
 
   return loginRequestFailed ? (
@@ -30,7 +31,7 @@ export default function Login() {
   ) : (
     <section className={styles.container}>
       <div className={styles.content}>
-        <form>
+        <form onSubmit={loginCallback}>
           <fieldset className={styles.fieldset}>
             <legend className={styles.title}>Вход</legend>
             <EmailInput
@@ -50,7 +51,6 @@ export default function Login() {
               type="primary"
               size="medium"
               extraClass={styles.button}
-              onClick={loginCallback}
             >
               {loginRequest ? "Загрузка" : "Войти"}
             </Button>

@@ -32,6 +32,7 @@ export default function ForgotPassword() {
   const getNewPassword = (e) => {
     e.preventDefault();
     dispatch(forgotPasswordAction(value.email));
+    return false;
   };
 
   return (
@@ -48,7 +49,7 @@ export default function ForgotPassword() {
           </div>
         ) : (
           <>
-            <form>
+            <form onSubmit={getNewPassword}>
               <fieldset className={styles.fieldset}>
                 <legend className={styles.title}>Восстановление пароля</legend>
                 <EmailInput
@@ -63,7 +64,6 @@ export default function ForgotPassword() {
                   type="primary"
                   size="medium"
                   extraClass={styles.button}
-                  onClick={getNewPassword}
                 >
                   {forgotPasswordRequest ? "Загрузка..." : "Восстановить"}
                 </Button>

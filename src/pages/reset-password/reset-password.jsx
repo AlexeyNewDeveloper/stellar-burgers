@@ -32,11 +32,13 @@ export default function ResetPassword() {
     dispatch({ type: FORGOT_PASSWORD_INITIAL_STATE });
     dispatch({ type: RESET_PASSWORD_INITIAL_STATE });
     setResetSuccess(true);
+    return false;
   };
 
   const resetPassword = (e) => {
     e.preventDefault();
     dispatch(resetPasswordAction(value.password, value.token));
+    return false;
   };
 
   if (!forgotPasswordRequestSuccess && !resetSuccess) {
@@ -48,7 +50,11 @@ export default function ResetPassword() {
   ) : (
     <section className={styles.container}>
       <div className={styles.content}>
-        <form>
+        <form
+          onSubmit={
+            !resetPasswordRequestSuccess ? resetPassword : redirectToLogin
+          }
+        >
           <fieldset className={styles.fieldset}>
             <legend className={styles.title}>Восстановление пароля</legend>
             <PasswordInput
@@ -73,9 +79,6 @@ export default function ResetPassword() {
               type="primary"
               size={resetPasswordRequestSuccess ? "large" : "medium"}
               extraClass={styles.button}
-              onClick={
-                !resetPasswordRequestSuccess ? resetPassword : redirectToLogin
-              }
             >
               {resetPasswordRequestSuccess
                 ? "Войти"

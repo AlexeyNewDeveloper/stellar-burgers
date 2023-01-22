@@ -103,6 +103,8 @@ export default function Profile() {
     setUpdatedFields(updatedFieldsTempObj);
     setUpdatingUserData(true);
     setChanged(false);
+
+    return false;
   };
 
   const cancelChanges = (e) => {
@@ -125,7 +127,7 @@ export default function Profile() {
     });
   };
   return (
-    <form>
+    <form onSubmit={editUserData}>
       <Input
         type="text"
         placeholder="Имя"
@@ -158,7 +160,7 @@ export default function Profile() {
       />
       <div className={styles.button_container}>
         <Button
-          htmlType="submit"
+          htmlType="button"
           type="secondary"
           size="medium"
           extraClass={styles.button_cancel}
@@ -172,7 +174,6 @@ export default function Profile() {
           type="primary"
           size="medium"
           disabled={!editableUser || !changed}
-          onClick={editUserData}
         >
           {updateUserDataRequest ? "Сохраняю..." : "Сохранить"}
         </Button>
