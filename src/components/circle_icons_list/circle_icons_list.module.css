@@ -1,0 +1,30 @@
+.is_last_container {
+  background-color: #1c1c21;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.is_last_opacity_icon {
+  opacity: 0.6;
+}
+
+.number_after {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.circle_gradient_container {
+  background: linear-gradient(#801ab2, #4c4cff);
+  border-radius: 50%;
+  block-size: 64px;
+  inline-size: 64px;
+  padding: 2px;
+  box-sizing: border-box;
+  position: absolute;
+}
+
+.number_after {
+  position: absolute;
+}

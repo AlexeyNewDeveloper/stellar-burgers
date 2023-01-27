@@ -1,0 +1,12 @@
+.list_order_numbers {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+}
+
+.two_columns_for_list {
+  column-count: 2;
+}
