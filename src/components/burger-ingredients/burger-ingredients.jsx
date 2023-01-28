@@ -7,12 +7,12 @@ import { filterIngredients } from "../../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
 import { TYPE_BUN } from "../../utils/constants";
+import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
 
 export default function BurgerIngredients() {
   const [activeTab, setActiveTab] = React.useState(TYPE_BUN);
-  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
-    (state) => state.getIngredientsReducer
-  );
+  const { ingredients, ingredientsRequest, ingredientsFailed } =
+    useSelector(getIngredientsState);
   const dispatch = useDispatch();
 
   React.useEffect(() => {

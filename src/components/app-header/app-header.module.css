@@ -46,6 +46,15 @@
   color: #f2f2f3;
 }
 
-.primary_item {
+.item-link {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.item-text-active {
   color: #f2f2f3;
 }

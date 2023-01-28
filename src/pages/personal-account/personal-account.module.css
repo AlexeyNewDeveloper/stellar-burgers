@@ -1,0 +1,50 @@
+.container {
+  width: 100%;
+  max-width: 1920px;
+  padding-left: 340px;
+  margin-top: 120px;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.items {
+  margin: 0;
+  margin-bottom: 80px;
+  list-style: none;
+  padding: 0;
+}
+
+.wrapper_item {
+  margin-right: 60px;
+  max-inline-size: 320px;
+  inline-size: 100%;
+}
+
+.item {
+  min-block-size: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  color: #8585ad;
+  text-decoration: none;
+}
+.link:hover {
+  color: #f2f2f3;
+}
+
+.active_link {
+  color: #f2f2f3;
+}
+
+.button_logout {
+}
+
+.button_logout:hover {
+  cursor: pointer;
+  color: #f2f2f3;
+}

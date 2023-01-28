@@ -1,0 +1,56 @@
+.container {
+  block-size: 100%;
+  inline-size: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  margin-top: 180px;
+  inline-size: 100%;
+  max-inline-size: 480px;
+}
+
+.fieldset {
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  line-height: 30px;
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+.input {
+  margin-bottom: 24px;
+}
+
+.button {
+  margin-bottom: 80px;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: #8585ad;
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+.text:last-of-type {
+  margin-bottom: 0;
+}
+
+.link {
+  text-decoration: none;
+  color: #4c4cff;
+}

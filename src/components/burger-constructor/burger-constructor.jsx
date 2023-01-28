@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./burger-constructor.module.css";
 import {
   CurrencyIcon,
@@ -9,6 +8,7 @@ import OrderDetails from "../order-details/order-details";
 import ConstructorArea from "../constructor-area/constructor-area";
 import { useSelector } from "react-redux";
 import { calcTotalPrice } from "../../utils/utils";
+import { getBurgerConstructorTargetState } from "../../services/selectors/burgerConstructorTargetStateSelector";
 
 const PlaceOrderButton = withModal({
   WrappedComponent: Button,
@@ -16,9 +16,7 @@ const PlaceOrderButton = withModal({
 });
 
 export default function BurgerConstructor() {
-  const { ingredients, bun } = useSelector(
-    (state) => state.burgerConstructorTargetReducer.ingredientsForConstructor
-  );
+  const { ingredients, bun } = useSelector(getBurgerConstructorTargetState);
 
   const totalPrice = calcTotalPrice(ingredients, bun);
 
@@ -49,6 +47,7 @@ export default function BurgerConstructor() {
             size="large"
             htmlType="button"
             disabled={!totalPrice || !bun}
+            orderButton={true}
           >
             Оформить заказ
           </PlaceOrderButton>

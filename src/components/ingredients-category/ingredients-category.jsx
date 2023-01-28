@@ -27,6 +27,7 @@ export default function IngredientsCategory({
     return () => {
       observer.unobserve(target);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -37,6 +38,7 @@ export default function IngredientsCategory({
       >
         {category}
       </h2>
+
       <ul className={`${styles.items} pt-6 pr-4 pl-4 pb-10`}>
         {arrayOfIngredients.map((item) => {
           return (

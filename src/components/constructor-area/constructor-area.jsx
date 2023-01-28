@@ -4,12 +4,12 @@ import ConstructorIngredient from "../constructor-ingredient/constructor-ingredi
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import { ADD_INGREDIENT } from "../../services/actions/burgerConstructorTargetAction";
+import { v4 as uuidv4 } from "uuid";
+import { getBurgerConstructorTargetState } from "../../services/selectors/burgerConstructorTargetStateSelector";
 
 export default function ConstructorArea() {
   const dispatch = useDispatch();
-  const { ingredients, bun } = useSelector(
-    (state) => state.burgerConstructorTargetReducer.ingredientsForConstructor
-  );
+  const { ingredients, bun } = useSelector(getBurgerConstructorTargetState);
 
   const [{ isHover }, dropRef] = useDrop({
     accept: "ingredient",
@@ -59,7 +59,7 @@ export default function ConstructorArea() {
         {ingredients.length !== 0 &&
           ingredients.map((item, index) => {
             return (
-              <ConstructorIngredient key={index} item={item} index={index} />
+              <ConstructorIngredient key={uuidv4()} item={item} index={index} /> // сделать для key uuid, а не index
             );
           })}
       </ul>
