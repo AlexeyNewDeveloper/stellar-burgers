@@ -1,9 +1,7 @@
 import styles from "./order-item.module.css";
 import PropTypes from "prop-types";
-import moment from "moment";
 import React from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
 import CircleIconsList from "../circle_icons_list/circle_icons_list";
 import {
   ORDER_STATUS_DONE,

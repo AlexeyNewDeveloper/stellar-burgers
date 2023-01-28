@@ -1,30 +1,13 @@
 import styles from "./order-page.module.css";
-import React from "react";
-import { useParams, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getWsState } from "../../services/selectors/wsStateSelector";
+import { useLocation } from "react-router-dom";
 import { ORDER_STATUS_DONE, ORDER_STATUS_AT_WORK } from "../../utils/constants";
-import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
-import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
 import CircleIconIngredient from "../../components/circle_icon_ingredient/circle_icon_ingredient";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 export default function OrderPage() {
-  //   const dispatch = useDispatch();
-  //   const { id } = useParams();
-  //   const { data, wsConnectedSuccess, wsConnected, wsErrorMessage, wsError } =
-  //     useSelector(getWsState);
-  //   const { ingredients } = useSelector(getIngredientsState);
-
   const { state } = useLocation();
   const order = JSON.parse(state.order);
   const { number, date, name, status, composition, totalPriceOrder } = order;
-
-  //   React.useEffect(() => {
-  //     if (!ingredients.length) {
-  //       dispatch(getIngredientsAction());
-  //     }
-  //   }, [ingredients.length]);
 
   return (
     <section className={styles.container}>

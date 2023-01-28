@@ -1,4 +1,5 @@
 import styles from "./circle_icon_ingredient.module.css";
+import PropTypes from "prop-types";
 
 export default function CircleIconIngredient({
   children,
@@ -17,3 +18,10 @@ export default function CircleIconIngredient({
     </div>
   );
 }
+
+CircleIconIngredient.propTypes = {
+  children: PropTypes.node,
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  extraClass: PropTypes.string.isRequired,
+};

@@ -1,5 +1,6 @@
 import styles from "./circle_icons_list.module.css";
 import CircleIconIngredient from "../circle_icon_ingredient/circle_icon_ingredient";
+import PropTypes from "prop-types";
 
 export default function CircleIconsList({
   image,
@@ -40,3 +41,10 @@ export default function CircleIconsList({
     return false;
   }
 }
+
+CircleIconsList.propTypes = {
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  numberOfIngredients: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+};

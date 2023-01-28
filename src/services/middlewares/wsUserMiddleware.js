@@ -8,16 +8,13 @@ export const socketUserMiddleware = (wsUrl, wsUserActions) => {
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } =
         wsUserActions;
       const { user } = getState().userReducer;
-      // if (type === wsInit && user) {
       if (type === wsInit && user) {
-        // console.log(user);
         const token = user.accessToken.split("Bearer ")[1];
         socket = new WebSocket(`${wsUrl}?token=${token}`);
       }
       if (socket) {
         socket.onopen = (event) => {
           dispatch({ type: onOpen, payload: event });
-          // console.log("connect ws user");
         };
 
         socket.onerror = (event) => {
@@ -32,7 +29,6 @@ export const socketUserMiddleware = (wsUrl, wsUserActions) => {
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;
           dispatch({ type: onMessage, payload: restParsedData });
-          // console.log("ws user data: ", parsedData);
         };
 
         socket.onclose = (event) => {

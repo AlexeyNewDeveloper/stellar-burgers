@@ -7,32 +7,32 @@ import TotalComletedOrders from "../total-completed-orders/total-completed-order
 import { ORDER_STATUS_DONE, ORDER_STATUS_AT_WORK } from "../../utils/constants";
 import FeedOfOrdersComponent from "../feed-of-orders-component/feed-of-orders-component";
 import StatListOrderNumbers from "../stats_list_order_numbers/stats_list_order_numbers";
-import { updateAccessTokenAction } from "../../services/actions/userAction";
 import { getUserState } from "../../services/selectors/userStateSelectors";
-import { UPDATE_TOKEN_INITIAL_STATE } from "../../services/actions/userAction";
+import { getInitialStateForToken } from "../../services/actions/userAction";
 
 export default function FeedOrders() {
   const dispatch = useDispatch();
-  const { data, wsConnectedSuccess, wsConnected, wsErrorMessage, wsError } =
-    useSelector(getWsState);
+  const { data, wsConnectedSuccess, wsError } = useSelector(getWsState);
   const { updateTokenRequestSuccess } = useSelector(getUserState);
 
   React.useEffect(() => {
-    if (!wsConnected && !wsConnectedSuccess) {
+    if (!wsConnectedSuccess) {
       dispatch(wsInit());
     }
+  }, []);
 
+  React.useEffect(() => {
     if (wsError) {
-      dispatch(
-        updateAccessTokenAction(
-          JSON.parse(sessionStorage.getItem("user")).refreshToken
-        )
-      );
+      dispatch(wsInit());
     }
+  }, [wsError]);
+
+  React.useEffect(() => {
     if (updateTokenRequestSuccess) {
-      dispatch({ type: UPDATE_TOKEN_INITIAL_STATE });
+      dispatch(wsInit());
+      dispatch(getInitialStateForToken());
     }
-  }, [wsConnected, wsConnectedSuccess, updateTokenRequestSuccess]);
+  }, [updateTokenRequestSuccess]);
 
   return (
     <section className={styles.section}>

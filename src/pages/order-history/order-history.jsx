@@ -6,43 +6,45 @@ import { getUserWsState } from "../../services/selectors/wsUserStateSelector";
 import { wsUserInit } from "../../services/actions/wsUserAction";
 import { updateAccessTokenAction } from "../../services/actions/userAction";
 import { getUserState } from "../../services/selectors/userStateSelectors";
-import { UPDATE_TOKEN_INITIAL_STATE } from "../../services/actions/userAction";
-
-// import { getUserOrdersHistoryState } from "../../services/selectors/userStateSelectors";
+import { getInitialStateForToken } from "../../services/actions/userAction";
 
 export default function OrderHistory() {
   const dispatch = useDispatch();
-  const {
-    data,
-    wsUserConnectedSuccess,
-    wsUserConnected,
-    wsUserErrorMessage,
-    wsUserError,
-  } = useSelector(getUserWsState);
+  const { data, wsUserConnectedSuccess, wsUserError } =
+    useSelector(getUserWsState);
   const { updateTokenRequestSuccess } = useSelector(getUserState);
+  const wsConnecting = React.useRef(false);
 
   React.useEffect(() => {
-    if (!wsUserConnected && !wsUserConnectedSuccess) {
+    if (!wsUserConnectedSuccess && !wsConnecting.current) {
       dispatch(wsUserInit());
+      wsConnecting.current = true;
     }
+  }, []);
 
-    if (wsUserError) {
-      console.log(wsUserErrorMessage);
+  React.useEffect(() => {
+    if (wsUserConnectedSuccess) {
+      wsConnecting.current = false;
+    }
+  }, [wsUserConnectedSuccess]);
+
+  React.useEffect(() => {
+    if (wsUserError || (data && !data.orders)) {
       dispatch(
         updateAccessTokenAction(
           JSON.parse(sessionStorage.getItem("user")).refreshToken
         )
       );
     }
+  }, [wsUserError, data]);
+
+  React.useEffect(() => {
     if (updateTokenRequestSuccess) {
-      dispatch({ type: UPDATE_TOKEN_INITIAL_STATE });
+      dispatch(wsUserInit());
+      dispatch(getInitialStateForToken());
     }
-  }, [
-    wsUserConnected,
-    wsUserConnectedSuccess,
-    updateTokenRequestSuccess,
-    wsUserError,
-  ]);
+  }, [updateTokenRequestSuccess]);
+
   return (
     <div className={styles.orders_container}>
       {data && data.orders && (
