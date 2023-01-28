@@ -5,10 +5,26 @@ import OrderItem from "../order-item/order-item";
 import { useSelector, useDispatch } from "react-redux";
 import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
 import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
+import { useLocation, Link } from "react-router-dom";
+import moment from "moment";
 
-export default function FeedOfOrdersComponent({ orders }) {
+export default function FeedOfOrdersComponent({
+  orders,
+  extraClassContainer,
+  showStatus,
+}) {
   const dispatch = useDispatch();
   const { ingredients } = useSelector(getIngredientsState);
+  const location = useLocation();
+  const getDateMoment = (orderDate) =>
+    moment(orderDate).calendar(null, {
+      sameDay: "[Сегодня], HH:mm i-GMT+3",
+      nextDay: "[Завтра]",
+      nextWeek: "На следующей неделе",
+      lastDay: "[Вчера], hh:mm i-GMT+3",
+      lastWeek: "[На прошлой неделе], mm:ss i-GMT+3",
+      sameElse: "DD/MM/YYYY",
+    });
 
   React.useEffect(() => {
     if (!ingredients.length) {
@@ -29,9 +45,11 @@ export default function FeedOfOrdersComponent({ orders }) {
   };
 
   const getCompositionOrder = (order) => {
-    const arrayIngredients = [];
-    const allIngredients = order.ingredients.reduce((acc, id) => {
-      const { image, name, price } = getIngredientById(id);
+    const arrayIngredientsInOrder = [];
+    const arrayCompositionOrder = [];
+    const compositionOrder = order.ingredients.reduce((acc, id) => {
+      const { image, name, price, _id } = getIngredientById(id);
+      arrayIngredientsInOrder.push({ image, name, price, _id });
       if (id in acc) {
         acc[id].quantity += 1;
       } else {
@@ -44,29 +62,56 @@ export default function FeedOfOrdersComponent({ orders }) {
       }
       return acc;
     }, {});
-    for (const key in allIngredients) {
-      arrayIngredients.push(allIngredients[key]);
+    for (const key in compositionOrder) {
+      arrayCompositionOrder.push(compositionOrder[key]);
     }
-    return arrayIngredients;
+    return { arrayIngredientsInOrder, arrayCompositionOrder };
   };
 
   return (
-    <ul className={styles.items}>
+    <ul
+      className={`${styles.items} ${
+        extraClassContainer ? extraClassContainer : ""
+      }`}
+    >
       {ingredients.length &&
         orders.map((order, index) => {
-          const compositionOrder = getCompositionOrder(order);
+          const { arrayIngredientsInOrder, arrayCompositionOrder } =
+            getCompositionOrder(order);
+          const date = getDateMoment(order.createdAt);
+          const totalPriceOrder = countTotalPriceOrder(arrayIngredientsInOrder);
           return (
-            <React.Fragment key={index}>
-              <OrderItem
-                orderNumber={order.number}
-                orderDate={order.createdAt}
-                orderName={order.name}
-                orderStatus={order.status}
-                compositionOrder={compositionOrder}
-                totalPriceOrder={countTotalPriceOrder(compositionOrder)}
-                idOrder={order._id}
-              />
-            </React.Fragment>
+            <li
+              key={index}
+              className={`${styles.item} ${
+                showStatus && styles.item_with_status
+              }`}
+            >
+              <Link
+                to={`${location.pathname}/${order._id}`}
+                className={styles.link_to_order}
+                state={{
+                  order: JSON.stringify({
+                    number: order.number,
+                    date: date,
+                    name: order.name,
+                    status: order.status,
+                    composition: arrayCompositionOrder,
+                    totalPriceOrder: totalPriceOrder,
+                  }),
+                }}
+              >
+                <OrderItem
+                  orderNumber={order.number}
+                  orderDate={date}
+                  orderName={order.name}
+                  orderStatus={order.status}
+                  arrayIngredientsInOrder={arrayIngredientsInOrder}
+                  totalPriceOrder={totalPriceOrder}
+                  showStatus={showStatus}
+                />
+              </Link>
+            </li>
           );
         })}
     </ul>
@@ -75,4 +120,6 @@ export default function FeedOfOrdersComponent({ orders }) {
 
 FeedOfOrdersComponent.propTypes = {
   orders: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  extraClassContainer: PropTypes.string,
+  showStatus: PropTypes.bool,
 };

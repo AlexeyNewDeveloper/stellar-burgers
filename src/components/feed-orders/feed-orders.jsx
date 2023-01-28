@@ -7,11 +7,15 @@ import TotalComletedOrders from "../total-completed-orders/total-completed-order
 import { ORDER_STATUS_DONE, ORDER_STATUS_AT_WORK } from "../../utils/constants";
 import FeedOfOrdersComponent from "../feed-of-orders-component/feed-of-orders-component";
 import StatListOrderNumbers from "../stats_list_order_numbers/stats_list_order_numbers";
+import { updateAccessTokenAction } from "../../services/actions/userAction";
+import { getUserState } from "../../services/selectors/userStateSelectors";
+import { UPDATE_TOKEN_INITIAL_STATE } from "../../services/actions/userAction";
 
 export default function FeedOrders() {
   const dispatch = useDispatch();
   const { data, wsConnectedSuccess, wsConnected, wsErrorMessage, wsError } =
     useSelector(getWsState);
+  const { updateTokenRequestSuccess } = useSelector(getUserState);
 
   React.useEffect(() => {
     if (!wsConnected && !wsConnectedSuccess) {
@@ -19,16 +23,26 @@ export default function FeedOrders() {
     }
 
     if (wsError) {
-      console.log(wsErrorMessage);
+      dispatch(
+        updateAccessTokenAction(
+          JSON.parse(sessionStorage.getItem("user")).refreshToken
+        )
+      );
     }
-  }, [wsConnected, wsConnectedSuccess]);
+    if (updateTokenRequestSuccess) {
+      dispatch({ type: UPDATE_TOKEN_INITIAL_STATE });
+    }
+  }, [wsConnected, wsConnectedSuccess, updateTokenRequestSuccess]);
 
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>Лента заказов</h2>
       {data && (
         <div className={styles.content}>
-          <FeedOfOrdersComponent orders={data.orders} />
+          <FeedOfOrdersComponent
+            orders={data.orders}
+            extraClassContainer={`${styles.feed_orders_component}`}
+          />
           <div className={styles.statistics}>
             <div
               className={`${styles.statistics_content_container} ${styles.order_numbers}`}

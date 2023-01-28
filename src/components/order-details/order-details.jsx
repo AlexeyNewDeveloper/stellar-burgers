@@ -17,8 +17,16 @@ export default function OrderDetails() {
     makeOrderRequestSuccess,
   } = useSelector(getMakeOrderState);
   const { user, updateTokenRequestSuccess } = useSelector(getUserState);
-  const sendOrder = React.useRef(false);
+  const createOrder = React.useRef(false);
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (!createOrder.current && !makeOrderRequestSuccess && !orderObj.number) {
+      dispatch(makeOrderAction(user.accessToken));
+      createOrder.current = true;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
     if (makeOrderFailed) {
@@ -28,28 +36,26 @@ export default function OrderDetails() {
         )
       );
     }
-    if (!orderObj.number && (!sendOrder.current || updateTokenRequestSuccess)) {
-      dispatch(makeOrderAction(user.accessToken));
-      sendOrder.current = true;
-      console.log("send order. (true): ", sendOrder.current);
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [makeOrderFailed]);
 
+  React.useEffect(() => {
     if (updateTokenRequestSuccess) {
+      dispatch(makeOrderAction(user.accessToken));
       dispatch(getInitialStateForToken());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateTokenRequestSuccess]);
 
+  React.useEffect(() => {
     return () => {
       if (makeOrderRequestSuccess) {
         dispatch(getReadyForNewOrder());
-        if (updateTokenRequestSuccess) {
-          dispatch(getInitialStateForToken());
-        }
-        sendOrder.current = false;
-        console.log("ready for new order", makeOrderRequestSuccess);
+        createOrder.current = false;
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [makeOrderFailed, updateTokenRequestSuccess, makeOrderRequestSuccess]);
+  }, [makeOrderRequestSuccess]);
 
   return (
     <>

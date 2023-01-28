@@ -55,3 +55,13 @@
 .statistics_content_container:last-of-type {
   margin-bottom: 0;
 }
+
+.feed_orders_component {
+  margin-right: 56px;
+  inline-size: 100%;
+  max-inline-size: 584px;
+}
+
+.feed_orders_component::-webkit-scrollbar-track {
+  margin-bottom: 68px;
+}

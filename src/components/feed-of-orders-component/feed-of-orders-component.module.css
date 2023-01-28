@@ -6,9 +6,6 @@
   overflow-y: auto;
   scrollbar-width: auto;
   scrollbar-color: #8585ad #2f2f37;
-  margin-right: 56px;
-  inline-size: 100%;
-  max-inline-size: 584px;
 }
 
 .items::-webkit-scrollbar-thumb {
@@ -16,9 +13,30 @@
 }
 .items::-webkit-scrollbar-track {
   background-color: #2f2f37;
-  margin-bottom: 68px;
 }
 
 .items::-webkit-scrollbar {
   inline-size: 8px;
+}
+
+.link_to_order {
+  text-decoration: none;
+  color: inherit;
+}
+
+.item {
+  background-color: #1c1c21;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+  margin-bottom: 16px;
+  inline-size: 100%;
+  block-size: 100%;
+  max-block-size: 214px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.item_with_status {
+  max-block-size: 246px;
 }

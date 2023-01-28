@@ -13,6 +13,8 @@ import { Provider } from "react-redux";
 import { rootReducer } from "./services/reducers/rootReducer";
 import { socketMiddleware } from "./services/middlewares/wsMiddleware";
 import { wsActions } from "./services/actions/wsAction";
+import { wsUserActions } from "./services/actions/wsUserAction";
+import { socketUserMiddleware } from "./services/middlewares/wsUserMiddleware";
 
 declare const window: any;
 
@@ -25,7 +27,11 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(
-  applyMiddleware(thunk, socketMiddleware(wsUrl, wsActions))
+  applyMiddleware(
+    thunk,
+    socketMiddleware(wsUrl, wsActions),
+    socketUserMiddleware(wsUrlUserOrders, wsUserActions)
+  )
 );
 
 const store = createStore(rootReducer, enhancer);

@@ -1,6 +1,6 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
 import { checkResponse } from "../../utils/utils";
-import { wsConnectionClosed } from "./wsAction";
+import { wsUserConnectionClosed } from "./wsUserAction";
 // import { getCookie, setCookie } from "../../utils/utils";
 
 export const GET_USER = "GET_USER";
@@ -20,14 +20,6 @@ export const UPDATE_USER_DATA = "UPDATE_USER_DATA";
 export const UPDATE_USER_DATA_REQUEST = "UPDATE_USER_DATA_REQUEST";
 export const UPDATE_USER_DATA_REQUEST_FAILED =
   "UPDATE_USER_DATA_REQUEST_FAILED";
-// export const ADD_NEW_ORDER_TO_USER_HISTORY = "ADD_NEW_ORDER_TO_USER_HISTORY";
-
-// export const addNewOrderToUserHistory = (order) => {
-//   return {
-//     type: ADD_NEW_ORDER_TO_USER_HISTORY,
-//     order: order,
-//   };
-// };
 
 export const getInitialStateForToken = () => {
   return {
@@ -61,9 +53,10 @@ export function logoutAction(token) {
             type: LOGOUT_USER,
           });
           sessionStorage.removeItem("user");
-          const { wsConnectedSuccess, wsConnected } = getState().wsReducer;
-          if (wsConnectedSuccess || wsConnected) {
-            dispatch(wsConnectionClosed());
+          const { wsUserConnectedSuccess, wsUserConnected } =
+            getState().wsUserReducer;
+          if (wsUserConnectedSuccess || wsUserConnected) {
+            dispatch(wsUserConnectionClosed());
           }
           // document.cookie = "";
           // setCookie("refreshToken", null, { expires: -1 });

@@ -1,0 +1,14 @@
+.orders_container {
+  max-block-size: 916px;
+  block-size: 100%;
+  display: flex;
+  margin-top: 36px;
+}
+
+.orders_list {
+  max-inline-size: 872px;
+}
+
+.orders_list::-webkit-scrollbar-track {
+  margin-bottom: 40px;
+}

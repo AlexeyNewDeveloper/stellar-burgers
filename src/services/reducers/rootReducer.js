@@ -9,6 +9,7 @@ import { userReducer } from "./userReducer";
 import { forgotPasswordReducer } from "./forgotPasswordReducer";
 import { resetPasswordReducer } from "./resetPasswordReducer";
 import { wsReducer } from "./wsReducer";
+import { wsUserReducer } from "./wsUserReducer";
 
 export const rootReducer = combineReducers({
   getIngredientsReducer,
@@ -21,4 +22,5 @@ export const rootReducer = combineReducers({
   forgotPasswordReducer,
   resetPasswordReducer,
   wsReducer,
+  wsUserReducer,
 });

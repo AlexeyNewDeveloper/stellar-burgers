@@ -56,9 +56,9 @@ export default function OrderPage() {
                     className={`text text_type_digits-default ${styles.price_ingredient}`}
                   >
                     {item.quantity} x {item.price}
-                    <div className={styles.price_icon}>
+                    <span className={styles.price_icon}>
                       <CurrencyIcon type="primary" />
-                    </div>
+                    </span>
                   </p>
                 </li>
               );
@@ -72,9 +72,9 @@ export default function OrderPage() {
               className={`text text_type_digits-default ${styles.price_ingredient}`}
             >
               {totalPriceOrder}
-              <div className={styles.price_icon}>
+              <span className={styles.price_icon}>
                 <CurrencyIcon type="primary" />
-              </div>
+              </span>
             </p>
           </div>
         </>

@@ -73,6 +73,16 @@ function App() {
 
           <Route path="/feed/:id" element={<OrderPage />} />
 
+          <Route
+            path="profile/orders/:id"
+            element={
+              <ProtectedRoute
+                authorized={false}
+                protectedElement={<OrderPage />}
+              />
+            }
+          />
+
           <Route path="*" element={<NotFound404 />} />
         </Routes>
       </BrowserRouter>
