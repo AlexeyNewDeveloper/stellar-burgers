@@ -23,5 +23,5 @@ CircleIconIngredient.propTypes = {
   children: PropTypes.node,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  extraClass: PropTypes.string.isRequired,
+  extraClass: PropTypes.string,
 };
