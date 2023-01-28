@@ -1,5 +1,6 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
 import { checkResponse } from "../../utils/utils";
+import { wsUserConnectionClosed } from "./wsUserAction";
 // import { getCookie, setCookie } from "../../utils/utils";
 
 export const GET_USER = "GET_USER";
@@ -20,8 +21,14 @@ export const UPDATE_USER_DATA_REQUEST = "UPDATE_USER_DATA_REQUEST";
 export const UPDATE_USER_DATA_REQUEST_FAILED =
   "UPDATE_USER_DATA_REQUEST_FAILED";
 
+export const getInitialStateForToken = () => {
+  return {
+    type: UPDATE_TOKEN_INITIAL_STATE,
+  };
+};
+
 export function logoutAction(token) {
-  return function (dispatch) {
+  return function (dispatch, getState) {
     dispatch({
       type: USER_REQUEST,
     });
@@ -46,6 +53,11 @@ export function logoutAction(token) {
             type: LOGOUT_USER,
           });
           sessionStorage.removeItem("user");
+          const { wsUserConnectedSuccess, wsUserConnected } =
+            getState().wsUserReducer;
+          if (wsUserConnectedSuccess || wsUserConnected) {
+            dispatch(wsUserConnectionClosed());
+          }
           // document.cookie = "";
           // setCookie("refreshToken", null, { expires: -1 });
         } else {

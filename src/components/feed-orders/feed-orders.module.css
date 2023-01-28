@@ -1,0 +1,67 @@
+.section {
+  inline-size: 100%;
+  max-inline-size: 1240px;
+  block-size: 100%;
+}
+
+.content {
+  display: flex;
+  block-size: 100%;
+  max-block-size: 812px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  color: #f2f2f3;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.statistics {
+  inline-size: 100%;
+  max-inline-size: 584px;
+}
+
+.order_numbers {
+  display: flex;
+  inline-size: 100%;
+  /* block-size: 100%; */
+  /* max-block-size: 206px; */
+}
+
+.ready_order_numbers {
+  color: #00cccc;
+}
+
+.order_numbers_content_container {
+  inline-size: 100%;
+}
+
+.title_content {
+  margin: 0;
+  color: #f2f2f3;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  margin-bottom: 24px;
+}
+
+.statistics_content_container {
+  margin-bottom: 60px;
+}
+
+.statistics_content_container:last-of-type {
+  margin-bottom: 0;
+}
+
+.feed_orders_component {
+  margin-right: 56px;
+  inline-size: 100%;
+  max-inline-size: 584px;
+}
+
+.feed_orders_component::-webkit-scrollbar-track {
+  margin-bottom: 68px;
+}

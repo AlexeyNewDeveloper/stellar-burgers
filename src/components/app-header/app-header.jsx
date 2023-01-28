@@ -37,7 +37,7 @@ function AppHeader() {
           </li>
           <li className={`${styles.item} pl-5 pr-5 pt-4 pb-4`}>
             <NavLink
-              to="/nopath"
+              to="/feed"
               className={`${styles["item-link"]}  text text_type_main-default`}
             >
               {({ isActive }) => (

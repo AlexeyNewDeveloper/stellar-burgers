@@ -13,6 +13,7 @@ import {
   UPDATE_USER_DATA,
   UPDATE_USER_DATA_REQUEST,
   UPDATE_USER_DATA_REQUEST_FAILED,
+  // ADD_NEW_ORDER_TO_USER_HISTORY,
 } from "../actions/userAction";
 import { userInitialState } from "../states/userState";
 
@@ -143,6 +144,12 @@ export const userReducer = (state = userInitialState, action) => {
         updateUserDataRequestFailed: true,
       };
     }
+    // case ADD_NEW_ORDER_TO_USER_HISTORY: {
+    //   return {
+    //     ...state,
+    //     userOrdersHistory: [action.order, ...state.userOrdersHistory],
+    //   };
+    // }
 
     default: {
       return state;

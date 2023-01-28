@@ -11,6 +11,8 @@ import {
 import styles from "./app.module.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route/protected-route";
+import FeedOrders from "../feed-orders/feed-orders";
+import OrderPage from "../../pages/order-page/order-page";
 
 function App() {
   return (
@@ -64,6 +66,20 @@ function App() {
             path="/login"
             element={
               <ProtectedRoute authorized={true} protectedElement={<Login />} />
+            }
+          />
+
+          <Route path="/feed" element={<FeedOrders />} />
+
+          <Route path="/feed/:id" element={<OrderPage />} />
+
+          <Route
+            path="profile/orders/:id"
+            element={
+              <ProtectedRoute
+                authorized={false}
+                protectedElement={<OrderPage />}
+              />
             }
           />
 
