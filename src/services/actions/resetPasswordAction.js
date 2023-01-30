@@ -1,5 +1,4 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
 import { requestTo } from "../../utils/utils";
 
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";

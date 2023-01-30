@@ -1,5 +1,4 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
 import { wsUserConnectionClosed } from "./wsUserAction";
 import { requestTo } from "../../utils/utils";
 // import { getCookie, setCookie } from "../../utils/utils";

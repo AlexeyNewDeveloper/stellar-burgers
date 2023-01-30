@@ -1,5 +1,4 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
 import { GET_USER } from "./userAction";
 import { requestTo } from "../../utils/utils";
 // import { setCookie, getCookie } from "../../utils/utils";

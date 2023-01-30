@@ -1,5 +1,5 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse, getListOrder } from "../../utils/utils";
+import { getListOrder } from "../../utils/utils";
 import { requestTo } from "../../utils/utils";
 
 export const MAKE_ORDER = "MAKE_ORDER";
