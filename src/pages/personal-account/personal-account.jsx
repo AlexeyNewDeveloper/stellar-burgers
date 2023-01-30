@@ -1,5 +1,4 @@
 import styles from "./personal-account.module.css";
-
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import Profile from "../profile/profile";
 import OrderHistory from "../order-history/order-history";
@@ -8,6 +7,8 @@ import { logoutAction } from "../../services/actions/userAction";
 import HelpingText from "../../components/helping-text/helping-text";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 import { ProtectedRoute } from "../../components/protected-route/protected-route";
+import OrderPage from "../order-page/order-page";
+import ModalComponent from "../../components/modal-component/modal-component";
 
 export default function PersonalAccount() {
   const location = useLocation();
@@ -57,12 +58,47 @@ export default function PersonalAccount() {
         <Route path="/" exact={true} element={<Profile />} />
 
         <Route
-          path="/orders"
+          path="/orders/*"
           element={
-            <ProtectedRoute
-              authorized={false}
-              protectedElement={<OrderHistory />}
-            />
+            <>
+              <Routes location={location.state?.backgroundLocation || location}>
+                <Route
+                  index
+                  element={
+                    <ProtectedRoute
+                      authorized={false}
+                      protectedElement={<OrderHistory />}
+                    />
+                  }
+                />
+                <Route
+                  path=":id"
+                  element={
+                    <ProtectedRoute
+                      authorized={false}
+                      protectedElement={<OrderPage />}
+                    />
+                  }
+                />
+              </Routes>
+              <Routes>
+                {location.state?.backgroundLocation && (
+                  <Route
+                    path=":id"
+                    element={
+                      <ProtectedRoute
+                        authorized={false}
+                        protectedElement={
+                          <ModalComponent>
+                            <OrderPage modal={true} />
+                          </ModalComponent>
+                        }
+                      />
+                    }
+                  />
+                )}
+              </Routes>
+            </>
           }
         />
       </Routes>

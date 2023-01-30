@@ -6,6 +6,8 @@
   overflow-y: auto;
   scrollbar-width: auto;
   scrollbar-color: #8585ad #2f2f37;
+  inline-size: 100%;
+  max-inline-size: 872px;
 }
 
 .items::-webkit-scrollbar-thumb {

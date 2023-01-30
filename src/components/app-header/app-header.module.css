@@ -16,7 +16,7 @@
 .logo {
   display: flex;
   align-items: center;
-  margin-right: 289px;
+  margin-right: auto;
   width: 289px;
   height: 40px;
   box-sizing: border-box;
@@ -57,4 +57,11 @@
 
 .item-text-active {
   color: #f2f2f3;
+}
+
+@media screen and (max-width: 1795px) {
+  .header {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
 }

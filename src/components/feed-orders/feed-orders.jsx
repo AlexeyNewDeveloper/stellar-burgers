@@ -19,12 +19,14 @@ export default function FeedOrders() {
     if (!wsConnectedSuccess) {
       dispatch(wsInit());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
     if (wsError) {
       dispatch(wsInit());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wsError]);
 
   React.useEffect(() => {
@@ -32,6 +34,7 @@ export default function FeedOrders() {
       dispatch(wsInit());
       dispatch(getInitialStateForToken());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateTokenRequestSuccess]);
 
   return (

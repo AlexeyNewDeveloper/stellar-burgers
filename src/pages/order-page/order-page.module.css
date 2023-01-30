@@ -4,13 +4,20 @@
   max-inline-size: 640px;
 }
 
+.container_modal {
+  margin-top: 0;
+}
+
 .number_order {
-  block-size: 100%;
-  max-block-size: 64px;
+  block-size: 64px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.number_order_modal {
+  justify-content: flex-start;
 }
 
 .title {
@@ -39,6 +46,10 @@
   scrollbar-color: #8585ad #2f2f37;
   inline-size: 100%;
   max-block-size: 366px;
+}
+
+.order_composition_list_modal {
+  max-block-size: 312px;
 }
 
 .order_composition_list::-webkit-scrollbar-thumb {
