@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { countItems } from "../../utils/utils";
 import { getBurgerConstructorTargetState } from "../../services/selectors/burgerConstructorTargetStateSelector";
 
-function ItemCard({ item, onClick }) {
+function ItemCard({ item }) {
   const { ingredients, bun } = useSelector(getBurgerConstructorTargetState);
 
   const countedItems =
@@ -30,7 +30,7 @@ function ItemCard({ item, onClick }) {
 
   return (
     <React.Fragment>
-      <div ref={dragRef} className={`${styles.item}`} onClick={onClick}>
+      <div ref={dragRef} className={`${styles.item}`}>
         {item["_id"] in countedItems ? (
           <div className={`${styles.counter}`}>
             <Counter count={countedItems[item["_id"]]} size="default" />
@@ -61,7 +61,6 @@ function ItemCard({ item, onClick }) {
 
 ItemCard.propTypes = {
   item: propTypesForItemObj,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default ItemCard;

@@ -48,17 +48,20 @@ export default function FeedOfOrdersComponent({
     const arrayIngredientsInOrder = [];
     const arrayCompositionOrder = [];
     const compositionOrder = order.ingredients.reduce((acc, id) => {
-      const { image, name, price, _id } = getIngredientById(id);
-      arrayIngredientsInOrder.push({ image, name, price, _id });
-      if (id in acc) {
-        acc[id].quantity += 1;
-      } else {
-        acc[id] = {
-          quantity: 1,
-          image,
-          name,
-          price,
-        };
+      const ingredient = getIngredientById(id);
+      if (ingredient) {
+        const { image, name, price, _id } = ingredient;
+        arrayIngredientsInOrder.push({ image, name, price, _id });
+        if (id in acc) {
+          acc[id].quantity += 1;
+        } else {
+          acc[id] = {
+            quantity: 1,
+            image,
+            name,
+            price,
+          };
+        }
       }
       return acc;
     }, {});

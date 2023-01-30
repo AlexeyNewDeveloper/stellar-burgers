@@ -23,3 +23,8 @@
   line-height: 30px;
   margin: 0;
 }
+
+.link_to_detail_ingredient {
+  text-decoration: none;
+  color: inherit;
+}

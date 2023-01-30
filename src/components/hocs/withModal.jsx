@@ -10,16 +10,17 @@ import {
   OPEN_POPUP,
   CLOSE_POPUP,
 } from "../../services/actions/popupDetailInfoAction";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserState } from "../../services/selectors/userStateSelectors";
+import ModalComponent from "../modal-component/modal-component";
 
 const withModal =
   ({
     WrappedComponent,
     DetailInfoComponent,
-    OverlayComponent = ModalOverlay,
-    ContainerComponent = Modal,
+    // OverlayComponent = ModalOverlay,
+    // ContainerComponent = Modal,
   }) =>
   (props) => {
     const { detailInfo, orderButton, ...otherProps } = props;
@@ -37,7 +38,9 @@ const withModal =
       // user ? setOpenPopup(true) : navigate("/login", { state: { from: "/" } });
       if (detailInfo) {
         dispatch({ type: OPEN_POPUP, modalData: detailInfo });
-        navigate(`/ingredients/${props.item["_id"]}`);
+        // navigate(`/ingredients/${props.item["_id"]}`, {
+        //   state: { backgroundLocation: location },
+        // });
       }
     };
 
@@ -46,6 +49,7 @@ const withModal =
       if (detailInfo) {
         dispatch({ type: CLOSE_POPUP });
         navigate(-1);
+        console.log("close");
       }
     };
 
@@ -56,24 +60,16 @@ const withModal =
         <WrappedComponent {...otherProps} onClick={openPopupCallback}>
           {otherProps.children}
         </WrappedComponent>
-        <Routes>
-          <Route
-            path={`${modalRoutePath}`}
-            element={
-              <>
-                {openPopup &&
-                  ReactDOM.createPortal(
-                    <OverlayComponent onClick={closePopupCallback}>
-                      <ContainerComponent closePopup={closePopupCallback}>
-                        <DetailInfoComponent />
-                      </ContainerComponent>
-                    </OverlayComponent>,
-                    MODAL_ROOT
-                  )}
-              </>
-            }
-          />
-        </Routes>
+
+        <>
+          {openPopup && (
+            <ModalComponent
+            // closePopupCallback={closePopupCallback}
+            >
+              <DetailInfoComponent />
+            </ModalComponent>
+          )}
+        </>
       </>
     );
   };
