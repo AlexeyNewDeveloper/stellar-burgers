@@ -1,16 +1,26 @@
-export const socketMiddleware = (wsUrl, wsActions) => {
+export const socketMiddleware = () => {
   return (store) => {
     let socket = null;
+    let wsUrl = null;
+    let wsActions = null;
 
     return (next) => (action) => {
+      if (action.wsUrl && action.wsActions) {
+        wsUrl = action.wsUrl;
+        wsActions = action.wsActions;
+      }
       const { dispatch, getState } = store;
       const { type, payload } = action;
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } =
         wsActions;
-      // const { user } = getState().userReducer;
-      // if (type === wsInit && user) {
+
       if (type === wsInit) {
         socket = new WebSocket(wsUrl);
+      }
+      const { user } = getState().userReducer;
+      if (type === wsInit && user) {
+        const token = user.accessToken.split("Bearer ")[1];
+        socket = new WebSocket(`${wsUrl}?token=${token}`);
       }
       if (socket) {
         socket.onopen = (event) => {
