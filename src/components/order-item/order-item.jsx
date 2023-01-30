@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import CircleIconsList from "../circle_icons_list/circle_icons_list";
-import {
-  ORDER_STATUS_DONE,
-  ORDER_STATUS_AT_WORK,
-  ORDER_STATUS_CREATED,
-} from "../../utils/constants";
+import { ORDER_STATUS_DONE, ORDER_STATUS_AT_WORK } from "../../utils/constants";
 
 export default function OrderItem({
   orderNumber,

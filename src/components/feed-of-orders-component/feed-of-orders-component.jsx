@@ -7,6 +7,8 @@ import { getIngredientsState } from "../../services/selectors/getIngredientsStat
 import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
 import { useLocation, Link } from "react-router-dom";
 import moment from "moment";
+import { getCompositionOrder } from "../../utils/utils";
+import { countTotalPriceOrder } from "../../utils/utils";
 
 export default function FeedOfOrdersComponent({
   orders,
@@ -30,43 +32,8 @@ export default function FeedOfOrdersComponent({
     if (!ingredients.length) {
       dispatch(getIngredientsAction());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ingredients]);
-
-  const getIngredientById = (id) => {
-    if (ingredients.length) {
-      return ingredients.find((item) => item._id === id);
-    }
-  };
-
-  const countTotalPriceOrder = (compositionOrder) => {
-    return compositionOrder.reduce((acc, current) => {
-      return (acc += current.price);
-    }, 0);
-  };
-
-  const getCompositionOrder = (order) => {
-    const arrayIngredientsInOrder = [];
-    const arrayCompositionOrder = [];
-    const compositionOrder = order.ingredients.reduce((acc, id) => {
-      const { image, name, price, _id } = getIngredientById(id);
-      arrayIngredientsInOrder.push({ image, name, price, _id });
-      if (id in acc) {
-        acc[id].quantity += 1;
-      } else {
-        acc[id] = {
-          quantity: 1,
-          image,
-          name,
-          price,
-        };
-      }
-      return acc;
-    }, {});
-    for (const key in compositionOrder) {
-      arrayCompositionOrder.push(compositionOrder[key]);
-    }
-    return { arrayIngredientsInOrder, arrayCompositionOrder };
-  };
 
   return (
     <ul
@@ -77,7 +44,7 @@ export default function FeedOfOrdersComponent({
       {ingredients.length &&
         orders.map((order, index) => {
           const { arrayIngredientsInOrder, arrayCompositionOrder } =
-            getCompositionOrder(order);
+            getCompositionOrder(order, ingredients);
           const date = getDateMoment(order.createdAt);
           const totalPriceOrder = countTotalPriceOrder(arrayIngredientsInOrder);
           return (
@@ -99,6 +66,7 @@ export default function FeedOfOrdersComponent({
                     composition: arrayCompositionOrder,
                     totalPriceOrder: totalPriceOrder,
                   }),
+                  backgroundLocation: location,
                 }}
               >
                 <OrderItem

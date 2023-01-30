@@ -1,6 +1,5 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
 import { checkResponse, getListOrder } from "../../utils/utils";
-import { addNewOrderToUserHistory } from "./userAction";
 
 export const MAKE_ORDER = "MAKE_ORDER";
 export const MAKE_ORDER_SUCCESS = "MAKE_ORDER_SUCCESS";
@@ -34,13 +33,11 @@ export function makeOrderAction(token) {
     })
       .then(checkResponse)
       .then((res) => {
-        console.log(res);
         dispatch({
           type: MAKE_ORDER_SUCCESS,
           listIngredientsOrder: orderList,
           orderNumber: res.order.number,
         });
-        // dispatch(addNewOrderToUserHistory(res.order));
       })
       .catch((err) => {
         dispatch({ type: MAKE_ORDER_FAILED });

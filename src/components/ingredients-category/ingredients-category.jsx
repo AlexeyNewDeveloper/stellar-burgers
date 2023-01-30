@@ -6,6 +6,7 @@ import IngredientDetails from "../ingredients-detail/ingredients-detail";
 import withModal from "../hocs/withModal";
 import { propTypesForItemObj } from "../../prop-types";
 import { enableObserver } from "../../utils/utils";
+import { Link, useLocation } from "react-router-dom";
 
 const WithModalItemCard = withModal({
   WrappedComponent: ItemCard,
@@ -18,6 +19,8 @@ export default function IngredientsCategory({
   categoryKey,
   setActiveTab,
 }) {
+  let location = useLocation();
+
   React.useEffect(() => {
     const [observer, target] = enableObserver({
       targetId: categoryKey,
@@ -43,7 +46,14 @@ export default function IngredientsCategory({
         {arrayOfIngredients.map((item) => {
           return (
             <li className={styles.item} key={item["_id"]}>
-              <WithModalItemCard item={item} detailInfo={item} />
+              <Link
+                to={`/ingredients/${item["_id"]}`}
+                state={{ backgroundLocation: location }}
+                className={styles.link_to_detail_ingredient}
+              >
+                <ItemCard item={item} />
+                {/* <WithModalItemCard item={item} detailInfo={item} /> */}
+              </Link>
             </li>
           );
         })}

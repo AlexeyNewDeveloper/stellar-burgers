@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 
 export function ProtectedRoute({ protectedElement, authorized }) {
-  const { user } = useSelector(getUserState);
+  let { user } = useSelector(getUserState);
 
   if (authorized) {
     return <>{user ? <Navigate to="/" /> : protectedElement}</>;

@@ -15,6 +15,7 @@ import { socketMiddleware } from "./services/middlewares/wsMiddleware";
 import { wsActions } from "./services/actions/wsAction";
 import { wsUserActions } from "./services/actions/wsUserAction";
 import { socketUserMiddleware } from "./services/middlewares/wsUserMiddleware";
+import { BrowserRouter } from "react-router-dom";
 
 declare const window: any;
 
@@ -41,9 +42,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

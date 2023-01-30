@@ -12,7 +12,6 @@ import {
   updateAccessTokenAction,
   updateUserDataAction,
 } from "../../services/actions/userAction";
-import { UPDATE_TOKEN_INITIAL_STATE } from "../../services/actions/userAction";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 import { getInitialStateForToken } from "../../services/actions/userAction";
 

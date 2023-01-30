@@ -17,11 +17,13 @@ export default function IngredientDetails({ noModal }) {
   let detailInfo = null;
 
   React.useEffect(() => {
-    dispatch(getIngredientsAction());
+    if (!ingredients.length) {
+      dispatch(getIngredientsAction());
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [ingredients]);
 
-  if (noModal && id) {
+  if (id) {
     detailInfo = ingredients.find((item) => item._id === id);
   } else {
     detailInfo = currentDetailInfoIngredient
@@ -69,5 +71,5 @@ export default function IngredientDetails({ noModal }) {
 }
 
 IngredientDetails.propTypes = {
-  noModal: PropTypes.bool.isRequired,
+  noModal: PropTypes.bool,
 };

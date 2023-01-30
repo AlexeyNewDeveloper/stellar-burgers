@@ -7,6 +7,7 @@ import { wsUserInit } from "../../services/actions/wsUserAction";
 import { updateAccessTokenAction } from "../../services/actions/userAction";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 import { getInitialStateForToken } from "../../services/actions/userAction";
+import Spinner from "../../components/spinner/spinner";
 
 export default function OrderHistory() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export default function OrderHistory() {
       dispatch(wsUserInit());
       wsConnecting.current = true;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
@@ -36,6 +38,7 @@ export default function OrderHistory() {
         )
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wsUserError, data]);
 
   React.useEffect(() => {
@@ -43,10 +46,12 @@ export default function OrderHistory() {
       dispatch(wsUserInit());
       dispatch(getInitialStateForToken());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateTokenRequestSuccess]);
 
   return (
     <div className={styles.orders_container}>
+      {!data?.orders && <Spinner />}
       {data && data.orders && (
         <FeedOfOrdersComponent
           orders={data.orders.slice().reverse()}
