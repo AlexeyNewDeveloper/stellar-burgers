@@ -1,6 +1,6 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
 import { GET_USER } from "./userAction";
+import { requestTo } from "../../utils/utils";
 
 export const LOGIN = "LOGIN";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -11,7 +11,7 @@ export function loginAction(value) {
     dispatch({
       type: LOGIN,
     });
-    fetch(`${URL_FOR_GET_DATA}/auth/login`, {
+    requestTo(`${URL_FOR_GET_DATA}/auth/login`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -26,7 +26,6 @@ export function loginAction(value) {
         password: value.password,
       }),
     })
-      .then(checkResponse)
       .then((res) => {
         if (res.success) {
           dispatch({

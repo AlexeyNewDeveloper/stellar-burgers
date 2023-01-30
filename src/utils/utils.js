@@ -157,3 +157,13 @@ export const countTotalPriceOrder = (compositionOrder) => {
     return (acc += current.price);
   }, 0);
 };
+
+export const requestTo = async (url, options) => {
+  let res = null;
+  if (options) {
+    res = await fetch(url, options);
+  } else {
+    res = await fetch(url);
+  }
+  return checkResponse(res);
+};

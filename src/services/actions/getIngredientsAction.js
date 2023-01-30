@@ -1,5 +1,6 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
 import { checkResponse } from "../../utils/utils";
+import { requestTo } from "../../utils/utils";
 
 export const GET_INGREDIENTS = "GET_INGREDIENTS";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
@@ -10,8 +11,7 @@ export function getIngredientsAction() {
     dispatch({
       type: GET_INGREDIENTS,
     });
-    fetch(`${URL_FOR_GET_DATA}/ingredients`)
-      .then(checkResponse)
+    requestTo(`${URL_FOR_GET_DATA}/ingredients`)
       .then((res) => {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
