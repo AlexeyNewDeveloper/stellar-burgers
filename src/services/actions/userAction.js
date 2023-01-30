@@ -1,6 +1,6 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
 import { wsUserConnectionClosed } from "./wsUserAction";
+import { requestTo } from "../../utils/utils";
 // import { getCookie, setCookie } from "../../utils/utils";
 
 export const GET_USER = "GET_USER";
@@ -32,7 +32,7 @@ export function logoutAction(token) {
     dispatch({
       type: USER_REQUEST,
     });
-    fetch(`${URL_FOR_GET_DATA}/auth/logout`, {
+    requestTo(`${URL_FOR_GET_DATA}/auth/logout`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -46,7 +46,6 @@ export function logoutAction(token) {
         token: token,
       }),
     })
-      .then(checkResponse)
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -75,14 +74,13 @@ export function getUserDataAction(accessToken) {
     dispatch({
       type: USER_EDITABLE_DATA_REQUEST,
     });
-    fetch(`${URL_FOR_GET_DATA}/auth/user`, {
+    requestTo(`${URL_FOR_GET_DATA}/auth/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         authorization: accessToken,
       },
     })
-      .then(checkResponse)
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -105,7 +103,7 @@ export function updateAccessTokenAction(refreshToken) {
     dispatch({
       type: UPDATE_ACCESS_TOKEN_REQUEST,
     });
-    fetch(`${URL_FOR_GET_DATA}/auth/token`, {
+    requestTo(`${URL_FOR_GET_DATA}/auth/token`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -119,7 +117,6 @@ export function updateAccessTokenAction(refreshToken) {
         token: refreshToken,
       }),
     })
-      .then(checkResponse)
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -152,7 +149,7 @@ export function updateUserDataAction(updatedUser, accessToken) {
     dispatch({
       type: UPDATE_USER_DATA_REQUEST,
     });
-    fetch(`${URL_FOR_GET_DATA}/auth/user`, {
+    requestTo(`${URL_FOR_GET_DATA}/auth/user`, {
       method: "PATCH",
       mode: "cors",
       cache: "no-cache",
@@ -165,7 +162,6 @@ export function updateUserDataAction(updatedUser, accessToken) {
       },
       body: JSON.stringify(updatedUser),
     })
-      .then(checkResponse)
       .then((res) => {
         if (res.success) {
           dispatch({

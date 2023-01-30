@@ -1,6 +1,6 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
 import { GET_USER } from "./userAction";
+import { requestTo } from "../../utils/utils";
 // import { setCookie, getCookie } from "../../utils/utils";
 
 export const REGISTRATION = "REGISTRATION";
@@ -12,7 +12,7 @@ export function registerAction(value) {
     dispatch({
       type: REGISTRATION,
     });
-    fetch(`${URL_FOR_GET_DATA}/auth/register`, {
+    requestTo(`${URL_FOR_GET_DATA}/auth/register`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -28,7 +28,6 @@ export function registerAction(value) {
         name: value.name,
       }),
     })
-      .then(checkResponse)
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -38,12 +37,7 @@ export function registerAction(value) {
             type: GET_USER,
             user: res,
           });
-          // document.cookie = "";
           sessionStorage.setItem("user", JSON.stringify(res));
-          // console.log("Есть ли изначально куки: ", getCookie("refreshToken"));
-          // console.log("Ставим куку", res.refreshToken);
-          // setCookie("refreshToken", res.refreshToken);
-          // console.log("Кука после изменения: ", getCookie("refreshToken"));
         } else {
           dispatch({ type: REGISTRATION_FAILED });
         }

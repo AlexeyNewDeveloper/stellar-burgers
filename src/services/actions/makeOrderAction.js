@@ -1,5 +1,6 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse, getListOrder } from "../../utils/utils";
+import { getListOrder } from "../../utils/utils";
+import { requestTo } from "../../utils/utils";
 
 export const MAKE_ORDER = "MAKE_ORDER";
 export const MAKE_ORDER_SUCCESS = "MAKE_ORDER_SUCCESS";
@@ -21,7 +22,7 @@ export function makeOrderAction(token) {
     dispatch({
       type: MAKE_ORDER,
     });
-    fetch(`${URL_FOR_GET_DATA}/orders`, {
+    requestTo(`${URL_FOR_GET_DATA}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -31,7 +32,6 @@ export function makeOrderAction(token) {
         ingredients: orderList,
       }),
     })
-      .then(checkResponse)
       .then((res) => {
         dispatch({
           type: MAKE_ORDER_SUCCESS,

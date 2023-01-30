@@ -1,5 +1,5 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
+import { requestTo } from "../../utils/utils";
 
 export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
 export const FORGOT_PASSWORD_REQUEST_SUCCESS =
@@ -12,7 +12,7 @@ export function forgotPasswordAction(email) {
     dispatch({
       type: FORGOT_PASSWORD_REQUEST,
     });
-    fetch(`${URL_FOR_GET_DATA}/password-reset`, {
+    requestTo(`${URL_FOR_GET_DATA}/password-reset`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -26,7 +26,6 @@ export function forgotPasswordAction(email) {
         email: email,
       }),
     })
-      .then(checkResponse)
       .then((res) => {
         if (res.success) {
           dispatch({
