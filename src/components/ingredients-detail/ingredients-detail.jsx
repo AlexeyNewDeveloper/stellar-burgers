@@ -69,5 +69,5 @@ export default function IngredientDetails({ noModal }) {
 }
 
 IngredientDetails.propTypes = {
-  noModal: PropTypes.bool.isRequired,
+  noModal: PropTypes.bool,
 };

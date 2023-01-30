@@ -29,7 +29,12 @@ const withModal =
     const navigate = useNavigate();
 
     const openPopupCallback = () => {
-      user ? setOpenPopup(true) : navigate("/login", { state: { from: "/" } });
+      if (user || !orderButton) {
+        setOpenPopup(true);
+      } else {
+        navigate("/login", { state: { from: "/" } });
+      }
+      // user ? setOpenPopup(true) : navigate("/login", { state: { from: "/" } });
       if (detailInfo) {
         dispatch({ type: OPEN_POPUP, modalData: detailInfo });
         navigate(`/ingredients/${props.item["_id"]}`);
