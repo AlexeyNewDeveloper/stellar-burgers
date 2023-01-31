@@ -8,16 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
 import { TYPE_BUN } from "../../utils/constants";
 import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
+import { IngredientsContext } from "../app/App";
 
 export default function BurgerIngredients() {
   const [activeTab, setActiveTab] = React.useState(TYPE_BUN);
-  const { ingredients, ingredientsRequest, ingredientsFailed } =
-    useSelector(getIngredientsState);
-  const dispatch = useDispatch();
+  const { ingredients } = React.useContext(IngredientsContext);
+  // const { ingredients, ingredientsRequest, ingredientsFailed } =
+  //   useSelector(getIngredientsState);
 
-  React.useEffect(() => {
-    dispatch(getIngredientsAction());
-  }, []);
+  const dispatch = useDispatch();
 
   const filtredIngredients = React.useMemo(() => {
     return filterIngredients(ingredients, {
@@ -34,8 +33,6 @@ export default function BurgerIngredients() {
       </h1>
       <Tabs activeTab={activeTab} />
       <div id="ingredientsArea" className={`${styles.ingredients}`}>
-        {ingredientsRequest && "Загрузка..."}
-        {ingredientsFailed && "Произошла ошибка"}
         {ingredients.length &&
           Object.keys(filtredIngredients).map((key, index) => {
             return (

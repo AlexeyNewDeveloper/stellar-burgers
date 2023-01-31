@@ -167,3 +167,9 @@ export const requestTo = async (url, options) => {
   }
   return checkResponse(res);
 };
+
+export const getOrderById = (id, orders) => {
+  if (orders.length) {
+    return orders.find((item) => item._id === id);
+  }
+};

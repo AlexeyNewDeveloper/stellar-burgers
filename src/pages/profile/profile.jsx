@@ -47,7 +47,7 @@ export default function Profile() {
     if (editableDataRequestFailed || updateUserDataRequestFailed) {
       dispatch(
         updateAccessTokenAction(
-          JSON.parse(sessionStorage.getItem("user")).refreshToken
+          JSON.parse(localStorage.getItem("user")).refreshToken
         )
       );
     }

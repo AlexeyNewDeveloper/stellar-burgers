@@ -51,7 +51,7 @@ export function logoutAction(token) {
           dispatch({
             type: LOGOUT_USER,
           });
-          sessionStorage.removeItem("user");
+          localStorage.removeItem("user");
           const { wsUserConnectedSuccess, wsUserConnected } =
             getState().wsUserReducer;
           if (wsUserConnectedSuccess || wsUserConnected) {
@@ -124,10 +124,10 @@ export function updateAccessTokenAction(refreshToken) {
             accessToken: res.accessToken,
             refreshToken: res.refreshToken,
           });
-          sessionStorage.setItem(
+          localStorage.setItem(
             "user",
             JSON.stringify({
-              ...JSON.parse(sessionStorage.getItem("user")),
+              ...JSON.parse(localStorage.getItem("user")),
               accessToken: res.accessToken,
               refreshToken: res.refreshToken,
             })
@@ -168,10 +168,10 @@ export function updateUserDataAction(updatedUser, accessToken) {
             type: UPDATE_USER_DATA,
             updatedDataUser: res.user,
           });
-          sessionStorage.setItem(
+          localStorage.setItem(
             "user",
             JSON.stringify({
-              ...JSON.parse(sessionStorage.getItem("user")),
+              ...JSON.parse(localStorage.getItem("user")),
               user: { name: res.user.name, email: res.user.email },
             })
           );

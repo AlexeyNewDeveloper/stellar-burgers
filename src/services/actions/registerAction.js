@@ -37,7 +37,7 @@ export function registerAction(value) {
             type: GET_USER,
             user: res,
           });
-          sessionStorage.setItem("user", JSON.stringify(res));
+          localStorage.setItem("user", JSON.stringify(res));
         } else {
           dispatch({ type: REGISTRATION_FAILED });
         }

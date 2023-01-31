@@ -35,7 +35,7 @@ export function loginAction(value) {
             type: GET_USER,
             user: res,
           });
-          sessionStorage.setItem("user", JSON.stringify(res));
+          localStorage.setItem("user", JSON.stringify(res));
         } else {
           dispatch({ type: LOGIN_FAILED });
         }

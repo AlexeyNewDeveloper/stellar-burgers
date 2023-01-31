@@ -32,7 +32,7 @@ export default function OrderDetails() {
     if (makeOrderFailed) {
       dispatch(
         updateAccessTokenAction(
-          JSON.parse(sessionStorage.getItem("user")).refreshToken
+          JSON.parse(localStorage.getItem("user")).refreshToken
         )
       );
     }
