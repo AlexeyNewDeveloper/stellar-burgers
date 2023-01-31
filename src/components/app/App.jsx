@@ -45,10 +45,31 @@ function App() {
               <ProtectedRoute
                 authorized={false}
                 protectedElement={
-                  <Routes>
-                    <Route path="/*" element={<PersonalAccount />} />
-                    <Route path="/orders/:id" element={<OrderPage />} />
-                  </Routes>
+                  <>
+                    <Routes
+                      location={location.state?.backgroundLocation || location}
+                    >
+                      <Route path="/*" element={<PersonalAccount />} />
+                      <Route path="orders/:id" element={<OrderPage />} />
+                    </Routes>
+                    <Routes>
+                      {location.state?.backgroundLocation && (
+                        <Route
+                          path="orders/:id"
+                          element={
+                            <ProtectedRoute
+                              authorized={false}
+                              protectedElement={
+                                <ModalComponent>
+                                  <OrderPage modal={true} />
+                                </ModalComponent>
+                              }
+                            />
+                          }
+                        />
+                      )}
+                    </Routes>
+                  </>
                 }
               />
             }

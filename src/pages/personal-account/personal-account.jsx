@@ -73,23 +73,6 @@ export default function PersonalAccount() {
                   }
                 />
               </Routes>
-              <Routes>
-                {location.state?.backgroundLocation && (
-                  <Route
-                    path=":id"
-                    element={
-                      <ProtectedRoute
-                        authorized={false}
-                        protectedElement={
-                          <ModalComponent>
-                            <OrderPage modal={true} />
-                          </ModalComponent>
-                        }
-                      />
-                    }
-                  />
-                )}
-              </Routes>
             </>
           }
         />

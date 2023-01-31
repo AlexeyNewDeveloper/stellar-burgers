@@ -8,6 +8,7 @@ import { updateAccessTokenAction } from "../../services/actions/userAction";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 import { getInitialStateForToken } from "../../services/actions/userAction";
 import Spinner from "../../components/spinner/spinner";
+import { wsUserConnectionClosed } from "../../services/actions/wsUserAction";
 
 export default function OrderHistory() {
   const dispatch = useDispatch();
@@ -21,6 +22,9 @@ export default function OrderHistory() {
       dispatch(wsUserInit());
       wsConnecting.current = true;
     }
+    return () => {
+      dispatch(wsUserConnectionClosed());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

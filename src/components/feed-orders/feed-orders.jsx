@@ -9,6 +9,7 @@ import FeedOfOrdersComponent from "../feed-of-orders-component/feed-of-orders-co
 import StatListOrderNumbers from "../stats_list_order_numbers/stats_list_order_numbers";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 import { getInitialStateForToken } from "../../services/actions/userAction";
+import { wsConnectionClosed } from "../../services/actions/wsAction";
 
 export default function FeedOrders() {
   const dispatch = useDispatch();
@@ -19,6 +20,9 @@ export default function FeedOrders() {
     if (!wsConnectedSuccess) {
       dispatch(wsInit());
     }
+    return () => {
+      dispatch(wsConnectionClosed());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
