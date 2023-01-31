@@ -1,5 +1,5 @@
-import styles from "./circle_icons_list.module.css";
-import CircleIconIngredient from "../circle_icon_ingredient/circle_icon_ingredient";
+import styles from "./circle-icons-list.module.css";
+import CircleIconIngredient from "../circle-icon-ingredient/circle-icon-ingredient";
 import PropTypes from "prop-types";
 
 export default function CircleIconsList({

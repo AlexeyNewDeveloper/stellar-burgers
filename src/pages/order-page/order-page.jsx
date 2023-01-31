@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useLocation, useParams } from "react-router-dom";
 import { ORDER_STATUS_DONE } from "../../utils/constants";
-import CircleIconIngredient from "../../components/circle_icon_ingredient/circle_icon_ingredient";
+import CircleIconIngredient from "../../components/circle-icon-ingredient/circle-icon-ingredient";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from "react-redux";
 import { getWsState } from "../../services/selectors/wsStateSelector";
