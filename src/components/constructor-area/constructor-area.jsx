@@ -42,7 +42,7 @@ export default function ConstructorArea() {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={bun ? bun.name : "Добавьте булку"}
+            text={bun ? bun.name + " (верх)" : "Добавьте булку"}
             price={bun ? bun.price : 0}
             thumbnail={bun ? bun.image : null}
           />
@@ -68,7 +68,7 @@ export default function ConstructorArea() {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={bun ? bun.name : "Добавьте булку"}
+            text={bun ? bun.name + " (низ)" : "Добавьте булку"}
             price={bun ? bun.price : 0}
             thumbnail={bun ? bun.image : null}
           />
