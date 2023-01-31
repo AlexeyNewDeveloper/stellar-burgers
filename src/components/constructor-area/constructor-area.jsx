@@ -17,6 +17,7 @@ export default function ConstructorArea() {
       isHover: monitor.isOver(),
     }),
     drop(item) {
+      item.uuid = uuidv4();
       dispatch({
         type: ADD_INGREDIENT,
         ingredient: item,
@@ -59,7 +60,11 @@ export default function ConstructorArea() {
         {ingredients.length !== 0 &&
           ingredients.map((item, index) => {
             return (
-              <ConstructorIngredient key={uuidv4()} item={item} index={index} /> // сделать для key uuid, а не index
+              <ConstructorIngredient
+                key={item.uuid}
+                item={item}
+                index={index}
+              /> // сделать для key uuid, а не index
             );
           })}
       </ul>

@@ -17,7 +17,6 @@ export default function BurgerIngredients() {
   //   useSelector(getIngredientsState);
 
   const dispatch = useDispatch();
-
   const filtredIngredients = React.useMemo(() => {
     return filterIngredients(ingredients, {
       bun: [],
