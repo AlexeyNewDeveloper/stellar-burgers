@@ -6,7 +6,7 @@ import { getWsState } from "../../services/selectors/wsStateSelector";
 import TotalComletedOrders from "../total-completed-orders/total-completed-orders";
 import { ORDER_STATUS_DONE, ORDER_STATUS_AT_WORK } from "../../utils/constants";
 import FeedOfOrdersComponent from "../feed-of-orders-component/feed-of-orders-component";
-import StatListOrderNumbers from "../stats_list_order_numbers/stats_list_order_numbers";
+import StatListOrderNumbers from "../stats-list-order-numbers/stats-list-order-numbers";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 import { getInitialStateForToken } from "../../services/actions/userAction";
 import { wsConnectionClosed } from "../../services/actions/wsAction";

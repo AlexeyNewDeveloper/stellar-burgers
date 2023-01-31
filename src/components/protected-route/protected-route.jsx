@@ -7,9 +7,9 @@ export function ProtectedRoute({ protectedElement, authorized }) {
   let { user } = useSelector(getUserState);
 
   if (authorized) {
-    return <>{user ? <Navigate to="/" /> : protectedElement}</>;
+    return <>{user ? <Navigate replace to="/" /> : protectedElement}</>;
   }
-  return <>{user ? protectedElement : <Navigate to="/login" />}</>;
+  return <>{user ? protectedElement : <Navigate replace to="/login" />}</>;
 }
 
 ProtectedRoute.propTypes = {
