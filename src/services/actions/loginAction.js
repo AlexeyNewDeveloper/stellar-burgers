@@ -1,16 +1,32 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { GET_USER } from "./userAction";
+import { getUser } from "./userAction";
 import { requestTo } from "../../utils/utils";
 
 export const LOGIN = "LOGIN";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 
+export const getLogin = () => {
+  return {
+    type: LOGIN,
+  };
+};
+
+export const getLoginSuccess = () => {
+  return {
+    type: LOGIN_SUCCESS,
+  };
+};
+
+export const getLoginFailed = () => {
+  return {
+    type: LOGIN_FAILED,
+  };
+};
+
 export function loginAction(value) {
   return function (dispatch) {
-    dispatch({
-      type: LOGIN,
-    });
+    dispatch(getLogin());
     requestTo(`${URL_FOR_GET_DATA}/auth/login`, {
       method: "POST",
       mode: "cors",
@@ -27,21 +43,12 @@ export function loginAction(value) {
       }),
     })
       .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: LOGIN_SUCCESS,
-          });
-          dispatch({
-            type: GET_USER,
-            user: res,
-          });
-          localStorage.setItem("user", JSON.stringify(res));
-        } else {
-          dispatch({ type: LOGIN_FAILED });
-        }
+        dispatch(getLoginSuccess());
+        dispatch(getUser(res));
+        localStorage.setItem("user", JSON.stringify(res));
       })
       .catch((err) => {
-        dispatch({ type: LOGIN_FAILED });
+        dispatch(getLoginFailed());
       });
   };
 }

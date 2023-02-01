@@ -26,7 +26,7 @@ export default function ModalComponent({ children }) {
   return (
     <>
       {openPopup &&
-        !openPopupRef.current &&
+        // !openPopupRef.current &&
         ReactDOM.createPortal(
           <div className={styles.z_index}>
             <ModalOverlay closePopup={closePopupCallback}>

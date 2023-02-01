@@ -8,6 +8,7 @@ import { getUserState } from "../../services/selectors/userStateSelectors";
 import { getMakeOrderState } from "../../services/selectors/makeOrderStateSelector";
 import { getReadyForNewOrder } from "../../services/actions/makeOrderAction";
 import { getInitialStateForToken } from "../../services/actions/userAction";
+import { getInitialStateForBurgerConstructorTarget } from "../../services/actions/burgerConstructorTargetAction";
 
 export default function OrderDetails() {
   const {
@@ -25,6 +26,7 @@ export default function OrderDetails() {
       dispatch(makeOrderAction(user.accessToken));
       createOrder.current = true;
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -48,12 +50,15 @@ export default function OrderDetails() {
   }, [updateTokenRequestSuccess]);
 
   React.useEffect(() => {
+    debugger;
     return () => {
       if (makeOrderRequestSuccess) {
         dispatch(getReadyForNewOrder());
         createOrder.current = false;
+        dispatch(getInitialStateForBurgerConstructorTarget());
       }
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [makeOrderRequestSuccess]);
 

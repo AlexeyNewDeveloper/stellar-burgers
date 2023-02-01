@@ -64,7 +64,7 @@ export default function ConstructorArea() {
                 key={item.uuid}
                 item={item}
                 index={index}
-              /> // сделать для key uuid, а не index
+              />
             );
           })}
       </ul>

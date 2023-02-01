@@ -1,5 +1,5 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { GET_USER } from "./userAction";
+import { getUser } from "./userAction";
 import { requestTo } from "../../utils/utils";
 // import { setCookie, getCookie } from "../../utils/utils";
 
@@ -7,11 +7,25 @@ export const REGISTRATION = "REGISTRATION";
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
 export const REGISTRATION_FAILED = "REGISTRATION_FAILED";
 
+export const getRegistration = () => {
+  return {
+    type: REGISTRATION,
+  };
+};
+export const getRegistrationSuccess = () => {
+  return {
+    type: REGISTRATION_SUCCESS,
+  };
+};
+export const getRegistrationFailed = () => {
+  return {
+    type: REGISTRATION_FAILED,
+  };
+};
+
 export function registerAction(value) {
   return function (dispatch) {
-    dispatch({
-      type: REGISTRATION,
-    });
+    dispatch(getRegistration());
     requestTo(`${URL_FOR_GET_DATA}/auth/register`, {
       method: "POST",
       mode: "cors",
@@ -29,21 +43,12 @@ export function registerAction(value) {
       }),
     })
       .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: REGISTRATION_SUCCESS,
-          });
-          dispatch({
-            type: GET_USER,
-            user: res,
-          });
-          localStorage.setItem("user", JSON.stringify(res));
-        } else {
-          dispatch({ type: REGISTRATION_FAILED });
-        }
+        dispatch(getRegistrationSuccess());
+        dispatch(getUser(res));
+        localStorage.setItem("user", JSON.stringify(res));
       })
       .catch((err) => {
-        dispatch({ type: REGISTRATION_FAILED });
+        dispatch(getRegistrationFailed());
       });
   };
 }

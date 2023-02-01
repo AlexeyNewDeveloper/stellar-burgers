@@ -128,8 +128,8 @@ function App() {
                     <Route index element={<FeedOrders />} />
                     <Route path=":id" element={<OrderPage />} />
                   </Routes>
-                  <Routes>
-                    {location.state?.backgroundLocation && (
+                  {location.state?.backgroundLocation && (
+                    <Routes>
                       <Route
                         path=":id"
                         element={
@@ -138,8 +138,8 @@ function App() {
                           </ModalComponent>
                         }
                       />
-                    )}
-                  </Routes>
+                    </Routes>
+                  )}
                 </>
               }
             />

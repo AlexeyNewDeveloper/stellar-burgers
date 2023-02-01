@@ -7,6 +7,27 @@ export const FORGOT_PASSWORD_REQUEST_SUCCESS =
 export const FORGOT_PASSWORD_REQUEST_FAILED = "FORGOT_PASSWORD_REQUEST_FAILED";
 export const FORGOT_PASSWORD_INITIAL_STATE = "FORGOT_PASSWORD_INITIAL_STATE";
 
+export const getForgotPasswordRequest = () => {
+  return {
+    type: FORGOT_PASSWORD_REQUEST,
+  };
+};
+export const getForgotPasswordRequestSuccess = () => {
+  return {
+    type: FORGOT_PASSWORD_REQUEST_SUCCESS,
+  };
+};
+export const getForgotPasswordRequestFailed = () => {
+  return {
+    type: FORGOT_PASSWORD_REQUEST_FAILED,
+  };
+};
+export const getForgotInitialState = () => {
+  return {
+    type: FORGOT_PASSWORD_INITIAL_STATE,
+  };
+};
+
 export function forgotPasswordAction(email) {
   return function (dispatch) {
     dispatch({
@@ -27,16 +48,10 @@ export function forgotPasswordAction(email) {
       }),
     })
       .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: FORGOT_PASSWORD_REQUEST_SUCCESS,
-          });
-        } else {
-          dispatch({ type: FORGOT_PASSWORD_REQUEST_FAILED });
-        }
+        dispatch(getForgotPasswordRequestSuccess());
       })
       .catch((err) => {
-        dispatch({ type: FORGOT_PASSWORD_REQUEST_FAILED });
+        dispatch(getForgotPasswordRequestFailed());
       });
   };
 }

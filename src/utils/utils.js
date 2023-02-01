@@ -165,7 +165,9 @@ export const requestTo = async (url, options) => {
   } else {
     res = await fetch(url);
   }
-  return checkResponse(res);
+  return checkResponse(res).then((res) =>
+    res.success ? Promise.resolve(res) : Promise.reject(res)
+  );
 };
 
 export const getOrderById = (id, orders) => {
