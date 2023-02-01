@@ -52,7 +52,9 @@ function AppHeader() {
         </ul>
       </nav>
       <div className={`${styles.logo}`}>
-        <Logo />
+        <NavLink to="/">
+          <Logo />
+        </NavLink>
       </div>
       <div className={`${styles.item} pl-5 pr-5 pt-4 pb-4`}>
         <NavLink

@@ -1,4 +1,5 @@
 import styles from "./personal-account.module.css";
+
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import Profile from "../profile/profile";
 import OrderHistory from "../order-history/order-history";
@@ -71,32 +72,6 @@ export default function PersonalAccount() {
                     />
                   }
                 />
-                <Route
-                  path=":id"
-                  element={
-                    <ProtectedRoute
-                      authorized={false}
-                      protectedElement={<OrderPage />}
-                    />
-                  }
-                />
-              </Routes>
-              <Routes>
-                {location.state?.backgroundLocation && (
-                  <Route
-                    path=":id"
-                    element={
-                      <ProtectedRoute
-                        authorized={false}
-                        protectedElement={
-                          <ModalComponent>
-                            <OrderPage modal={true} />
-                          </ModalComponent>
-                        }
-                      />
-                    }
-                  />
-                )}
               </Routes>
             </>
           }

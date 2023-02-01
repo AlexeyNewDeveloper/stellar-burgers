@@ -2,6 +2,7 @@ import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
   MOVE_INGREDIENT,
+  INITIAL_STATE_BURGER_CONSTRUCTOR_TARGET,
 } from "../actions/burgerConstructorTargetAction";
 import { calcTotalPrice } from "../../utils/utils";
 import { burgerConstructorTargetInitialState } from "../states/burgerConstructorTargetState";
@@ -60,6 +61,16 @@ export const burgerConstructorTargetReducer = (
         ingredientsForConstructor: {
           ...state.ingredientsForConstructor,
           ingredients: ingredients,
+        },
+      };
+    }
+    case INITIAL_STATE_BURGER_CONSTRUCTOR_TARGET: {
+      return {
+        ...state,
+        ingredientsForConstructor: {
+          ...state.ingredientsForConstructor,
+          ingredients: [],
+          bun: null,
         },
       };
     }

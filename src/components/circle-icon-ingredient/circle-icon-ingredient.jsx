@@ -1,4 +1,4 @@
-import styles from "./circle_icon_ingredient.module.css";
+import styles from "./circle-icon-ingredient.module.css";
 import PropTypes from "prop-types";
 
 export default function CircleIconIngredient({

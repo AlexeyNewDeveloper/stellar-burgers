@@ -9,7 +9,7 @@
 }
 
 .number_order {
-  block-size: 64px;
+  /* block-size: 64px; */
   display: flex;
   justify-content: center;
   align-items: center;

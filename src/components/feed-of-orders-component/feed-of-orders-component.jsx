@@ -9,14 +9,14 @@ import { useLocation, Link } from "react-router-dom";
 import moment from "moment";
 import { getCompositionOrder } from "../../utils/utils";
 import { countTotalPriceOrder } from "../../utils/utils";
+import { IngredientsContext } from "../app/App";
 
 export default function FeedOfOrdersComponent({
   orders,
   extraClassContainer,
   showStatus,
 }) {
-  const dispatch = useDispatch();
-  const { ingredients } = useSelector(getIngredientsState);
+  const { ingredients } = React.useContext(IngredientsContext);
   const location = useLocation();
   const getDateMoment = (orderDate) =>
     moment(orderDate).calendar(null, {
@@ -27,13 +27,6 @@ export default function FeedOfOrdersComponent({
       lastWeek: "[На прошлой неделе], mm:ss i-GMT+3",
       sameElse: "DD/MM/YYYY",
     });
-
-  React.useEffect(() => {
-    if (!ingredients.length) {
-      dispatch(getIngredientsAction());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ingredients]);
 
   return (
     <ul

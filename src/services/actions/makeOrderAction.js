@@ -12,6 +12,23 @@ export const getReadyForNewOrder = () => {
     type: READY_FOR_NEW_ORDER,
   };
 };
+export const getMakeOrder = () => {
+  return {
+    type: MAKE_ORDER,
+  };
+};
+export const getMakeOrderSuccess = (listIngredientsOrder, orderNumber) => {
+  return {
+    type: MAKE_ORDER_SUCCESS,
+    listIngredientsOrder,
+    orderNumber,
+  };
+};
+export const getMakeOrderFailed = () => {
+  return {
+    type: MAKE_ORDER_FAILED,
+  };
+};
 
 export function makeOrderAction(token) {
   return function (dispatch, getState) {
@@ -19,9 +36,7 @@ export function makeOrderAction(token) {
       getState().burgerConstructorTargetReducer.ingredientsForConstructor
     );
 
-    dispatch({
-      type: MAKE_ORDER,
-    });
+    dispatch(getMakeOrder());
     requestTo(`${URL_FOR_GET_DATA}/orders`, {
       method: "POST",
       headers: {
@@ -33,14 +48,10 @@ export function makeOrderAction(token) {
       }),
     })
       .then((res) => {
-        dispatch({
-          type: MAKE_ORDER_SUCCESS,
-          listIngredientsOrder: orderList,
-          orderNumber: res.order.number,
-        });
+        dispatch(getMakeOrderSuccess(orderList, res.order.number));
       })
       .catch((err) => {
-        dispatch({ type: MAKE_ORDER_FAILED });
+        dispatch(getMakeOrderFailed());
       });
   };
 }

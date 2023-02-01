@@ -1,4 +1,4 @@
-import styles from "./stats_list_order_numbers.module.css";
+import styles from "./stats-list-order-numbers.module.css";
 import PropTypes from "prop-types";
 import { MAX_NUMBER_OF_ORDER_NUMBERS_IN_LIST } from "../../utils/constants";
 

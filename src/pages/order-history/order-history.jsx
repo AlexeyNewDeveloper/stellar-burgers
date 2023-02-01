@@ -8,6 +8,7 @@ import { updateAccessTokenAction } from "../../services/actions/userAction";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 import { getInitialStateForToken } from "../../services/actions/userAction";
 import Spinner from "../../components/spinner/spinner";
+import { wsUserConnectionClosed } from "../../services/actions/wsUserAction";
 
 export default function OrderHistory() {
   const dispatch = useDispatch();
@@ -21,6 +22,9 @@ export default function OrderHistory() {
       dispatch(wsUserInit());
       wsConnecting.current = true;
     }
+    return () => {
+      dispatch(wsUserConnectionClosed());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -30,24 +34,24 @@ export default function OrderHistory() {
     }
   }, [wsUserConnectedSuccess]);
 
-  React.useEffect(() => {
-    if (wsUserError || (data && !data.orders)) {
-      dispatch(
-        updateAccessTokenAction(
-          JSON.parse(sessionStorage.getItem("user")).refreshToken
-        )
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wsUserError, data]);
+  // React.useEffect(() => {
+  //   if (wsUserError || (data && !data.orders)) {
+  //     dispatch(
+  //       updateAccessTokenAction(
+  //         JSON.parse(localStorage.getItem("user")).refreshToken
+  //       )
+  //     );
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [wsUserError, data]);
 
-  React.useEffect(() => {
-    if (updateTokenRequestSuccess) {
-      dispatch(wsUserInit());
-      dispatch(getInitialStateForToken());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateTokenRequestSuccess]);
+  // React.useEffect(() => {
+  //   if (updateTokenRequestSuccess) {
+  //     dispatch(wsUserInit());
+  //     dispatch(getInitialStateForToken());
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [updateTokenRequestSuccess]);
 
   return (
     <div className={styles.orders_container}>

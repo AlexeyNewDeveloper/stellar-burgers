@@ -17,6 +17,7 @@ export default function ConstructorArea() {
       isHover: monitor.isOver(),
     }),
     drop(item) {
+      item.uuid = uuidv4();
       dispatch({
         type: ADD_INGREDIENT,
         ingredient: item,
@@ -42,7 +43,7 @@ export default function ConstructorArea() {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={bun ? bun.name : "Добавьте булку"}
+            text={bun ? bun.name + " (верх)" : "Добавьте булку"}
             price={bun ? bun.price : 0}
             thumbnail={bun ? bun.image : null}
           />
@@ -59,7 +60,11 @@ export default function ConstructorArea() {
         {ingredients.length !== 0 &&
           ingredients.map((item, index) => {
             return (
-              <ConstructorIngredient key={uuidv4()} item={item} index={index} /> // сделать для key uuid, а не index
+              <ConstructorIngredient
+                key={item.uuid}
+                item={item}
+                index={index}
+              />
             );
           })}
       </ul>
@@ -68,7 +73,7 @@ export default function ConstructorArea() {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={bun ? bun.name : "Добавьте булку"}
+            text={bun ? bun.name + " (низ)" : "Добавьте булку"}
             price={bun ? bun.price : 0}
             thumbnail={bun ? bun.image : null}
           />

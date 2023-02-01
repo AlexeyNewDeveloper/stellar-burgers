@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useLocation, useParams } from "react-router-dom";
 import { ORDER_STATUS_DONE } from "../../utils/constants";
-import CircleIconIngredient from "../../components/circle_icon_ingredient/circle_icon_ingredient";
+import CircleIconIngredient from "../../components/circle-icon-ingredient/circle-icon-ingredient";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from "react-redux";
 import { getWsState } from "../../services/selectors/wsStateSelector";
@@ -12,64 +12,69 @@ import { getIngredientsState } from "../../services/selectors/getIngredientsStat
 import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
 import { getCompositionOrder } from "../../utils/utils";
 import { countTotalPriceOrder } from "../../utils/utils";
+import { IngredientsContext } from "../../components/app/App";
+import { getUserWsState } from "../../services/selectors/wsUserStateSelector";
+import { wsUserInit } from "../../services/actions/wsUserAction";
+import { getOrderById } from "../../utils/utils";
 
 export default function OrderPage({ modal }) {
   const { state } = useLocation();
+  const [orderObj, setOrderObj] = React.useState(null);
   const dispatch = useDispatch();
-  const { data } = useSelector(getWsState);
+  const { data } = useSelector(getUserWsState);
   const { ingredients } = useSelector(getIngredientsState);
   const { id } = useParams();
-  let order = null;
-  let compositionOrder = null;
-  let totalPriceOrder = null;
-
-  const getOrderById = (id) => {
-    return data.orders.find((item) => item._id === id);
-  };
 
   React.useEffect(() => {
-    if (!order) {
-      if (!data) {
-        dispatch(wsInit());
-      }
-    }
-    if (!ingredients.length) {
+    if (!state) {
+      dispatch(wsUserInit());
       dispatch(getIngredientsAction());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, ingredients.length]);
+    if (state) {
+      setOrderObj({
+        order: JSON.parse(state.order),
+        compositionOrder: JSON.parse(state.order).composition,
+        totalPriceOrder: JSON.parse(state.order).totalPriceOrder,
+      });
+    }
+  }, []);
 
-  if (state) {
-    order = JSON.parse(state.order);
-    compositionOrder = order.composition;
-    totalPriceOrder = order.totalPriceOrder;
-  } else if (data) {
-    order = getOrderById(id);
-    compositionOrder = getCompositionOrder(
-      order,
-      ingredients
-    ).arrayCompositionOrder;
-    totalPriceOrder = countTotalPriceOrder(compositionOrder);
-  }
+  React.useEffect(() => {
+    if (!state && data && ingredients.length && !orderObj) {
+      let order = getOrderById(id, data.orders);
+      let compositionOrder = getCompositionOrder(
+        order,
+        ingredients
+      ).arrayCompositionOrder;
+      let totalPriceOrder = countTotalPriceOrder(compositionOrder);
+      setOrderObj({
+        order,
+        compositionOrder,
+        totalPriceOrder,
+      });
+    }
+  }, [data, ingredients.length]);
 
   return (
     <section
       className={`${styles.container} ${modal && styles.container_modal}`}
     >
-      {order && ingredients.length && (
+      {orderObj && (
         <>
           <p
             className={`text text_type_digits-default ${styles.number_order} ${
               modal && styles.number_order_modal
             }`}
           >
-            #{order.number}
+            #{orderObj.order.number}
           </p>
           <h2 className={`text text_type_main-large ${styles.title}`}>
-            {order.name}
+            {orderObj.order.name}
           </h2>
           <p className={styles.status}>
-            {order.status === ORDER_STATUS_DONE ? "Выполнен" : "В работе"}
+            {orderObj.order.status === ORDER_STATUS_DONE
+              ? "Выполнен"
+              : "В работе"}
           </p>
           <p className={`text text_type_main-medium`}>Состав:</p>
           <ul
@@ -77,7 +82,7 @@ export default function OrderPage({ modal }) {
               modal && styles.order_composition_list_modal
             }`}
           >
-            {compositionOrder.map((item, index) => {
+            {orderObj.compositionOrder.map((item, index) => {
               return (
                 <li key={index} className={styles.order_composition_item}>
                   <div className={`${styles.circle_gradient_container}`}>
@@ -102,12 +107,12 @@ export default function OrderPage({ modal }) {
           </ul>
           <div className={styles.footer}>
             <span className={`text text_type_main-default text_color_inactive`}>
-              {order.date}
+              {orderObj.order.date}
             </span>
             <p
               className={`text text_type_digits-default ${styles.price_ingredient}`}
             >
-              {totalPriceOrder}
+              {orderObj.totalPriceOrder}
               <span className={styles.price_icon}>
                 <CurrencyIcon type="primary" />
               </span>
