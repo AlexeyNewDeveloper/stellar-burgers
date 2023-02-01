@@ -14,15 +14,15 @@ import {
 } from "../../services/actions/userAction";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 import { getInitialStateForToken } from "../../services/actions/userAction";
+import { useForm } from "../../hooks/useForm";
 
 export default function Profile() {
-  const [value, setValue] = React.useState({
+  const { values, changed, handleChange, setValues, setChanged } = useForm({
     password: { changed: false, value: "" },
     email: { changed: false, value: "" },
     name: { changed: false, value: "" },
   });
   const [updatedFields, setUpdatedFields] = React.useState({});
-  const [changed, setChanged] = React.useState(false);
   const gettingtUser = React.useRef(false);
   const dispatch = useDispatch();
   const {
@@ -70,10 +70,10 @@ export default function Profile() {
 
   React.useEffect(() => {
     if (editableUser) {
-      setValue({
-        password: { ...value.password, value: "password" },
-        email: { ...value.email, value: editableUser.user.email },
-        name: { ...value.name, value: editableUser.user.name },
+      setValues({
+        password: { ...values.password, value: "password" },
+        email: { ...values.email, value: editableUser.user.email },
+        name: { ...values.name, value: editableUser.user.name },
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,7 +82,7 @@ export default function Profile() {
   const editUserData = (e) => {
     e.preventDefault();
     const updatedFieldsTempObj = {};
-    for (const [field, fieldValue] of Object.entries(value)) {
+    for (const [field, fieldValue] of Object.entries(values)) {
       if (fieldValue.changed) {
         updatedFieldsTempObj[field] = fieldValue.value;
       }
@@ -97,29 +97,20 @@ export default function Profile() {
   const cancelChanges = (e) => {
     e.preventDefault();
     setChanged(false);
-    setValue({
-      password: { ...value.password, value: "password" },
-      email: { ...value.email, value: editableUser.user.email },
-      name: { ...value.name, value: editableUser.user.name },
+    setValues({
+      password: { ...values.password, value: "password" },
+      email: { ...values.email, value: editableUser.user.email },
+      name: { ...values.name, value: editableUser.user.name },
     });
   };
 
-  const onChange = (e) => {
-    if (!changed) {
-      setChanged(true);
-    }
-    setValue({
-      ...value,
-      [e.target.name]: { changed: true, value: e.target.value },
-    });
-  };
   return (
     <form onSubmit={editUserData} className={styles.form}>
       <Input
         type="text"
         placeholder="Имя"
-        onChange={onChange}
-        value={editableUser ? value.name.value : "Загрузка..."}
+        onChange={handleChange}
+        value={editableUser ? values.name.value : "Загрузка..."}
         icon="EditIcon"
         name={"name"}
         extraClass={styles.item}
@@ -127,8 +118,8 @@ export default function Profile() {
       />
 
       <EmailInput
-        onChange={onChange}
-        value={editableUser ? value.email.value : "Загрузка..."}
+        onChange={handleChange}
+        value={editableUser ? values.email.value : "Загрузка..."}
         name={"email"}
         placeholder="Логин"
         isIcon={true}
@@ -138,8 +129,8 @@ export default function Profile() {
 
       <PasswordInput
         placeholder="Пароль"
-        onChange={onChange}
-        value={editableUser ? value.password.value : "Загрузка..."}
+        onChange={handleChange}
+        value={editableUser ? values.password.value : "Загрузка..."}
         icon="EditIcon"
         name={"password"}
         extraClass={styles.item}

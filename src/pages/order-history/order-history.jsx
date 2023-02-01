@@ -34,24 +34,24 @@ export default function OrderHistory() {
     }
   }, [wsUserConnectedSuccess]);
 
-  React.useEffect(() => {
-    if (wsUserError || (data && !data.orders)) {
-      dispatch(
-        updateAccessTokenAction(
-          JSON.parse(localStorage.getItem("user")).refreshToken
-        )
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wsUserError, data]);
+  // React.useEffect(() => {
+  //   if (wsUserError || (data && !data.orders)) {
+  //     dispatch(
+  //       updateAccessTokenAction(
+  //         JSON.parse(localStorage.getItem("user")).refreshToken
+  //       )
+  //     );
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [wsUserError, data]);
 
-  React.useEffect(() => {
-    if (updateTokenRequestSuccess) {
-      dispatch(wsUserInit());
-      dispatch(getInitialStateForToken());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateTokenRequestSuccess]);
+  // React.useEffect(() => {
+  //   if (updateTokenRequestSuccess) {
+  //     dispatch(wsUserInit());
+  //     dispatch(getInitialStateForToken());
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [updateTokenRequestSuccess]);
 
   return (
     <div className={styles.orders_container}>

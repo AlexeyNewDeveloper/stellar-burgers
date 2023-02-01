@@ -26,20 +26,20 @@ export default function FeedOrders() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  React.useEffect(() => {
-    if (wsError) {
-      dispatch(wsInit());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wsError]);
+  // React.useEffect(() => {
+  //   if (wsError) {
+  //     dispatch(wsInit());
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [wsError]);
 
-  React.useEffect(() => {
-    if (updateTokenRequestSuccess) {
-      dispatch(wsInit());
-      dispatch(getInitialStateForToken());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateTokenRequestSuccess]);
+  // React.useEffect(() => {
+  //   if (updateTokenRequestSuccess) {
+  //     dispatch(wsInit());
+  //     dispatch(getInitialStateForToken());
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [updateTokenRequestSuccess]);
 
   return (
     <section className={styles.section}>
