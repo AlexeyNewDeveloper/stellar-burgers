@@ -4,11 +4,12 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import ReactDOM from "react-dom";
 import { MODAL_ROOT } from "../../utils/constants";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useMatch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { CLOSE_POPUP } from "../../services/actions/popupDetailInfoAction";
 
 export default function ModalComponent({ children }) {
+  const matchIndex = useMatch("/");
   const [openPopup, setOpenPopup] = React.useState(true);
   const openPopupRef = React.useRef(false);
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export default function ModalComponent({ children }) {
   const closePopupCallback = () => {
     setOpenPopup(false);
     dispatch({ type: CLOSE_POPUP });
-    navigate(-1);
+    !matchIndex && navigate(-1);
   };
 
   React.useEffect(() => {
