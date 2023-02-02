@@ -34,6 +34,7 @@ export const socketMiddleware = () => {
 
           socket.onmessage = (event) => {
             const { data } = event;
+
             if (data === "ping") {
               socket.send("pong");
             }
