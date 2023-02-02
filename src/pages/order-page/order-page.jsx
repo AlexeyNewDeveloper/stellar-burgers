@@ -1,7 +1,7 @@
 import styles from "./order-page.module.css";
 import React from "react";
 import PropTypes from "prop-types";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useMatch, useParams } from "react-router-dom";
 import { ORDER_STATUS_DONE } from "../../utils/constants";
 import CircleIconIngredient from "../../components/circle-icon-ingredient/circle-icon-ingredient";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -18,16 +18,26 @@ import { wsUserInit } from "../../services/actions/wsUserAction";
 import { getOrderById } from "../../utils/utils";
 
 export default function OrderPage({ modal }) {
+  const matchUserLink = useMatch("/profile/orders/:id");
+  const matchFeedLink = useMatch("/feed/:id");
   const { state } = useLocation();
   const [orderObj, setOrderObj] = React.useState(null);
   const dispatch = useDispatch();
-  const { data } = useSelector(getUserWsState);
+  const { data } = useSelector(
+    matchFeedLink ? getWsState : matchUserLink ? getUserWsState : null
+  );
+
   const { ingredients } = useSelector(getIngredientsState);
   const { id } = useParams();
 
   React.useEffect(() => {
     if (!state) {
-      dispatch(wsUserInit());
+      if (matchUserLink) {
+        dispatch(wsUserInit());
+      }
+      if (matchFeedLink) {
+        dispatch(wsInit());
+      }
       dispatch(getIngredientsAction());
     }
     if (state) {
@@ -40,7 +50,13 @@ export default function OrderPage({ modal }) {
   }, []);
 
   React.useEffect(() => {
-    if (!state && data && ingredients.length && !orderObj) {
+    if (
+      !state &&
+      data &&
+      data.orders?.length &&
+      ingredients.length &&
+      !orderObj
+    ) {
       let order = getOrderById(id, data.orders);
       let compositionOrder = getCompositionOrder(
         order,
