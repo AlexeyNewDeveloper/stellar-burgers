@@ -26,8 +26,8 @@ export default function OrderPage({ modal }) {
   const { data } = useSelector(
     matchFeedLink ? getWsState : matchUserLink ? getUserWsState : null
   );
+  const { ingredients } = React.useContext(IngredientsContext);
 
-  const { ingredients } = useSelector(getIngredientsState);
   const { id } = useParams();
 
   React.useEffect(() => {
@@ -38,7 +38,6 @@ export default function OrderPage({ modal }) {
       if (matchFeedLink) {
         dispatch(wsInit());
       }
-      dispatch(getIngredientsAction());
     }
     if (state) {
       setOrderObj({
