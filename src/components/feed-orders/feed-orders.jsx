@@ -11,6 +11,8 @@ import { getUserState } from "../../services/selectors/userStateSelectors";
 import { getInitialStateForToken } from "../../services/actions/userAction";
 import { wsConnectionClosed } from "../../services/actions/wsAction";
 
+export const FeedOrdersContext = React.createContext(null);
+
 export default function FeedOrders() {
   const dispatch = useDispatch();
   const { data, wsConnectedSuccess, wsError } = useSelector(getWsState);
@@ -42,39 +44,41 @@ export default function FeedOrders() {
   // }, [updateTokenRequestSuccess]);
 
   return (
-    <section className={styles.section}>
-      <h2 className={styles.title}>Лента заказов</h2>
-      {data && (
-        <div className={styles.content}>
-          <FeedOfOrdersComponent
-            orders={data.orders}
-            extraClassContainer={`${styles.feed_orders_component}`}
-          />
-          <div className={styles.statistics}>
-            <div
-              className={`${styles.statistics_content_container} ${styles.order_numbers}`}
-            >
-              <div className={styles.order_numbers_content_container}>
-                <p className={styles.title_content}>Готовы:</p>
-                <StatListOrderNumbers
-                  orders={data.orders}
-                  orderStatusConst={ORDER_STATUS_DONE}
-                  extraClassContainer={styles.ready_order_numbers}
-                />
+    <FeedOrdersContext.Provider value={data}>
+      <section className={styles.section}>
+        <h2 className={styles.title}>Лента заказов</h2>
+        {data && (
+          <div className={styles.content}>
+            <FeedOfOrdersComponent
+              orders={data.orders}
+              extraClassContainer={`${styles.feed_orders_component}`}
+            />
+            <div className={styles.statistics}>
+              <div
+                className={`${styles.statistics_content_container} ${styles.order_numbers}`}
+              >
+                <div className={styles.order_numbers_content_container}>
+                  <p className={styles.title_content}>Готовы:</p>
+                  <StatListOrderNumbers
+                    orders={data.orders}
+                    orderStatusConst={ORDER_STATUS_DONE}
+                    extraClassContainer={styles.ready_order_numbers}
+                  />
+                </div>
+                <div className={styles.order_numbers_content_container}>
+                  <p className={styles.title_content}>В работе:</p>
+                  <StatListOrderNumbers
+                    orders={data.orders}
+                    orderStatusConst={ORDER_STATUS_AT_WORK}
+                  />
+                </div>
               </div>
-              <div className={styles.order_numbers_content_container}>
-                <p className={styles.title_content}>В работе:</p>
-                <StatListOrderNumbers
-                  orders={data.orders}
-                  orderStatusConst={ORDER_STATUS_AT_WORK}
-                />
-              </div>
+              <TotalComletedOrders totalNumber={data.total} />
+              <TotalComletedOrders todayNumber={data.totalToday} />
             </div>
-            <TotalComletedOrders totalNumber={data.total} />
-            <TotalComletedOrders todayNumber={data.totalToday} />
           </div>
-        </div>
-      )}
-    </section>
+        )}
+      </section>
+    </FeedOrdersContext.Provider>
   );
 }

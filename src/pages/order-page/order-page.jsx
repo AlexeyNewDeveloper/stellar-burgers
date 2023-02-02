@@ -16,6 +16,9 @@ import { IngredientsContext } from "../../components/app/App";
 import { getUserWsState } from "../../services/selectors/wsUserStateSelector";
 import { wsUserInit } from "../../services/actions/wsUserAction";
 import { getOrderById } from "../../utils/utils";
+import { FeedOrdersContext } from "../../components/feed-orders/feed-orders";
+import { wsConnectionClosed } from "../../services/actions/wsAction";
+import { wsUserConnectionClosed } from "../../services/actions/wsUserAction";
 
 export default function OrderPage({ modal }) {
   const matchUserLink = useMatch("/profile/orders/:id");
@@ -27,8 +30,8 @@ export default function OrderPage({ modal }) {
     matchFeedLink ? getWsState : matchUserLink ? getUserWsState : null
   );
   const { ingredients } = React.useContext(IngredientsContext);
-
   const { id } = useParams();
+  // const data = React.useContext(FeedOrdersContext);
 
   React.useEffect(() => {
     if (!state) {
@@ -46,6 +49,16 @@ export default function OrderPage({ modal }) {
         totalPriceOrder: JSON.parse(state.order).totalPriceOrder,
       });
     }
+    return () => {
+      if (!state) {
+        if (matchUserLink) {
+          dispatch(wsUserConnectionClosed());
+        }
+        if (matchFeedLink) {
+          dispatch(wsConnectionClosed());
+        }
+      }
+    };
   }, []);
 
   React.useEffect(() => {
