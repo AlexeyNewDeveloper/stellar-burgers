@@ -20,7 +20,7 @@ export default function ConstructorArea() {
       item.uuid = uuidv4();
       dispatch({
         type: ADD_INGREDIENT,
-        ingredient: item,
+        ingredient: { ...item },
       });
     },
   });
