@@ -50,7 +50,6 @@ export default function OrderDetails() {
   }, [updateTokenRequestSuccess]);
 
   React.useEffect(() => {
-    debugger;
     return () => {
       if (makeOrderRequestSuccess) {
         dispatch(getReadyForNewOrder());
