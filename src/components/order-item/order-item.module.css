@@ -1,0 +1,55 @@
+.item:last-of-type {
+  margin-bottom: 0;
+}
+
+.title_order {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-inline-size: 100%;
+}
+
+.item_row {
+  margin-bottom: 24px;
+}
+
+.item_row:last-child {
+  margin-bottom: 0;
+}
+
+.item_top_and_bottom {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item_date_order {
+}
+
+.item_price_order {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item_number_order {
+}
+
+.item_icons_orders {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  position: relative;
+  block-size: 64px;
+}
+
+.status_color {
+  color: #00cccc;
+}
+
+.status {
+  margin: 0;
+  margin-top: 8px;
+  margin-bottom: 24px;
+}

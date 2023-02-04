@@ -118,3 +118,60 @@ export function getCookie(name) {
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
+
+export const getCompositionOrder = (order, ingredients) => {
+  const arrayIngredientsInOrder = [];
+  const arrayCompositionOrder = [];
+  const compositionOrder = order.ingredients.reduce((acc, id) => {
+    const ingredient = getIngredientById(id, ingredients);
+    if (ingredient) {
+      const { image, name, price, _id } = ingredient;
+      arrayIngredientsInOrder.push({ image, name, price, _id });
+      if (id in acc) {
+        acc[id].quantity += 1;
+      } else {
+        acc[id] = {
+          quantity: 1,
+          image,
+          name,
+          price,
+        };
+      }
+    }
+    return acc;
+  }, {});
+  for (const key in compositionOrder) {
+    arrayCompositionOrder.push(compositionOrder[key]);
+  }
+  return { arrayIngredientsInOrder, arrayCompositionOrder };
+};
+
+export const getIngredientById = (id, ingredients) => {
+  if (ingredients.length) {
+    return ingredients.find((item) => item._id === id);
+  }
+};
+
+export const countTotalPriceOrder = (compositionOrder) => {
+  return compositionOrder.reduce((acc, current) => {
+    return (acc += current.price);
+  }, 0);
+};
+
+export const requestTo = async (url, options) => {
+  let res = null;
+  if (options) {
+    res = await fetch(url, options);
+  } else {
+    res = await fetch(url);
+  }
+  return checkResponse(res).then((res) =>
+    res.success ? Promise.resolve(res) : Promise.reject(res)
+  );
+};
+
+export const getOrderById = (id, orders) => {
+  if (orders.length) {
+    return orders.find((item) => item._id === id);
+  }
+};

@@ -1,5 +1,5 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
+import { requestTo } from "../../utils/utils";
 
 export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
 export const FORGOT_PASSWORD_REQUEST_SUCCESS =
@@ -7,12 +7,33 @@ export const FORGOT_PASSWORD_REQUEST_SUCCESS =
 export const FORGOT_PASSWORD_REQUEST_FAILED = "FORGOT_PASSWORD_REQUEST_FAILED";
 export const FORGOT_PASSWORD_INITIAL_STATE = "FORGOT_PASSWORD_INITIAL_STATE";
 
+export const getForgotPasswordRequest = () => {
+  return {
+    type: FORGOT_PASSWORD_REQUEST,
+  };
+};
+export const getForgotPasswordRequestSuccess = () => {
+  return {
+    type: FORGOT_PASSWORD_REQUEST_SUCCESS,
+  };
+};
+export const getForgotPasswordRequestFailed = () => {
+  return {
+    type: FORGOT_PASSWORD_REQUEST_FAILED,
+  };
+};
+export const getForgotInitialState = () => {
+  return {
+    type: FORGOT_PASSWORD_INITIAL_STATE,
+  };
+};
+
 export function forgotPasswordAction(email) {
   return function (dispatch) {
     dispatch({
       type: FORGOT_PASSWORD_REQUEST,
     });
-    fetch(`${URL_FOR_GET_DATA}/password-reset`, {
+    requestTo(`${URL_FOR_GET_DATA}/password-reset`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -26,18 +47,11 @@ export function forgotPasswordAction(email) {
         email: email,
       }),
     })
-      .then(checkResponse)
       .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: FORGOT_PASSWORD_REQUEST_SUCCESS,
-          });
-        } else {
-          dispatch({ type: FORGOT_PASSWORD_REQUEST_FAILED });
-        }
+        dispatch(getForgotPasswordRequestSuccess());
       })
       .catch((err) => {
-        dispatch({ type: FORGOT_PASSWORD_REQUEST_FAILED });
+        dispatch(getForgotPasswordRequestFailed());
       });
   };
 }

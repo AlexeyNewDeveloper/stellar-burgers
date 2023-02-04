@@ -10,7 +10,11 @@ export default function HelpingText({ route }) {
         </p>
       );
     case "/profile/orders":
-      return <p className={styles.text}></p>;
+      return (
+        <p className={styles.text}>
+          В этом разделе вы можете просмотреть свою историю заказов
+        </p>
+      );
     default:
       return;
   }

@@ -7,6 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../services/actions/userAction";
 import HelpingText from "../../components/helping-text/helping-text";
 import { getUserState } from "../../services/selectors/userStateSelectors";
+import { ProtectedRoute } from "../../components/protected-route/protected-route";
+import OrderPage from "../order-page/order-page";
+import ModalComponent from "../../components/modal-component/modal-component";
 
 export default function PersonalAccount() {
   const location = useLocation();
@@ -55,7 +58,24 @@ export default function PersonalAccount() {
       <Routes>
         <Route path="/" exact={true} element={<Profile />} />
 
-        <Route path="/orders" element={<OrderHistory />} />
+        <Route
+          path="/orders/*"
+          element={
+            <>
+              <Routes location={location.state?.backgroundLocation || location}>
+                <Route
+                  index
+                  element={
+                    <ProtectedRoute
+                      authorized={false}
+                      protectedElement={<OrderHistory />}
+                    />
+                  }
+                />
+              </Routes>
+            </>
+          }
+        />
       </Routes>
     </section>
   );

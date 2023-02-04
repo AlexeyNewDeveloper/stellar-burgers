@@ -4,5 +4,6 @@ export const makeOrderInitialState = {
     listIngredientsOrder: [],
   },
   makeOrderRequest: false,
+  makeOrderRequestSuccess: false,
   makeOrderFailed: false,
 };

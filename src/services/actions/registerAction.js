@@ -1,18 +1,32 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
-import { GET_USER } from "./userAction";
+import { getUser } from "./userAction";
+import { requestTo } from "../../utils/utils";
 // import { setCookie, getCookie } from "../../utils/utils";
 
 export const REGISTRATION = "REGISTRATION";
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
 export const REGISTRATION_FAILED = "REGISTRATION_FAILED";
 
+export const getRegistration = () => {
+  return {
+    type: REGISTRATION,
+  };
+};
+export const getRegistrationSuccess = () => {
+  return {
+    type: REGISTRATION_SUCCESS,
+  };
+};
+export const getRegistrationFailed = () => {
+  return {
+    type: REGISTRATION_FAILED,
+  };
+};
+
 export function registerAction(value) {
   return function (dispatch) {
-    dispatch({
-      type: REGISTRATION,
-    });
-    fetch(`${URL_FOR_GET_DATA}/auth/register`, {
+    dispatch(getRegistration());
+    requestTo(`${URL_FOR_GET_DATA}/auth/register`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -28,28 +42,13 @@ export function registerAction(value) {
         name: value.name,
       }),
     })
-      .then(checkResponse)
       .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: REGISTRATION_SUCCESS,
-          });
-          dispatch({
-            type: GET_USER,
-            user: res,
-          });
-          // document.cookie = "";
-          sessionStorage.setItem("user", JSON.stringify(res));
-          // console.log("Есть ли изначально куки: ", getCookie("refreshToken"));
-          // console.log("Ставим куку", res.refreshToken);
-          // setCookie("refreshToken", res.refreshToken);
-          // console.log("Кука после изменения: ", getCookie("refreshToken"));
-        } else {
-          dispatch({ type: REGISTRATION_FAILED });
-        }
+        dispatch(getRegistrationSuccess());
+        dispatch(getUser(res));
+        localStorage.setItem("user", JSON.stringify(res));
       })
       .catch((err) => {
-        dispatch({ type: REGISTRATION_FAILED });
+        dispatch(getRegistrationFailed());
       });
   };
 }

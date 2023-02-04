@@ -1,0 +1,16 @@
+.title_content {
+  margin: 0;
+  color: #f2f2f3;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  margin-bottom: 24px;
+}
+
+.statistics_content_container {
+  margin-bottom: 60px;
+}
+
+.statistics_content_container:last-of-type {
+  margin-bottom: 0;
+}

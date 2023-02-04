@@ -1,5 +1,6 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse } from "../../utils/utils";
+import { wsUserConnectionClosed } from "./wsUserAction";
+import { requestTo } from "../../utils/utils";
 // import { getCookie, setCookie } from "../../utils/utils";
 
 export const GET_USER = "GET_USER";
@@ -20,12 +21,86 @@ export const UPDATE_USER_DATA_REQUEST = "UPDATE_USER_DATA_REQUEST";
 export const UPDATE_USER_DATA_REQUEST_FAILED =
   "UPDATE_USER_DATA_REQUEST_FAILED";
 
+export const getInitialStateForToken = () => {
+  return {
+    type: UPDATE_TOKEN_INITIAL_STATE,
+  };
+};
+export const getUser = (user) => {
+  return {
+    type: GET_USER,
+    user,
+  };
+};
+export const getUserRequest = () => {
+  return {
+    type: USER_REQUEST,
+  };
+};
+export const getUserRequestFailed = () => {
+  return {
+    type: USER_REQUEST_FAILED,
+  };
+};
+export const getLogoutUser = () => {
+  return {
+    type: LOGOUT_USER,
+  };
+};
+export const getEditableData = (editableUser) => {
+  return {
+    type: GET_EDITABLE_DATA,
+    editableUser,
+  };
+};
+export const getUserEditableDataRequest = () => {
+  return {
+    type: USER_EDITABLE_DATA_REQUEST,
+  };
+};
+export const getUserEditableDataRequestFailed = () => {
+  return {
+    type: USER_EDITABLE_DATA_REQUEST_FAILED,
+  };
+};
+export const getUpdateAccessToken = (accessToken, refreshToken) => {
+  return {
+    type: UPDATE_ACCESS_TOKEN,
+    accessToken,
+    refreshToken,
+  };
+};
+export const getUpdateAccessTokenRequest = () => {
+  return {
+    type: UPDATE_ACCESS_TOKEN_REQUEST,
+  };
+};
+export const getUpdateAccessTokenRequestFailed = () => {
+  return {
+    type: UPDATE_ACCESS_TOKEN_REQUEST_FAILED,
+  };
+};
+export const getUpdateUserData = (updatedDataUser) => {
+  return {
+    type: UPDATE_USER_DATA,
+    updatedDataUser,
+  };
+};
+export const getUpdateUserDataRequest = () => {
+  return {
+    type: UPDATE_USER_DATA_REQUEST,
+  };
+};
+export const getUpdateUserDataRequestFailed = () => {
+  return {
+    type: UPDATE_USER_DATA_REQUEST_FAILED,
+  };
+};
+
 export function logoutAction(token) {
-  return function (dispatch) {
-    dispatch({
-      type: USER_REQUEST,
-    });
-    fetch(`${URL_FOR_GET_DATA}/auth/logout`, {
+  return function (dispatch, getState) {
+    dispatch(getUserRequest());
+    requestTo(`${URL_FOR_GET_DATA}/auth/logout`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -39,61 +114,44 @@ export function logoutAction(token) {
         token: token,
       }),
     })
-      .then(checkResponse)
       .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: LOGOUT_USER,
-          });
-          sessionStorage.removeItem("user");
-          // document.cookie = "";
-          // setCookie("refreshToken", null, { expires: -1 });
-        } else {
-          dispatch({ type: USER_REQUEST_FAILED });
+        dispatch(getLogoutUser());
+        localStorage.removeItem("user");
+        const { wsUserConnectedSuccess, wsUserConnected } =
+          getState().wsUserReducer;
+        if (wsUserConnectedSuccess || wsUserConnected) {
+          dispatch(wsUserConnectionClosed());
         }
       })
       .catch((err) => {
-        dispatch({ type: USER_REQUEST_FAILED });
+        dispatch(getUserRequestFailed());
       });
   };
 }
 
 export function getUserDataAction(accessToken) {
   return function (dispatch) {
-    dispatch({
-      type: USER_EDITABLE_DATA_REQUEST,
-    });
-    fetch(`${URL_FOR_GET_DATA}/auth/user`, {
+    dispatch(getUserEditableDataRequest());
+    requestTo(`${URL_FOR_GET_DATA}/auth/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         authorization: accessToken,
       },
     })
-      .then(checkResponse)
       .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: GET_EDITABLE_DATA,
-            editableUser: res,
-          });
-        } else {
-          dispatch({ type: USER_EDITABLE_DATA_REQUEST_FAILED });
-        }
+        dispatch(getEditableData(res));
       })
       .catch((err) => {
-        console.log(err);
-        dispatch({ type: USER_EDITABLE_DATA_REQUEST_FAILED });
+        dispatch(getUserEditableDataRequestFailed());
       });
   };
 }
 
 export function updateAccessTokenAction(refreshToken) {
   return function (dispatch) {
-    dispatch({
-      type: UPDATE_ACCESS_TOKEN_REQUEST,
-    });
-    fetch(`${URL_FOR_GET_DATA}/auth/token`, {
+    dispatch(getUpdateAccessTokenRequest());
+    requestTo(`${URL_FOR_GET_DATA}/auth/token`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -107,40 +165,27 @@ export function updateAccessTokenAction(refreshToken) {
         token: refreshToken,
       }),
     })
-      .then(checkResponse)
       .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: UPDATE_ACCESS_TOKEN,
+        dispatch(getUpdateAccessToken(res.accessToken, res.refreshToken));
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            ...JSON.parse(localStorage.getItem("user")),
             accessToken: res.accessToken,
             refreshToken: res.refreshToken,
-          });
-          sessionStorage.setItem(
-            "user",
-            JSON.stringify({
-              ...JSON.parse(sessionStorage.getItem("user")),
-              accessToken: res.accessToken,
-              refreshToken: res.refreshToken,
-            })
-          );
-          // setCookie("refreshToken", res.refreshToken);
-        } else {
-          dispatch({ type: UPDATE_ACCESS_TOKEN_REQUEST_FAILED });
-        }
+          })
+        );
       })
       .catch((err) => {
-        console.log(err);
-        dispatch({ type: UPDATE_ACCESS_TOKEN_REQUEST_FAILED });
+        dispatch(getUpdateAccessTokenRequestFailed());
       });
   };
 }
 
 export function updateUserDataAction(updatedUser, accessToken) {
   return function (dispatch) {
-    dispatch({
-      type: UPDATE_USER_DATA_REQUEST,
-    });
-    fetch(`${URL_FOR_GET_DATA}/auth/user`, {
+    dispatch(getUpdateUserDataRequest());
+    requestTo(`${URL_FOR_GET_DATA}/auth/user`, {
       method: "PATCH",
       mode: "cors",
       cache: "no-cache",
@@ -153,27 +198,18 @@ export function updateUserDataAction(updatedUser, accessToken) {
       },
       body: JSON.stringify(updatedUser),
     })
-      .then(checkResponse)
       .then((res) => {
-        if (res.success) {
-          dispatch({
-            type: UPDATE_USER_DATA,
-            updatedDataUser: res.user,
-          });
-          sessionStorage.setItem(
-            "user",
-            JSON.stringify({
-              ...JSON.parse(sessionStorage.getItem("user")),
-              user: { name: res.user.name, email: res.user.email },
-            })
-          );
-        } else {
-          dispatch({ type: UPDATE_USER_DATA_REQUEST_FAILED });
-        }
+        dispatch(getUpdateUserData(res.user));
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            ...JSON.parse(localStorage.getItem("user")),
+            user: { name: res.user.name, email: res.user.email },
+          })
+        );
       })
       .catch((err) => {
-        console.log(err);
-        dispatch({ type: UPDATE_USER_DATA_REQUEST_FAILED });
+        dispatch(getUpdateUserDataRequestFailed());
       });
   };
 }

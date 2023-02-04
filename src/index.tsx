@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./components/app/App";
 import reportWebVitals from "./reportWebVitals";
-
 import thunk from "redux-thunk";
 import {
   legacy_createStore as createStore,
@@ -12,6 +11,8 @@ import {
 } from "redux";
 import { Provider } from "react-redux";
 import { rootReducer } from "./services/reducers/rootReducer";
+import { socketMiddleware } from "./services/middlewares/wsMiddleware";
+import { BrowserRouter } from "react-router-dom";
 
 declare const window: any;
 
@@ -20,7 +21,7 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware()));
 
 const store = createStore(rootReducer, enhancer);
 
@@ -29,9 +30,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

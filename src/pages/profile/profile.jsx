@@ -12,18 +12,18 @@ import {
   updateAccessTokenAction,
   updateUserDataAction,
 } from "../../services/actions/userAction";
-import { UPDATE_TOKEN_INITIAL_STATE } from "../../services/actions/userAction";
 import { getUserState } from "../../services/selectors/userStateSelectors";
+import { getInitialStateForToken } from "../../services/actions/userAction";
+import { useForm } from "../../hooks/useForm";
 
 export default function Profile() {
-  const [value, setValue] = React.useState({
+  const { values, changed, handleChange, setValues, setChanged } = useForm({
     password: { changed: false, value: "" },
     email: { changed: false, value: "" },
     name: { changed: false, value: "" },
   });
-  const [updatingUserData, setUpdatingUserData] = React.useState(false);
   const [updatedFields, setUpdatedFields] = React.useState({});
-  const [changed, setChanged] = React.useState(false);
+  const gettingtUser = React.useRef(false);
   const dispatch = useDispatch();
   const {
     user,
@@ -31,77 +31,64 @@ export default function Profile() {
     editableUser,
     updateUserDataRequestFailed,
     updateUserDataRequest,
-    updateUserDataSuccess,
     updateTokenRequestSuccess,
     editableDataRequestSuccess,
   } = useSelector(getUserState);
 
   React.useEffect(() => {
-    if (editableUser && !updatingUserData) {
-      setValue({
-        password: { ...value.password, value: "password" },
-        email: { ...value.email, value: editableUser.user.email },
-        name: { ...value.name, value: editableUser.user.name },
-      });
-    }
-
-    if (updateUserDataSuccess && updatingUserData) {
-      setUpdatingUserData(false);
-    }
-
-    if (
-      !editableUser &&
-      (!editableDataRequestFailed || updateTokenRequestSuccess)
-    ) {
+    if (!editableDataRequestSuccess && !editableUser && !gettingtUser.current) {
       dispatch(getUserDataAction(user.accessToken));
+      gettingtUser.current = true;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    if (
-      !updateUserDataSuccess &&
-      updatingUserData &&
-      updateTokenRequestSuccess
-    ) {
-      dispatch(updateUserDataAction(updatedFields, user.accessToken));
-    }
-
-    if (
-      updateTokenRequestSuccess &&
-      (updateUserDataSuccess || !editableDataRequestFailed)
-    ) {
-      dispatch({ type: UPDATE_TOKEN_INITIAL_STATE });
-    }
-
-    if (
-      (editableDataRequestFailed || updateUserDataRequestFailed) &&
-      !updateTokenRequestSuccess
-    ) {
+  React.useEffect(() => {
+    if (editableDataRequestFailed || updateUserDataRequestFailed) {
       dispatch(
         updateAccessTokenAction(
-          JSON.parse(sessionStorage.getItem("user")).refreshToken
+          JSON.parse(localStorage.getItem("user")).refreshToken
         )
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    editableDataRequestSuccess,
-    updateTokenRequestSuccess,
-    editableDataRequestFailed,
-    updateUserDataRequestFailed,
-    updatingUserData,
-  ]);
+  }, [editableDataRequestFailed, updateUserDataRequestFailed]);
+
+  React.useEffect(() => {
+    if (updateTokenRequestSuccess) {
+      if (editableDataRequestFailed) {
+        dispatch(getUserDataAction(user.accessToken));
+      }
+      if (updateUserDataRequestFailed) {
+        dispatch(updateUserDataAction(updatedFields, user.accessToken));
+      }
+
+      dispatch(getInitialStateForToken());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateTokenRequestSuccess]);
+
+  React.useEffect(() => {
+    if (editableUser) {
+      setValues({
+        password: { ...values.password, value: "password" },
+        email: { ...values.email, value: editableUser.user.email },
+        name: { ...values.name, value: editableUser.user.name },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editableUser]);
 
   const editUserData = (e) => {
     e.preventDefault();
     const updatedFieldsTempObj = {};
-    for (const [field, fieldValue] of Object.entries(value)) {
+    for (const [field, fieldValue] of Object.entries(values)) {
       if (fieldValue.changed) {
         updatedFieldsTempObj[field] = fieldValue.value;
       }
     }
-
     dispatch(updateUserDataAction(updatedFieldsTempObj, user.accessToken));
     setUpdatedFields(updatedFieldsTempObj);
-    setUpdatingUserData(true);
     setChanged(false);
 
     return false;
@@ -110,29 +97,20 @@ export default function Profile() {
   const cancelChanges = (e) => {
     e.preventDefault();
     setChanged(false);
-    setValue({
-      password: { ...value.password, value: "password" },
-      email: { ...value.email, value: editableUser.user.email },
-      name: { ...value.name, value: editableUser.user.name },
+    setValues({
+      password: { ...values.password, value: "password" },
+      email: { ...values.email, value: editableUser.user.email },
+      name: { ...values.name, value: editableUser.user.name },
     });
   };
 
-  const onChange = (e) => {
-    if (!changed) {
-      setChanged(true);
-    }
-    setValue({
-      ...value,
-      [e.target.name]: { changed: true, value: e.target.value },
-    });
-  };
   return (
-    <form onSubmit={editUserData}>
+    <form onSubmit={editUserData} className={styles.form}>
       <Input
         type="text"
         placeholder="Имя"
-        onChange={onChange}
-        value={editableUser ? value.name.value : "Загрузка..."}
+        onChange={handleChange}
+        value={editableUser ? values.name.value : "Загрузка..."}
         icon="EditIcon"
         name={"name"}
         extraClass={styles.item}
@@ -140,8 +118,8 @@ export default function Profile() {
       />
 
       <EmailInput
-        onChange={onChange}
-        value={editableUser ? value.email.value : "Загрузка..."}
+        onChange={handleChange}
+        value={editableUser ? values.email.value : "Загрузка..."}
         name={"email"}
         placeholder="Логин"
         isIcon={true}
@@ -151,8 +129,8 @@ export default function Profile() {
 
       <PasswordInput
         placeholder="Пароль"
-        onChange={onChange}
-        value={editableUser ? value.password.value : "Загрузка..."}
+        onChange={handleChange}
+        value={editableUser ? values.password.value : "Загрузка..."}
         icon="EditIcon"
         name={"password"}
         extraClass={styles.item}

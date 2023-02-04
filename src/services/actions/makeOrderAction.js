@@ -1,9 +1,34 @@
 import { URL_FOR_GET_DATA } from "../../utils/constants";
-import { checkResponse, getListOrder } from "../../utils/utils";
+import { getListOrder } from "../../utils/utils";
+import { requestTo } from "../../utils/utils";
 
 export const MAKE_ORDER = "MAKE_ORDER";
 export const MAKE_ORDER_SUCCESS = "MAKE_ORDER_SUCCESS";
 export const MAKE_ORDER_FAILED = "MAKE_ORDER_FAILED";
+export const READY_FOR_NEW_ORDER = "READY_FOR_NEW_ORDER";
+
+export const getReadyForNewOrder = () => {
+  return {
+    type: READY_FOR_NEW_ORDER,
+  };
+};
+export const getMakeOrder = () => {
+  return {
+    type: MAKE_ORDER,
+  };
+};
+export const getMakeOrderSuccess = (listIngredientsOrder, orderNumber) => {
+  return {
+    type: MAKE_ORDER_SUCCESS,
+    listIngredientsOrder,
+    orderNumber,
+  };
+};
+export const getMakeOrderFailed = () => {
+  return {
+    type: MAKE_ORDER_FAILED,
+  };
+};
 
 export function makeOrderAction(token) {
   return function (dispatch, getState) {
@@ -11,10 +36,8 @@ export function makeOrderAction(token) {
       getState().burgerConstructorTargetReducer.ingredientsForConstructor
     );
 
-    dispatch({
-      type: MAKE_ORDER,
-    });
-    fetch(`${URL_FOR_GET_DATA}/orders`, {
+    dispatch(getMakeOrder());
+    requestTo(`${URL_FOR_GET_DATA}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -24,16 +47,11 @@ export function makeOrderAction(token) {
         ingredients: orderList,
       }),
     })
-      .then(checkResponse)
       .then((res) => {
-        dispatch({
-          type: MAKE_ORDER_SUCCESS,
-          listIngredientsOrder: orderList,
-          orderNumber: res.order.number,
-        });
+        dispatch(getMakeOrderSuccess(orderList, res.order.number));
       })
       .catch((err) => {
-        dispatch({ type: MAKE_ORDER_FAILED });
+        dispatch(getMakeOrderFailed());
       });
   };
 }
