@@ -12,6 +12,10 @@ import {
   DELETE_INGREDIENT,
 } from "../../services/actions/burgerConstructorTargetAction";
 import { propTypesForItemObj } from "../../prop-types";
+import {
+  deleteIngredientAction,
+  moveIngredientAction,
+} from "../../services/actions/burgerConstructorTargetAction";
 
 export default function ConstructorIngredient({ item, index }) {
   const elementRef = React.useRef(null);
@@ -50,23 +54,14 @@ export default function ConstructorIngredient({ item, index }) {
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-
-      dispatch({
-        type: MOVE_INGREDIENT,
-        dragIndex: dragIndex,
-        hoverIndex: hoverIndex,
-        element: item.item,
-      });
+      dispatch(moveIngredientAction(dragIndex, hoverIndex, item.item));
 
       item.index = hoverIndex;
     },
   });
 
   const handleDeleteElement = (index) => {
-    dispatch({
-      type: DELETE_INGREDIENT,
-      deleteIndex: index,
-    });
+    dispatch(deleteIngredientAction(index));
   };
 
   return (

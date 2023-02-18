@@ -6,6 +6,7 @@ import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import { ADD_INGREDIENT } from "../../services/actions/burgerConstructorTargetAction";
 import { v4 as uuidv4 } from "uuid";
 import { getBurgerConstructorTargetState } from "../../services/selectors/burgerConstructorTargetStateSelector";
+import { addIngredientAction } from "../../services/actions/burgerConstructorTargetAction";
 
 export default function ConstructorArea() {
   const dispatch = useDispatch();
@@ -18,10 +19,7 @@ export default function ConstructorArea() {
     }),
     drop(item) {
       item.uuid = uuidv4();
-      dispatch({
-        type: ADD_INGREDIENT,
-        ingredient: { ...item },
-      });
+      dispatch(addIngredientAction(item));
     },
   });
   const [{ isHoverInner }, dropInnerRef] = useDrop({

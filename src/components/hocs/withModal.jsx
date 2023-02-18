@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { propTypesForItemDetailInfo } from "../../prop-types";
 import { useDispatch } from "react-redux";
-import { OPEN_POPUP } from "../../services/actions/popupDetailInfoAction";
+import { getOpenPopupAction } from "../../services/actions/popupDetailInfoAction";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserState } from "../../services/selectors/userStateSelectors";
@@ -24,7 +24,7 @@ const withModal =
         navigate("/login", { state: { from: "/" } });
       }
       if (detailInfo) {
-        dispatch({ type: OPEN_POPUP, modalData: detailInfo });
+        dispatch(getOpenPopupAction(detailInfo));
       }
     };
 

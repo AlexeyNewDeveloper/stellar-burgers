@@ -2,19 +2,34 @@ import styles from "./ingredients-detail.module.css";
 import PropTypes from "prop-types";
 import React from "react";
 import { SPECIFICATIONS } from "../../utils/constants";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../hooks/hooks";
 import { useParams } from "react-router-dom";
 import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
 import { getPopupDetailInfoState } from "../../services/selectors/popupDetailInfoStateSelector";
 import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
 import { IngredientsContext } from "../app/App";
+import {
+  getOpenPopupAction,
+  getClosePopupAction,
+} from "../../services/actions/popupDetailInfoAction";
 
 export default function IngredientDetails({ noModal }) {
   const { currentDetailInfoIngredient } = useSelector(getPopupDetailInfoState);
   const { ingredients } = React.useContext(IngredientsContext);
   const { id } = useParams();
-
+  const dispatch = useDispatch();
   let detailInfo = null;
+
+  React.useEffect(() => {
+    if (detailInfo) {
+      dispatch(getOpenPopupAction(detailInfo));
+    }
+    return () => {
+      if (detailInfo) {
+        dispatch(getClosePopupAction());
+      }
+    };
+  }, []);
 
   if (id) {
     detailInfo = ingredients.find((item) => item._id === id);
