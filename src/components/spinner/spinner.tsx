@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./spinner.module.css";
 
-export default function Spinner() {
+const Spinner: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <svg
@@ -77,4 +77,6 @@ export default function Spinner() {
       </svg>
     </div>
   );
-}
+};
+
+export default Spinner;

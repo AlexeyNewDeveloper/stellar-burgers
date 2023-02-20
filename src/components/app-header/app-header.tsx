@@ -7,10 +7,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import MenuItem from "../menu-item/menu-item";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/hooks";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 
-function AppHeader() {
+const AppHeader: React.FC = () => {
   const { user } = useSelector(getUserState);
 
   return (
@@ -27,7 +27,9 @@ function AppHeader() {
               {({ isActive }) => (
                 <MenuItem
                   text="Конструктор"
-                  activeClassName={isActive && `${styles["item-text-active"]}`}
+                  activeClassName={
+                    isActive ? `${styles["item-text-active"]}` : ""
+                  }
                   icon={
                     <BurgerIcon type={isActive ? "primary" : "secondary"} />
                   }
@@ -43,7 +45,9 @@ function AppHeader() {
               {({ isActive }) => (
                 <MenuItem
                   text="Лента заказов"
-                  activeClassName={isActive && `${styles["item-text-active"]}`}
+                  activeClassName={
+                    isActive ? `${styles["item-text-active"]}` : ""
+                  }
                   icon={<ListIcon type={isActive ? "primary" : "secondary"} />}
                 />
               )}
@@ -65,7 +69,7 @@ function AppHeader() {
             <MenuItem
               text="Личный кабинет"
               activeClassName={
-                user ? isActive && `${styles["item-text-active"]}` : ""
+                user ? (isActive ? `${styles["item-text-active"]}` : "") : ""
               }
               icon={
                 <ProfileIcon
@@ -78,6 +82,6 @@ function AppHeader() {
       </div>
     </header>
   );
-}
+};
 
 export default AppHeader;

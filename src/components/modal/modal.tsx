@@ -1,11 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export default function Modal({ closePopup, children }) {
+interface IModal {
+  closePopup: () => void;
+  children: React.ReactNode;
+}
+
+const Modal: React.FC<IModal> = ({ closePopup, children }) => {
   React.useEffect(() => {
-    const closePopupToKey = (evt) => {
+    const closePopupToKey = (evt: KeyboardEvent) => {
       if (evt.key === "Escape") {
         closePopup();
       }
@@ -26,9 +30,6 @@ export default function Modal({ closePopup, children }) {
       {children}
     </div>
   );
-}
-
-Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  closePopup: PropTypes.func.isRequired,
 };
+
+export default Modal;

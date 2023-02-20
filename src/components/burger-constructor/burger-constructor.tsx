@@ -6,7 +6,7 @@ import {
 import withModal from "../hocs/withModal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorArea from "../constructor-area/constructor-area";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/hooks";
 import { calcTotalPrice } from "../../utils/utils";
 import { getBurgerConstructorTargetState } from "../../services/selectors/burgerConstructorTargetStateSelector";
 
@@ -15,7 +15,7 @@ const PlaceOrderButton = withModal({
   DetailInfoComponent: OrderDetails,
 });
 
-export default function BurgerConstructor() {
+export const BurgerConstructor: React.FC = () => {
   const { ingredients, bun } = useSelector(getBurgerConstructorTargetState);
 
   const totalPrice = calcTotalPrice(ingredients, bun);
@@ -55,4 +55,4 @@ export default function BurgerConstructor() {
       </div>
     </section>
   );
-}
+};

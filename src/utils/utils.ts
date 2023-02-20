@@ -1,15 +1,23 @@
 import { TYPE_BUN } from "./constants";
+import { IIngredient } from "../types";
 
-export function filterIngredients(ingredientsArray, mockup) {
+interface IfilterIngredients<A, M> {
+  (ingredientsArray: Array<A>, mockup: M): M;
+}
+
+export const filterIngredients: IfilterIngredients<
+  IIngredient,
+  { [name: string]: Array<IIngredient> }
+> = (ingredientsArray, mockup) => {
   return ingredientsArray.reduce((acc, current, index, arr) => {
-    if (current.type in acc) {
+    if (current.type && current.type in acc) {
       acc[current.type].push(current);
     } else {
       acc.other.push(current);
     }
     return acc;
   }, mockup);
-}
+};
 
 export function checkResponse(res) {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -54,7 +62,7 @@ export function enableObserver({ targetId, rootId, optionalFunction }) {
 
   const target = document.querySelector(`#${targetId}`);
   observer.observe(target);
-  return [observer, target];
+  return { observer, target };
 }
 
 export function calcTotalPrice(arrayIngredients, bun) {

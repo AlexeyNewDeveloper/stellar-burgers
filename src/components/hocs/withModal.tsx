@@ -1,14 +1,27 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { propTypesForItemDetailInfo } from "../../prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { getOpenPopupAction } from "../../services/actions/popupDetailInfoAction";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 import ModalComponent from "../modal-component/modal-component";
+import { IIngredient } from "../../types";
 
-const withModal =
+interface IwithModalAnonimFunc {
+  [name: string]: any;
+  detailInfo?: IIngredient;
+  orderButton?: boolean;
+}
+
+interface IWrappedComponents {
+  WrappedComponent: React.FC<any>;
+  DetailInfoComponent: React.FC<any>;
+}
+
+interface IwithModal<T, K> {
+  ({ ...args }: T): React.FC<K>;
+}
+
+const withModal: IwithModal<IWrappedComponents, IwithModalAnonimFunc> =
   ({ WrappedComponent, DetailInfoComponent }) =>
   (props) => {
     const { detailInfo, orderButton, ...otherProps } = props;
@@ -17,7 +30,7 @@ const withModal =
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const openPopupCallback = () => {
+    const openPopupCallback = (): void => {
       if (user || !orderButton) {
         setOpenPopup(true);
       } else {
@@ -44,15 +57,5 @@ const withModal =
       </>
     );
   };
-
-withModal.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.number.isRequired,
-    PropTypes.element.isRequired,
-  ]).isRequired,
-  detailInfo: propTypesForItemDetailInfo,
-  orderButton: PropTypes.bool,
-};
 
 export default withModal;

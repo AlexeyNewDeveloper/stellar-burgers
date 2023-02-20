@@ -1,8 +1,15 @@
 import styles from "./total-completed-orders.module.css";
-import PropTypes from "prop-types";
 
-export default function TotalComletedOrders({ totalNumber, todayNumber }) {
-  const formattedNumber = (number) => {
+interface ITotalComletedOrders {
+  totalNumber?: number;
+  todayNumber?: number;
+}
+
+const TotalComletedOrders: React.FC<ITotalComletedOrders> = ({
+  totalNumber,
+  todayNumber,
+}) => {
+  const formattedNumber = (number: number) => {
     return new Intl.NumberFormat().format(number);
   };
 
@@ -25,11 +32,8 @@ export default function TotalComletedOrders({ totalNumber, todayNumber }) {
       </div>
     );
   } else {
-    return false;
+    return null;
   }
-}
-
-TotalComletedOrders.propTypes = {
-  totalNumber: PropTypes.number,
-  todayNumber: PropTypes.number,
 };
+
+export default TotalComletedOrders;

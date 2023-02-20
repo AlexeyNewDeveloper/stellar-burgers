@@ -1,4 +1,5 @@
 export interface IIngredient {
+  [name: string]: number | string | undefined;
   calories?: number;
   carbohydrates?: number;
   fat?: number;
@@ -11,6 +12,7 @@ export interface IIngredient {
   type?: string;
   __v?: number;
   _id?: string;
+  uuid?: string;
 }
 
 export interface IUserData {
@@ -41,4 +43,10 @@ export interface IOrder {
   readonly status: string;
   readonly updatedAt: string;
   readonly _id: string;
+}
+
+export interface IFormInputs {
+  name?: string;
+  email?: string;
+  password?: string;
 }

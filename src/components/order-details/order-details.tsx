@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./order-details.module.css";
 import Spinner from "../spinner/spinner";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { makeOrderAction } from "../../services/actions/makeOrderAction";
 import { updateAccessTokenAction } from "../../services/actions/userAction";
 import { getUserState } from "../../services/selectors/userStateSelectors";
@@ -10,7 +10,7 @@ import { getReadyForNewOrder } from "../../services/actions/makeOrderAction";
 import { getInitialStateForToken } from "../../services/actions/userAction";
 import { getInitialStateForBurgerConstructorTarget } from "../../services/actions/burgerConstructorTargetAction";
 
-export default function OrderDetails() {
+const OrderDetails: React.FC = () => {
   const {
     orderObj,
     makeOrderRequest,
@@ -20,9 +20,15 @@ export default function OrderDetails() {
   const { user, updateTokenRequestSuccess } = useSelector(getUserState);
   const createOrder = React.useRef(false);
   const dispatch = useDispatch();
+  const localUser: string | null = localStorage.getItem("user");
 
   React.useEffect(() => {
-    if (!createOrder.current && !makeOrderRequestSuccess && !orderObj.number) {
+    if (
+      !createOrder.current &&
+      !makeOrderRequestSuccess &&
+      !orderObj.number &&
+      user
+    ) {
       dispatch(makeOrderAction(user.accessToken));
       createOrder.current = true;
     }
@@ -33,16 +39,14 @@ export default function OrderDetails() {
   React.useEffect(() => {
     if (makeOrderFailed) {
       dispatch(
-        updateAccessTokenAction(
-          JSON.parse(localStorage.getItem("user")).refreshToken
-        )
+        updateAccessTokenAction(localUser && JSON.parse(localUser).refreshToken)
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [makeOrderFailed]);
 
   React.useEffect(() => {
-    if (updateTokenRequestSuccess) {
+    if (updateTokenRequestSuccess && user) {
       dispatch(makeOrderAction(user.accessToken));
       dispatch(getInitialStateForToken());
     }
@@ -82,4 +86,6 @@ export default function OrderDetails() {
       )}
     </>
   );
-}
+};
+
+export default OrderDetails;

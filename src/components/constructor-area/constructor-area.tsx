@@ -1,18 +1,22 @@
 import styles from "./constructor-area.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorIngredient from "../constructor-ingredient/constructor-ingredient";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
-import { ADD_INGREDIENT } from "../../services/actions/burgerConstructorTargetAction";
 import { v4 as uuidv4 } from "uuid";
 import { getBurgerConstructorTargetState } from "../../services/selectors/burgerConstructorTargetStateSelector";
 import { addIngredientAction } from "../../services/actions/burgerConstructorTargetAction";
+import { IIngredient } from "../../types";
 
-export default function ConstructorArea() {
+const ConstructorArea: React.FC = () => {
   const dispatch = useDispatch();
   const { ingredients, bun } = useSelector(getBurgerConstructorTargetState);
 
-  const [{ isHover }, dropRef] = useDrop({
+  const [{ isHover }, dropRef] = useDrop<
+    IIngredient,
+    void,
+    { isHover: boolean }
+  >({
     accept: "ingredient",
     collect: (monitor) => ({
       isHover: monitor.isOver(),
@@ -22,7 +26,11 @@ export default function ConstructorArea() {
       dispatch(addIngredientAction(item));
     },
   });
-  const [{ isHoverInner }, dropInnerRef] = useDrop({
+  const [{ isHoverInner }, dropInnerRef] = useDrop<
+    IIngredient,
+    void,
+    { isHoverInner: boolean }
+  >({
     accept: "constructorIngredient",
     collect: (monitor) => ({
       isHoverInner: monitor.isOver(),
@@ -42,8 +50,8 @@ export default function ConstructorArea() {
             type="top"
             isLocked={true}
             text={bun ? bun.name + " (верх)" : "Добавьте булку"}
-            price={bun ? bun.price : 0}
-            thumbnail={bun ? bun.image : null}
+            price={bun ? bun.price || 0 : 0}
+            thumbnail={bun ? bun.image || "" : ""}
           />
         )}
         {!bun && ingredients.length !== 0 && (
@@ -72,8 +80,8 @@ export default function ConstructorArea() {
             type="bottom"
             isLocked={true}
             text={bun ? bun.name + " (низ)" : "Добавьте булку"}
-            price={bun ? bun.price : 0}
-            thumbnail={bun ? bun.image : null}
+            price={bun ? bun.price || 0 : 0}
+            thumbnail={bun ? bun.image || "" : ""}
           />
         )}
         {!bun && ingredients.length !== 0 && (
@@ -82,4 +90,6 @@ export default function ConstructorArea() {
       </li>
     </ul>
   );
-}
+};
+
+export default ConstructorArea;

@@ -1,13 +1,19 @@
 import styles from "./stats-list-order-numbers.module.css";
-import PropTypes from "prop-types";
 import { MAX_NUMBER_OF_ORDER_NUMBERS_IN_LIST } from "../../utils/constants";
+import { IOrder } from "../../types";
 
-export default function StatListOrderNumbers({
+interface IStatListOrderNumbers {
+  orders: Array<IOrder>;
+  orderStatusConst: string;
+  extraClassContainer?: string;
+}
+
+const StatListOrderNumbers: React.FC<IStatListOrderNumbers> = ({
   orders,
   orderStatusConst,
   extraClassContainer,
-}) {
-  const getTwoColumnsStyleForList = (status) => {
+}) => {
+  const getTwoColumnsStyleForList = (status: string): string => {
     const arrayOfOrdersWithStatus = orders.filter((item) => {
       return item.status === status;
     });
@@ -31,10 +37,6 @@ export default function StatListOrderNumbers({
       )}
     </ul>
   );
-}
-
-StatListOrderNumbers.propTypes = {
-  orders: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-  orderStatusConst: PropTypes.string.isRequired,
-  extraClassContainer: PropTypes.string,
 };
+
+export default StatListOrderNumbers;

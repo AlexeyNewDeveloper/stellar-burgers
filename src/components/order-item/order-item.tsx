@@ -1,11 +1,21 @@
 import styles from "./order-item.module.css";
-import PropTypes from "prop-types";
 import React from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import CircleIconsList from "../circle-icons-list/circle-icons-list";
 import { ORDER_STATUS_DONE, ORDER_STATUS_AT_WORK } from "../../utils/constants";
+import { IIngredient } from "../../types";
 
-export default function OrderItem({
+interface IOrderItem {
+  orderNumber: number;
+  orderDate: string;
+  orderName: string;
+  orderStatus: string;
+  totalPriceOrder: number;
+  arrayIngredientsInOrder: Array<IIngredient>;
+  showStatus?: boolean;
+}
+
+const OrderItem: React.FC<IOrderItem> = ({
   orderNumber,
   orderDate,
   orderName,
@@ -13,7 +23,7 @@ export default function OrderItem({
   totalPriceOrder,
   arrayIngredientsInOrder,
   showStatus,
-}) {
+}) => {
   React.useEffect(() => {}, []);
 
   const orderStatusText =
@@ -57,8 +67,8 @@ export default function OrderItem({
             return (
               <React.Fragment key={index}>
                 <CircleIconsList
-                  name={ingredient.name}
-                  image={ingredient.image}
+                  name={ingredient.name || ""}
+                  image={ingredient.image || ""}
                   numberOfIngredients={arrayIngredientsInOrder.length}
                   index={index}
                 />
@@ -75,13 +85,6 @@ export default function OrderItem({
       </div>
     </>
   );
-}
-
-OrderItem.propTypes = {
-  orderNumber: PropTypes.number.isRequired,
-  orderDate: PropTypes.string.isRequired,
-  orderName: PropTypes.string.isRequired,
-  totalPriceOrder: PropTypes.number.isRequired,
-  orderStatus: PropTypes.string.isRequired,
-  showStatus: PropTypes.bool,
 };
+
+export default OrderItem;

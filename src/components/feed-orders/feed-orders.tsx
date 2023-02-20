@@ -1,6 +1,6 @@
 import styles from "./feed-orders.module.css";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { wsInit } from "../../services/actions/wsAction";
 import { getWsState } from "../../services/selectors/wsStateSelector";
 import TotalComletedOrders from "../total-completed-orders/total-completed-orders";
@@ -11,7 +11,7 @@ import { getUserState } from "../../services/selectors/userStateSelectors";
 import { getInitialStateForToken } from "../../services/actions/userAction";
 import { wsConnectionClosed } from "../../services/actions/wsAction";
 
-export default function FeedOrders() {
+const FeedOrders: React.FC = () => {
   const dispatch = useDispatch();
   const { data, wsConnectedSuccess, wsError } = useSelector(getWsState);
   const { updateTokenRequestSuccess } = useSelector(getUserState);
@@ -77,4 +77,6 @@ export default function FeedOrders() {
       )}
     </section>
   );
-}
+};
+
+export default FeedOrders;

@@ -5,16 +5,20 @@ import ReactDOM from "react-dom";
 import { MODAL_ROOT } from "../../utils/constants";
 import React from "react";
 import { useNavigate, useMatch } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../hooks/hooks";
 import { CLOSE_POPUP } from "../../services/actions/popupDetailInfoAction";
 
-export default function ModalComponent({ children }) {
+interface IModalComponent {
+  children: React.ReactNode;
+}
+
+const ModalComponent: React.FC<IModalComponent> = ({ children }) => {
   const matchIndex = useMatch("/");
   const [openPopup, setOpenPopup] = React.useState(true);
   const openPopupRef = React.useRef(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const closePopupCallback = () => {
+  const closePopupCallback = (): void => {
     setOpenPopup(false);
     dispatch({ type: CLOSE_POPUP });
     !matchIndex && navigate(-1);
@@ -26,7 +30,8 @@ export default function ModalComponent({ children }) {
 
   return (
     <>
-      {openPopup &&
+      {MODAL_ROOT &&
+        openPopup &&
         // !openPopupRef.current &&
         ReactDOM.createPortal(
           <div className={styles.z_index}>
@@ -38,4 +43,6 @@ export default function ModalComponent({ children }) {
         )}
     </>
   );
-}
+};
+
+export default ModalComponent;

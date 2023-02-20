@@ -4,14 +4,19 @@ import Tabs from "../tabs/tabs";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import { CATEGORIES } from "../../utils/constants";
 import { filterIngredients } from "../../utils/utils";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
-import { TYPE_BUN } from "../../utils/constants";
+import { TYPE_BUN, TYPE_SAUCE, TYPE_MAIN } from "../../utils/constants";
 import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
 import { IngredientsContext } from "../app/App";
 
-export default function BurgerIngredients() {
-  const [activeTab, setActiveTab] = React.useState(TYPE_BUN);
+export type TActiveTabs =
+  | typeof TYPE_BUN
+  | typeof TYPE_SAUCE
+  | typeof TYPE_MAIN;
+
+const BurgerIngredients: React.FC = () => {
+  const [activeTab, setActiveTab] = React.useState<TActiveTabs>(TYPE_BUN);
   const { ingredients } = React.useContext(IngredientsContext);
   // const { ingredients, ingredientsRequest, ingredientsFailed } =
   //   useSelector(getIngredientsState);
@@ -47,4 +52,6 @@ export default function BurgerIngredients() {
       </div>
     </section>
   );
-}
+};
+
+export default BurgerIngredients;

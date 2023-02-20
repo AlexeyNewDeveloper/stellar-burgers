@@ -1,26 +1,34 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./constructor-ingredient.module.css";
 import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../hooks/hooks";
 import { useDrop, useDrag } from "react-dnd/dist/hooks";
-import {
-  MOVE_INGREDIENT,
-  DELETE_INGREDIENT,
-} from "../../services/actions/burgerConstructorTargetAction";
-import { propTypesForItemObj } from "../../prop-types";
 import {
   deleteIngredientAction,
   moveIngredientAction,
 } from "../../services/actions/burgerConstructorTargetAction";
+import { IIngredient } from "../../types";
+import { Identifier } from "dnd-core";
 
-export default function ConstructorIngredient({ item, index }) {
-  const elementRef = React.useRef(null);
+interface IConstructorIngredient {
+  item: IIngredient;
+  index: number;
+}
+
+const ConstructorIngredient: React.FC<IConstructorIngredient> = ({
+  item,
+  index,
+}) => {
+  const elementRef = React.useRef<HTMLElement | null>(null);
   const dispatch = useDispatch();
-  const [{ isDrag }, dragRef] = useDrag({
+  const [{ isDrag }, dragRef] = useDrag<
+    IConstructorIngredient,
+    void,
+    { isDrag: boolean }
+  >({
     type: "constructorIngredient",
     item: { item, index },
     collect: (monitor) => ({
@@ -28,7 +36,11 @@ export default function ConstructorIngredient({ item, index }) {
     }),
   });
 
-  const [{ handlerId }, dropRef] = useDrop({
+  const [{ handlerId }, dropRef] = useDrop<
+    IConstructorIngredient,
+    void,
+    { handlerId: Identifier | null }
+  >({
     accept: "constructorIngredient",
     collect: (monitor) => ({
       handlerId: monitor.getHandlerId(),
@@ -39,20 +51,22 @@ export default function ConstructorIngredient({ item, index }) {
       if (dragIndex === hoverIndex) {
         return;
       }
+      let hoverMiddleY: number;
+      let hoverClientY: number;
       const hoverBoundingRect = elementRef.current?.getBoundingClientRect();
-
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
       const clientOffset = monitor.getClientOffset();
 
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
+      if (clientOffset && hoverBoundingRect) {
+        hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+          return;
+        }
+
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+          return;
+        }
       }
       dispatch(moveIngredientAction(dragIndex, hoverIndex, item.item));
 
@@ -60,7 +74,7 @@ export default function ConstructorIngredient({ item, index }) {
     },
   });
 
-  const handleDeleteElement = (index) => {
+  const handleDeleteElement = (index: number): void => {
     dispatch(deleteIngredientAction(index));
   };
 
@@ -79,16 +93,13 @@ export default function ConstructorIngredient({ item, index }) {
         <DragIcon type="primary" />
       </div>
       <ConstructorElement
-        text={item.name}
-        price={item.price}
-        thumbnail={item.image}
+        text={item.name || ""}
+        price={item.price || 0}
+        thumbnail={item.image || ""}
         handleClose={() => handleDeleteElement(index)}
       />
     </li>
   );
-}
-
-ConstructorIngredient.propTypes = {
-  item: propTypesForItemObj,
-  index: PropTypes.number.isRequired,
 };
+
+export default ConstructorIngredient;

@@ -1,13 +1,19 @@
 import styles from "./circle-icons-list.module.css";
 import CircleIconIngredient from "../circle-icon-ingredient/circle-icon-ingredient";
-import PropTypes from "prop-types";
 
-export default function CircleIconsList({
+interface ICircleIconsList {
+  image: string;
+  name: string;
+  numberOfIngredients: number;
+  index: number;
+}
+
+const CircleIconsList: React.FC<ICircleIconsList> = ({
   image,
   name,
   numberOfIngredients,
   index,
-}) {
+}) => {
   const styleForOverlay = { zIndex: 6 - index, left: index * 50 + "px" };
   const numberVisibleIngredients = 5;
 
@@ -38,13 +44,8 @@ export default function CircleIconsList({
       </li>
     );
   } else {
-    return false;
+    return null;
   }
-}
-
-CircleIconsList.propTypes = {
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  numberOfIngredients: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
 };
+
+export default CircleIconsList;

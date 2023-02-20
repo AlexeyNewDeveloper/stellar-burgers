@@ -7,10 +7,8 @@ export const MOVE_INGREDIENT: "MOVE_INGREDIENT" = "MOVE_INGREDIENT";
 export const INITIAL_STATE_BURGER_CONSTRUCTOR_TARGET: "INITIAL_STATE_BURGER_CONSTRUCTOR_TARGET" =
   "INITIAL_STATE_BURGER_CONSTRUCTOR_TARGET";
 
-type TIngredientDnD = IIngredient & { uuid: string };
-
 type TAddIngredientAction = TSimpleAction<typeof ADD_INGREDIENT> & {
-  ingredient: TIngredientDnD;
+  ingredient: IIngredient;
 };
 
 type TDeleteIngredientAction = TSimpleAction<typeof DELETE_INGREDIENT> & {
@@ -20,7 +18,7 @@ type TDeleteIngredientAction = TSimpleAction<typeof DELETE_INGREDIENT> & {
 type TMoveIngredientAction = TSimpleAction<typeof MOVE_INGREDIENT> & {
   dragIndex: number;
   hoverIndex: number;
-  element: TIngredientDnD;
+  element: IIngredient;
 };
 
 type TGetInitialStateForBurgerConstructorTarget = TSimpleAction<
@@ -28,7 +26,7 @@ type TGetInitialStateForBurgerConstructorTarget = TSimpleAction<
 >;
 
 export const addIngredientAction = (
-  ingredient: TIngredientDnD
+  ingredient: IIngredient
 ): TAddIngredientAction => {
   return {
     type: ADD_INGREDIENT,
@@ -48,7 +46,7 @@ export const deleteIngredientAction = (
 export const moveIngredientAction = (
   dragIndex: number,
   hoverIndex: number,
-  element: TIngredientDnD
+  element: IIngredient
 ): TMoveIngredientAction => {
   return {
     type: MOVE_INGREDIENT,

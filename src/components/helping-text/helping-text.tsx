@@ -1,7 +1,10 @@
 import styles from "./helping-text.module.css";
-import PropTypes from "prop-types";
 
-export default function HelpingText({ route }) {
+interface IHelpingText {
+  route: string;
+}
+
+const HelpingText: React.FC<IHelpingText> = ({ route }) => {
   switch (route) {
     case "/profile":
       return (
@@ -16,10 +19,8 @@ export default function HelpingText({ route }) {
         </p>
       );
     default:
-      return;
+      return null;
   }
-}
-
-HelpingText.propTypes = {
-  route: PropTypes.string.isRequired,
 };
+
+export default HelpingText;

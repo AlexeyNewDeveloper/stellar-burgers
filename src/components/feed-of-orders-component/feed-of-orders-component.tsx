@@ -1,24 +1,27 @@
 import styles from "./feed-of-orders-component.module.css";
 import React from "react";
-import PropTypes from "prop-types";
 import OrderItem from "../order-item/order-item";
-import { useSelector, useDispatch } from "react-redux";
-import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
-import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
 import { useLocation, Link } from "react-router-dom";
 import moment from "moment";
 import { getCompositionOrder } from "../../utils/utils";
 import { countTotalPriceOrder } from "../../utils/utils";
 import { IngredientsContext } from "../app/App";
+import { IOrder } from "../../types";
 
-export default function FeedOfOrdersComponent({
+interface IFeedOfOrdersComponent {
+  orders: Array<IOrder>;
+  extraClassContainer: string;
+  showStatus?: boolean;
+}
+
+const FeedOfOrdersComponent: React.FC<IFeedOfOrdersComponent> = ({
   orders,
   extraClassContainer,
   showStatus,
-}) {
+}) => {
   const { ingredients } = React.useContext(IngredientsContext);
   const location = useLocation();
-  const getDateMoment = (orderDate) =>
+  const getDateMoment = (orderDate: string): string =>
     moment(orderDate).calendar(null, {
       sameDay: "[Сегодня], HH:mm i-GMT+3",
       nextDay: "[Завтра]",
@@ -77,10 +80,6 @@ export default function FeedOfOrdersComponent({
         })}
     </ul>
   );
-}
-
-FeedOfOrdersComponent.propTypes = {
-  orders: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-  extraClassContainer: PropTypes.string,
-  showStatus: PropTypes.bool,
 };
+
+export default FeedOfOrdersComponent;

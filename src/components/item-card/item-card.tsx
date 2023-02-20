@@ -1,17 +1,20 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./item-card.module.css";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { propTypesForItemObj } from "../../prop-types";
 import { useDrag } from "react-dnd/dist/hooks";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/hooks";
 import { countItems } from "../../utils/utils";
 import { getBurgerConstructorTargetState } from "../../services/selectors/burgerConstructorTargetStateSelector";
+import { IIngredient } from "../../types";
 
-function ItemCard({ item }) {
+interface IItemCard {
+  item: IIngredient;
+}
+
+const ItemCard: React.FC<IItemCard> = ({ item }) => {
   const { ingredients, bun } = useSelector(getBurgerConstructorTargetState);
 
   const countedItems =
@@ -31,7 +34,7 @@ function ItemCard({ item }) {
   return (
     <React.Fragment>
       <div ref={dragRef} className={`${styles.item}`}>
-        {item["_id"] in countedItems ? (
+        {item["_id"] && item["_id"] in countedItems ? (
           <div className={`${styles.counter}`}>
             <Counter count={countedItems[item["_id"]]} size="default" />
           </div>
@@ -57,10 +60,6 @@ function ItemCard({ item }) {
       </div>
     </React.Fragment>
   );
-}
-
-ItemCard.propTypes = {
-  item: propTypesForItemObj,
 };
 
 export default ItemCard;

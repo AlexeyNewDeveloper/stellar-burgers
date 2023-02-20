@@ -25,13 +25,13 @@ type TIngredientsContext =
   | {
       ingredients: Array<IIngredient>;
     }
-  | {};
+  | { ingredients: [] };
 
 export const IngredientsContext = React.createContext<TIngredientsContext>({
   ingredients: [],
 });
 
-function App() {
+const App: React.FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { ingredients } = useSelector(getIngredientsState);
@@ -44,7 +44,7 @@ function App() {
 
   return (
     <IngredientsContext.Provider
-      value={ingredients.length ? { ingredients } : {}}
+      value={ingredients.length ? { ingredients } : { ingredients: [] }}
     >
       {ingredients.length && (
         <div className={styles.page}>
@@ -162,6 +162,6 @@ function App() {
       )}
     </IngredientsContext.Provider>
   );
-}
+};
 
 export default App;

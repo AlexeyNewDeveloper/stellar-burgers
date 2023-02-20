@@ -1,13 +1,13 @@
 import styles from "./content.module.css";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
+import { BurgerConstructor } from "../burger-constructor/burger-constructor";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Routes, Route, useLocation } from "react-router-dom";
 import IngredientDetails from "../ingredients-detail/ingredients-detail";
 import ModalComponent from "../modal-component/modal-component";
 
-export default function Content() {
+const Content: React.FC = () => {
   // const { openPopup } = useSelector(getPopupDetailInfoState);
   let location = useLocation();
 
@@ -46,4 +46,6 @@ export default function Content() {
       </Routes>
     </>
   );
-}
+};
+
+export default Content;
