@@ -23,6 +23,13 @@ const IngredientDetails: React.FC<IIngredientDetails> = ({ noModal }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   let detailInfo: IIngredient;
+  const emptyDetailInfo = {
+    name: "Ошибка",
+    image_large: "/",
+    image: "",
+    price: 0,
+    _id: "",
+  };
 
   React.useEffect(() => {
     if (detailInfo) {
@@ -37,17 +44,11 @@ const IngredientDetails: React.FC<IIngredientDetails> = ({ noModal }) => {
   }, []);
 
   if (id) {
-    detailInfo = ingredients.find((item) => item._id === id) || {
-      name: "Ошибка",
-      image_large: "/",
-    };
+    detailInfo = ingredients.find((item) => item._id === id) || emptyDetailInfo;
   } else {
     detailInfo = currentDetailInfoIngredient
       ? currentDetailInfoIngredient
-      : {
-          name: "Ошибка",
-          image_large: "/",
-        };
+      : emptyDetailInfo;
   }
 
   return detailInfo ? (

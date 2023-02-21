@@ -29,7 +29,7 @@ const IngredientsCategory: React.FC<IIngredientsCategory> = ({
   let location = useLocation();
 
   React.useEffect(() => {
-    const { observer, target } = enableObserver({
+    const { observer, target } = enableObserver<TActiveTabs>({
       targetId: categoryKey,
       rootId: "ingredientsArea",
       optionalFunction: setActiveTab,

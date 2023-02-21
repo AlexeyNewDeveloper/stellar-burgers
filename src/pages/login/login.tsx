@@ -6,19 +6,19 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { loginAction } from "../../services/actions/loginAction";
 import { getLoginState } from "../../services/selectors/loginStateSelector";
 
-export default function Login() {
+const Login: React.FC = () => {
   const [value, setValue] = React.useState({ email: "", password: "" });
   const { loginRequest, loginRequestFailed } = useSelector(getLoginState);
   const dispatch = useDispatch();
-  const onChange = (e) => {
+  const onChange = (e: { target: HTMLInputElement }): void => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
 
-  const loginCallback = (e) => {
+  const loginCallback = (e: React.FormEvent): boolean => {
     e.preventDefault();
     dispatch(loginAction(value));
     return false;
@@ -69,4 +69,6 @@ export default function Login() {
       </div>
     </section>
   );
-}
+};
+
+export default Login;

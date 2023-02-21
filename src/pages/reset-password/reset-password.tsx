@@ -7,26 +7,28 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Navigate } from "react-router-dom";
 import { resetPasswordAction } from "../../services/actions/resetPasswordAction";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { RESET_PASSWORD_INITIAL_STATE } from "../../services/actions/resetPasswordAction";
 import { FORGOT_PASSWORD_INITIAL_STATE } from "../../services/actions/forgotPasswordAction";
 import { getResetPasswordState } from "../../services/selectors/resetPasswordStateSelector";
 import { getForgotPasswordState } from "../../services/selectors/forgotPasswordStateSelector";
 
-export default function ResetPassword() {
-  const [value, setValue] = React.useState({ password: "", token: "" });
-  const [resetSuccess, setResetSuccess] = React.useState(false);
+const ResetPassword: React.FC = () => {
+  const [value, setValue] = React.useState<{ password: string; token: string }>(
+    { password: "", token: "" }
+  );
+  const [resetSuccess, setResetSuccess] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   const { resetPasswordRequest, resetPasswordRequestSuccess } = useSelector(
     getResetPasswordState
   );
   const { forgotPasswordRequestSuccess } = useSelector(getForgotPasswordState);
 
-  const onChange = (e) => {
+  const onChange = (e: { target: HTMLInputElement }) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
 
-  const redirectToLogin = (e) => {
+  const redirectToLogin = (e: React.FormEvent): boolean => {
     e.preventDefault();
     dispatch({ type: FORGOT_PASSWORD_INITIAL_STATE });
     dispatch({ type: RESET_PASSWORD_INITIAL_STATE });
@@ -34,7 +36,7 @@ export default function ResetPassword() {
     return false;
   };
 
-  const resetPassword = (e) => {
+  const resetPassword = (e: React.FormEvent): boolean => {
     e.preventDefault();
     dispatch(resetPasswordAction(value.password, value.token));
     return false;
@@ -102,4 +104,6 @@ export default function ResetPassword() {
       </div>
     </section>
   );
-}
+};
+
+export default ResetPassword;

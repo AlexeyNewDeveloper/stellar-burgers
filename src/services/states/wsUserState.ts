@@ -2,7 +2,7 @@ import { IOrder } from "../../types";
 
 export interface IwsUserInitialState {
   data: null | {
-    orders: ReadonlyArray<IOrder>;
+    orders: Array<IOrder>;
     total: number;
     totalToday: number;
   };

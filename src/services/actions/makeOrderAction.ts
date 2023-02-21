@@ -51,25 +51,29 @@ export const getMakeOrderFailed = (): TGetMakeOrderFailed => {
 
 export const makeOrderAction: AppThunk = (token: string) => {
   return function (dispatch: AppDispatch, getState: AppGetState) {
-    const orderList: Array<string> = getListOrder(
+    const orderList = getListOrder(
       getState().burgerConstructorTargetReducer["ingredientsForConstructor"]
     );
-    dispatch(getMakeOrder());
-    requestTo(`${URL_FOR_GET_DATA}/orders`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        authorization: token,
-      },
-      body: JSON.stringify({
-        ingredients: orderList,
-      }),
-    })
-      .then((res) => {
-        dispatch(getMakeOrderSuccess(orderList, res.order.number));
+    if (orderList) {
+      dispatch(getMakeOrder());
+      requestTo(`${URL_FOR_GET_DATA}/orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          authorization: token,
+        },
+        body: JSON.stringify({
+          ingredients: orderList,
+        }),
       })
-      .catch((err) => {
-        dispatch(getMakeOrderFailed());
-      });
+        .then((res) => {
+          dispatch(getMakeOrderSuccess(orderList, res.order.number));
+        })
+        .catch((err) => {
+          dispatch(getMakeOrderFailed());
+        });
+    } else {
+      dispatch(getMakeOrderFailed());
+    }
   };
 };

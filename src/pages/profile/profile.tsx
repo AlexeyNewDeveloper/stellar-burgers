@@ -6,7 +6,7 @@ import {
   EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import {
   getUserDataAction,
   updateAccessTokenAction,
@@ -15,13 +15,15 @@ import {
 import { getUserState } from "../../services/selectors/userStateSelectors";
 import { getInitialStateForToken } from "../../services/actions/userAction";
 import { useForm } from "../../hooks/useForm";
+import { IFormInputsProfile } from "../../types";
 
-export default function Profile() {
-  const { values, changed, handleChange, setValues, setChanged } = useForm({
-    password: { changed: false, value: "" },
-    email: { changed: false, value: "" },
-    name: { changed: false, value: "" },
-  });
+const Profile: React.FC = () => {
+  const { values, changed, handleChange, setValues, setChanged } =
+    useForm<IFormInputsProfile>({
+      password: { changed: false, value: "" },
+      email: { changed: false, value: "" },
+      name: { changed: false, value: "" },
+    });
   const [updatedFields, setUpdatedFields] = React.useState({});
   const gettingtUser = React.useRef(false);
   const dispatch = useDispatch();
@@ -36,7 +38,12 @@ export default function Profile() {
   } = useSelector(getUserState);
 
   React.useEffect(() => {
-    if (!editableDataRequestSuccess && !editableUser && !gettingtUser.current) {
+    if (
+      !editableDataRequestSuccess &&
+      !editableUser &&
+      !gettingtUser.current &&
+      user
+    ) {
       dispatch(getUserDataAction(user.accessToken));
       gettingtUser.current = true;
     }
@@ -47,7 +54,7 @@ export default function Profile() {
     if (editableDataRequestFailed || updateUserDataRequestFailed) {
       dispatch(
         updateAccessTokenAction(
-          JSON.parse(localStorage.getItem("user")).refreshToken
+          JSON.parse(localStorage.getItem("user") || "").refreshToken
         )
       );
     }
@@ -55,7 +62,7 @@ export default function Profile() {
   }, [editableDataRequestFailed, updateUserDataRequestFailed]);
 
   React.useEffect(() => {
-    if (updateTokenRequestSuccess) {
+    if (updateTokenRequestSuccess && user) {
       if (editableDataRequestFailed) {
         dispatch(getUserDataAction(user.accessToken));
       }
@@ -69,7 +76,7 @@ export default function Profile() {
   }, [updateTokenRequestSuccess]);
 
   React.useEffect(() => {
-    if (editableUser) {
+    if (editableUser && editableUser.user) {
       setValues({
         password: { ...values.password, value: "password" },
         email: { ...values.email, value: editableUser.user.email },
@@ -79,29 +86,34 @@ export default function Profile() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editableUser]);
 
-  const editUserData = (e) => {
+  const editUserData = (e: React.FormEvent): boolean => {
     e.preventDefault();
-    const updatedFieldsTempObj = {};
+    const updatedFieldsTempObj: { [name: string]: { [name: string]: string } } =
+      {};
     for (const [field, fieldValue] of Object.entries(values)) {
       if (fieldValue.changed) {
         updatedFieldsTempObj[field] = fieldValue.value;
       }
     }
-    dispatch(updateUserDataAction(updatedFieldsTempObj, user.accessToken));
-    setUpdatedFields(updatedFieldsTempObj);
-    setChanged(false);
+    if (user) {
+      dispatch(updateUserDataAction(updatedFieldsTempObj, user.accessToken));
+      setUpdatedFields(updatedFieldsTempObj);
+      setChanged(false);
+    }
 
     return false;
   };
 
-  const cancelChanges = (e) => {
+  const cancelChanges = (e: React.SyntheticEvent<Element, Event>) => {
     e.preventDefault();
     setChanged(false);
-    setValues({
-      password: { ...values.password, value: "password" },
-      email: { ...values.email, value: editableUser.user.email },
-      name: { ...values.name, value: editableUser.user.name },
-    });
+    if (editableUser && editableUser.user) {
+      setValues({
+        password: { ...values.password, value: "password" },
+        email: { ...values.email, value: editableUser.user.email },
+        name: { ...values.name, value: editableUser.user.name },
+      });
+    }
   };
 
   return (
@@ -158,4 +170,6 @@ export default function Profile() {
       </div>
     </form>
   );
-}
+};
+
+export default Profile;

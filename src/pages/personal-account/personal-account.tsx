@@ -1,22 +1,21 @@
 import styles from "./personal-account.module.css";
-
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import Profile from "../profile/profile";
 import OrderHistory from "../order-history/order-history";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { logoutAction } from "../../services/actions/userAction";
 import HelpingText from "../../components/helping-text/helping-text";
 import { getUserState } from "../../services/selectors/userStateSelectors";
 import { ProtectedRoute } from "../../components/protected-route/protected-route";
-import OrderPage from "../order-page/order-page";
-import ModalComponent from "../../components/modal-component/modal-component";
 
-export default function PersonalAccount() {
+const PersonalAccount: React.FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { user } = useSelector(getUserState);
-  const logout = () => {
-    dispatch(logoutAction(user.refreshToken));
+  const logout = (): void => {
+    if (user) {
+      dispatch(logoutAction(user.refreshToken));
+    }
   };
 
   return (
@@ -56,7 +55,7 @@ export default function PersonalAccount() {
         <HelpingText route={location.pathname} />
       </div>
       <Routes>
-        <Route path="/" exact={true} element={<Profile />} />
+        <Route path="/" element={<Profile />} />
 
         <Route
           path="/orders/*"
@@ -79,4 +78,6 @@ export default function PersonalAccount() {
       </Routes>
     </section>
   );
-}
+};
+
+export default PersonalAccount;

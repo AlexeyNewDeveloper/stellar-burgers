@@ -4,7 +4,6 @@ import {
   MOVE_INGREDIENT,
   INITIAL_STATE_BURGER_CONSTRUCTOR_TARGET,
 } from "../actions/burgerConstructorTargetAction";
-import { calcTotalPrice } from "../../utils/utils";
 import { burgerConstructorTargetInitialState } from "../states/burgerConstructorTargetState";
 import { TYPE_BUN } from "../../utils/constants";
 import { TBurgerConstructorTargetActions } from "../actions/burgerConstructorTargetAction";
@@ -44,12 +43,12 @@ export const burgerConstructorTargetReducer = (
         ingredientsForConstructor: {
           ...state.ingredientsForConstructor,
           ingredients: ingredients,
-          totalPrice: calcTotalPrice(
-            ingredients,
-            state.ingredientsForConstructor.bun
-              ? state.ingredientsForConstructor.bun
-              : { price: 0 }
-          ),
+          // totalPrice: calcTotalPrice(
+          //   ingredients,
+          //   state.ingredientsForConstructor.bun
+          //     ? state.ingredientsForConstructor.bun
+          //     : { price: 0 }
+          // ),
         },
       };
     }

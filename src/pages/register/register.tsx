@@ -7,12 +7,13 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Navigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { registerAction } from "../../services/actions/registerAction";
 import { getRegisterState } from "../../services/selectors/registerStateSelector";
+import { IUserData } from "../../types";
 
-export default function Register() {
-  const [value, setValue] = React.useState({
+const Register: React.FC = () => {
+  const [value, setValue] = React.useState<IUserData>({
     name: "",
     email: "",
     password: "",
@@ -22,11 +23,11 @@ export default function Register() {
 
   const dispatch = useDispatch();
 
-  const onChange = (e) => {
+  const onChange = (e: { target: HTMLInputElement }) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
 
-  const registerCallback = (e) => {
+  const registerCallback = (e: React.FormEvent): boolean => {
     e.preventDefault();
     dispatch(registerAction(value));
     return false;
@@ -81,4 +82,6 @@ export default function Register() {
       </div>
     </section>
   );
-}
+};
+
+export default Register;

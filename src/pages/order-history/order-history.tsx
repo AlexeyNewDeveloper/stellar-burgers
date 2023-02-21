@@ -1,7 +1,7 @@
 import styles from "./order-history.module.css";
 import React from "react";
 import FeedOfOrdersComponent from "../../components/feed-of-orders-component/feed-of-orders-component";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { getUserWsState } from "../../services/selectors/wsUserStateSelector";
 import { wsUserInit } from "../../services/actions/wsUserAction";
 import { updateAccessTokenAction } from "../../services/actions/userAction";
@@ -10,15 +10,14 @@ import { getInitialStateForToken } from "../../services/actions/userAction";
 import Spinner from "../../components/spinner/spinner";
 import { wsUserConnectionClosed } from "../../services/actions/wsUserAction";
 
-export default function OrderHistory() {
+const OrderHistory: React.FC = () => {
   const dispatch = useDispatch();
-  const { data, wsUserConnectedSuccess, wsUserError } =
-    useSelector(getUserWsState);
+  const { data, wsConnectedSuccess, wsError } = useSelector(getUserWsState);
   const { updateTokenRequestSuccess } = useSelector(getUserState);
   const wsConnecting = React.useRef(false);
 
   React.useEffect(() => {
-    if (!wsUserConnectedSuccess && !wsConnecting.current) {
+    if (!wsConnectedSuccess && !wsConnecting.current) {
       dispatch(wsUserInit());
       wsConnecting.current = true;
     }
@@ -29,10 +28,10 @@ export default function OrderHistory() {
   }, []);
 
   React.useEffect(() => {
-    if (wsUserConnectedSuccess) {
+    if (wsConnectedSuccess) {
       wsConnecting.current = false;
     }
-  }, [wsUserConnectedSuccess]);
+  }, [wsConnectedSuccess]);
 
   // React.useEffect(() => {
   //   if (wsUserError || (data && !data.orders)) {
@@ -65,4 +64,6 @@ export default function OrderHistory() {
       )}
     </div>
   );
-}
+};
+
+export default OrderHistory;

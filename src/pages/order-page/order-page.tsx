@@ -5,7 +5,7 @@ import { useLocation, useMatch, useParams } from "react-router-dom";
 import { ORDER_STATUS_DONE } from "../../utils/constants";
 import CircleIconIngredient from "../../components/circle-icon-ingredient/circle-icon-ingredient";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { getWsState } from "../../services/selectors/wsStateSelector";
 import { wsInit } from "../../services/actions/wsAction";
 import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
@@ -18,15 +18,27 @@ import { wsUserInit } from "../../services/actions/wsUserAction";
 import { getOrderById } from "../../utils/utils";
 import { wsConnectionClosed } from "../../services/actions/wsAction";
 import { wsUserConnectionClosed } from "../../services/actions/wsUserAction";
+import { IOrder } from "../../types";
+import { IcompositionOrder, IcompositionIngredient } from "../../utils/utils";
 
-export default function OrderPage({ modal }) {
+interface IOrderPage {
+  modal?: boolean;
+}
+
+interface IOrderObj {
+  order: IOrder;
+  compositionOrder: Array<IcompositionIngredient>;
+  totalPriceOrder: number;
+}
+
+const OrderPage: React.FC<IOrderPage> = ({ modal }) => {
   const matchUserLink = useMatch("/profile/orders/:id");
   const matchFeedLink = useMatch("/feed/:id");
   const { state } = useLocation();
-  const [orderObj, setOrderObj] = React.useState(null);
+  const [orderObj, setOrderObj] = React.useState<IOrderObj>();
   const dispatch = useDispatch();
   const { data } = useSelector(
-    matchFeedLink ? getWsState : matchUserLink ? getUserWsState : null
+    matchFeedLink ? getWsState : matchUserLink ? getUserWsState : getWsState
   );
   const { ingredients } = React.useContext(IngredientsContext);
   const { id } = useParams();
@@ -65,19 +77,22 @@ export default function OrderPage({ modal }) {
       data &&
       data.orders?.length &&
       ingredients.length &&
-      !orderObj
+      !orderObj &&
+      id
     ) {
       let order = getOrderById(id, data.orders);
-      let compositionOrder = getCompositionOrder(
-        order,
-        ingredients
-      ).arrayCompositionOrder;
-      let totalPriceOrder = countTotalPriceOrder(compositionOrder);
-      setOrderObj({
-        order,
-        compositionOrder,
-        totalPriceOrder,
-      });
+      if (order) {
+        let compositionOrder = getCompositionOrder(
+          order,
+          ingredients
+        ).arrayCompositionOrder;
+        let totalPriceOrder = countTotalPriceOrder(compositionOrder);
+        setOrderObj({
+          order,
+          compositionOrder,
+          totalPriceOrder,
+        });
+      }
     }
   }, [data, ingredients.length]);
 
@@ -148,8 +163,6 @@ export default function OrderPage({ modal }) {
       )}
     </section>
   );
-}
-
-OrderPage.propTypes = {
-  modal: PropTypes.bool,
 };
+
+export default OrderPage;

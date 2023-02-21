@@ -6,10 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Navigate } from "react-router-dom";
 import { forgotPasswordAction } from "../../services/actions/forgotPasswordAction";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { getForgotPasswordState } from "../../services/selectors/forgotPasswordStateSelector";
 
-export default function ForgotPassword() {
+const ForgotPassword: React.FC = () => {
   const [value, setValue] = React.useState({ email: "" });
   const [redirect, setRedirect] = React.useState(false);
   const dispatch = useDispatch();
@@ -25,10 +25,10 @@ export default function ForgotPassword() {
     }
   }, [forgotPasswordRequestSuccess]);
 
-  const onChange = (e) => {
+  const onChange = (e: { target: HTMLInputElement }): void => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
-  const getNewPassword = (e) => {
+  const getNewPassword = (e: React.FormEvent): boolean => {
     e.preventDefault();
     dispatch(forgotPasswordAction(value.email));
     return false;
@@ -79,4 +79,6 @@ export default function ForgotPassword() {
       </div>
     </section>
   );
-}
+};
+
+export default ForgotPassword;
