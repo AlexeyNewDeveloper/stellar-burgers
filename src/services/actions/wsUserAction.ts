@@ -13,7 +13,7 @@ export const WS_USER_GET_MESSAGE: "WS_USER_GET_MESSAGE" = "WS_USER_GET_MESSAGE";
 export const WS_USER_SEND_MESSAGE: "WS_USER_SEND_MESSAGE" =
   "WS_USER_SEND_MESSAGE";
 
-type TwsEvents =
+export type TwsUserEvents =
   | typeof WS_USER_CONNECTION_START
   | typeof WS_USER_CONNECTION_SUCCESS
   | typeof WS_USER_CONNECTION_ERROR
@@ -21,7 +21,7 @@ type TwsEvents =
   | typeof WS_USER_GET_MESSAGE
   | typeof WS_USER_SEND_MESSAGE;
 
-export const wsUserActions: TwsActions<TwsEvents> = {
+export const wsUserActions: TwsActions<TwsUserEvents> = {
   wsInit: WS_USER_CONNECTION_START,
   wsSendMessage: WS_USER_SEND_MESSAGE,
   onOpen: WS_USER_CONNECTION_SUCCESS,

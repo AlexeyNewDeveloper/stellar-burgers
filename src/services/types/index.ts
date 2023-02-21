@@ -10,10 +10,13 @@ import { TRegisterActions } from "../actions/registerAction";
 import { TResetPasswordActions } from "../actions/resetPasswordAction";
 import { TUserActions } from "../actions/userAction";
 import { TPopupDetailInfoActions } from "../actions/popupDetailInfoAction";
+import { rootReducer } from "../reducers/rootReducer";
+import { TwsEventActions } from "../actions/wsAction";
+import { TwsUserEventActions } from "../actions/wsUserAction";
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 
-type TApplicationActions =
+export type TApplicationActions =
   | TGetIngredientsActions
   | TForgotPasswordActions
   | TLoginActions
@@ -21,7 +24,9 @@ type TApplicationActions =
   | TRegisterActions
   | TResetPasswordActions
   | TUserActions
-  | TPopupDetailInfoActions;
+  | TPopupDetailInfoActions
+  | TwsEventActions
+  | TwsUserEventActions;
 
 export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, RootState, Action, TApplicationActions>
