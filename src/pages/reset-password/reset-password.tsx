@@ -24,11 +24,11 @@ const ResetPassword: React.FC = () => {
   );
   const { forgotPasswordRequestSuccess } = useSelector(getForgotPasswordState);
 
-  const onChange = (e: { target: HTMLInputElement }) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
 
-  const redirectToLogin = (e: React.FormEvent): boolean => {
+  const redirectToLogin = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
     dispatch({ type: FORGOT_PASSWORD_INITIAL_STATE });
     dispatch({ type: RESET_PASSWORD_INITIAL_STATE });
@@ -36,7 +36,7 @@ const ResetPassword: React.FC = () => {
     return false;
   };
 
-  const resetPassword = (e: React.FormEvent): boolean => {
+  const resetPassword = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
     dispatch(resetPasswordAction(value.password, value.token));
     return false;

@@ -86,7 +86,7 @@ const Profile: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editableUser]);
 
-  const editUserData = (e: React.FormEvent): boolean => {
+  const editUserData = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
     const updatedFieldsTempObj: { [name: string]: { [name: string]: string } } =
       {};

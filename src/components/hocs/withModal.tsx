@@ -30,7 +30,7 @@ const withModal: IwithModal<IWrappedComponents, IwithModalAnonimFunc> =
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const openPopupCallback = (): void => {
+    const openPopupCallback = (e: React.SyntheticEvent): void => {
       if (user || !orderButton) {
         setOpenPopup(true);
       } else {

@@ -18,7 +18,7 @@ const ModalComponent: React.FC<IModalComponent> = ({ children }) => {
   const openPopupRef = React.useRef(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const closePopupCallback = (): void => {
+  const closePopupCallback = (e?: React.SyntheticEvent): void => {
     setOpenPopup(false);
     dispatch({ type: CLOSE_POPUP });
     !matchIndex && navigate(-1);
