@@ -18,7 +18,7 @@ export interface IUserInitialState {
 }
 
 export const userInitialState: IUserInitialState = {
-  user: JSON.parse(localStorage.getItem("user") || "") || null,
+  user: JSON.parse(localStorage.getItem("user") || "null"),
   // userOrdersHistory: [],
   // userOrdersHistory: null,
   userRequest: false,

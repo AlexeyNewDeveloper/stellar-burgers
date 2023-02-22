@@ -54,7 +54,7 @@ const Profile: React.FC = () => {
     if (editableDataRequestFailed || updateUserDataRequestFailed) {
       dispatch(
         updateAccessTokenAction(
-          JSON.parse(localStorage.getItem("user") || "").refreshToken
+          JSON.parse(localStorage.getItem("user") || "null").refreshToken
         )
       );
     }

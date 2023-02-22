@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import { rootReducer } from "./services/reducers/rootReducer";
 import { socketMiddleware } from "./services/middlewares/wsMiddleware";
 import { BrowserRouter } from "react-router-dom";
+import { configureStore } from "@reduxjs/toolkit";
 
 declare const window: any;
 
