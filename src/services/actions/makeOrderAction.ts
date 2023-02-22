@@ -51,9 +51,7 @@ export const getMakeOrderFailed = (): TGetMakeOrderFailed => {
 
 export const makeOrderAction: AppThunk = (token: string) => {
   return function (dispatch: AppDispatch, getState: AppGetState) {
-    const orderList = getListOrder(
-      getState().burgerConstructorTargetReducer["ingredientsForConstructor"]
-    );
+    const orderList = getListOrder(getState().burgerConstructorTargetReducer);
     if (orderList) {
       dispatch(getMakeOrder());
       requestTo(`${URL_FOR_GET_DATA}/orders`, {

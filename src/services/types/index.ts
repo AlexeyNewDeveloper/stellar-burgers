@@ -13,6 +13,7 @@ import { TPopupDetailInfoActions } from "../actions/popupDetailInfoAction";
 import { rootReducer } from "../reducers/rootReducer";
 import { TwsEventActions } from "../actions/wsAction";
 import { TwsUserEventActions } from "../actions/wsUserAction";
+import { TBurgerConstructorTargetActions } from "../actions/burgerConstructorTargetAction";
 
 // export type RootState = ReturnType<typeof store.getState>;
 export type RootState = ReturnType<typeof rootReducer>;
@@ -27,7 +28,8 @@ export type TApplicationActions =
   | TUserActions
   | TPopupDetailInfoActions
   | TwsEventActions
-  | TwsUserEventActions;
+  | TwsUserEventActions
+  | TBurgerConstructorTargetActions;
 
 export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, RootState, Action, TApplicationActions>

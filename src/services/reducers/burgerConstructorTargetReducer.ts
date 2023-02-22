@@ -14,64 +14,52 @@ export const burgerConstructorTargetReducer = (
 ) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
+      console.log(action.ingredient.type === TYPE_BUN);
       if (action.ingredient.type === TYPE_BUN) {
+        const aaaaa = {
+          ...state,
+          bun: action.ingredient,
+        };
+        console.log(aaaaa);
         return {
           ...state,
-          ingredientsForConstructor: {
-            ...state.ingredientsForConstructor,
-            bun: action.ingredient,
-          },
+          bun: action.ingredient,
         };
       } else {
         return {
           ...state,
-          ingredientsForConstructor: {
-            ...state.ingredientsForConstructor,
-            ingredients: [
-              ...state.ingredientsForConstructor.ingredients,
-              action.ingredient,
-            ],
-          },
+          ingredients: [...state.ingredients, action.ingredient],
         };
       }
     }
     case DELETE_INGREDIENT: {
-      let ingredients = state.ingredientsForConstructor.ingredients;
+      let ingredients = state.ingredients;
       ingredients.splice(action.deleteIndex, 1);
       return {
         ...state,
-        ingredientsForConstructor: {
-          ...state.ingredientsForConstructor,
-          ingredients: ingredients,
-          // totalPrice: calcTotalPrice(
-          //   ingredients,
-          //   state.ingredientsForConstructor.bun
-          //     ? state.ingredientsForConstructor.bun
-          //     : { price: 0 }
-          // ),
-        },
+        ingredients: ingredients,
+        // totalPrice: calcTotalPrice(
+        //   ingredients,
+        //   state.ingredientsForConstructor.bun
+        //     ? state.ingredientsForConstructor.bun
+        //     : { price: 0 }
+        // ),
       };
     }
     case MOVE_INGREDIENT: {
-      let ingredients = state.ingredientsForConstructor.ingredients.slice();
+      let ingredients = state.ingredients.slice();
       ingredients.splice(action.dragIndex, 1);
       ingredients.splice(action.hoverIndex, 0, action.element);
       return {
         ...state,
-        ingredientsForConstructor: {
-          ...state.ingredientsForConstructor,
-          ingredients: ingredients,
-        },
+        ingredients: ingredients,
       };
     }
     case INITIAL_STATE_BURGER_CONSTRUCTOR_TARGET: {
       return {
         ...state,
-        ingredientsForConstructor: {
-          ...state.ingredientsForConstructor,
-          ingredients: [],
-          bun: null,
-        },
+        ingredients: [],
+        bun: null,
       };
     }
     default: {

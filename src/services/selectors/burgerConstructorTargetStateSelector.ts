@@ -3,5 +3,8 @@ import { IBurgerConstructorTargetInitialState } from "../states/burgerConstructo
 
 export const getBurgerConstructorTargetState = (
   state: RootState
-): IBurgerConstructorTargetInitialState["ingredientsForConstructor"] =>
-  state.burgerConstructorTargetReducer.ingredientsForConstructor;
+): IBurgerConstructorTargetInitialState => state.burgerConstructorTargetReducer;
+// export const getBurgerConstructorTargetState = (
+//   state: RootState
+// ): IBurgerConstructorTargetInitialState["ingredientsForConstructor"] =>
+//   state.burgerConstructorTargetReducer.ingredientsForConstructor;

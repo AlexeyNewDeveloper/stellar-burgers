@@ -11,7 +11,6 @@ import { IIngredient } from "../../types";
 const ConstructorArea: React.FC = () => {
   const dispatch = useDispatch();
   const { ingredients, bun } = useSelector(getBurgerConstructorTargetState);
-
   const [{ isHover }, dropRef] = useDrop<
     IIngredient,
     void,
