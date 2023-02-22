@@ -8,8 +8,8 @@ import {
 import { Link, Navigate } from "react-router-dom";
 import { resetPasswordAction } from "../../services/actions/resetPasswordAction";
 import { useDispatch, useSelector } from "../../hooks/hooks";
-import { RESET_PASSWORD_INITIAL_STATE } from "../../services/actions/resetPasswordAction";
-import { FORGOT_PASSWORD_INITIAL_STATE } from "../../services/actions/forgotPasswordAction";
+import { getResetPasswordInitialState } from "../../services/actions/resetPasswordAction";
+import { getForgotInitialState } from "../../services/actions/forgotPasswordAction";
 import { getResetPasswordState } from "../../services/selectors/resetPasswordStateSelector";
 import { getForgotPasswordState } from "../../services/selectors/forgotPasswordStateSelector";
 
@@ -24,19 +24,19 @@ const ResetPassword: React.FC = () => {
   );
   const { forgotPasswordRequestSuccess } = useSelector(getForgotPasswordState);
 
-  const onChange = (e: { target: HTMLInputElement }) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
 
-  const redirectToLogin = (e: React.FormEvent): boolean => {
+  const redirectToLogin = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
-    dispatch({ type: FORGOT_PASSWORD_INITIAL_STATE });
-    dispatch({ type: RESET_PASSWORD_INITIAL_STATE });
+    dispatch(getForgotInitialState());
+    dispatch(getResetPasswordInitialState());
     setResetSuccess(true);
     return false;
   };
 
-  const resetPassword = (e: React.FormEvent): boolean => {
+  const resetPassword = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
     dispatch(resetPasswordAction(value.password, value.token));
     return false;

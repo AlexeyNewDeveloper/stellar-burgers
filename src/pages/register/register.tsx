@@ -23,11 +23,11 @@ const Register: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const onChange = (e: { target: HTMLInputElement }) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
 
-  const registerCallback = (e: React.FormEvent): boolean => {
+  const registerCallback = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
     dispatch(registerAction(value));
     return false;

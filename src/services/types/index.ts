@@ -14,6 +14,7 @@ import { rootReducer } from "../reducers/rootReducer";
 import { TwsEventActions } from "../actions/wsAction";
 import { TwsUserEventActions } from "../actions/wsUserAction";
 
+// export type RootState = ReturnType<typeof store.getState>;
 export type RootState = ReturnType<typeof rootReducer>;
 
 export type TApplicationActions =

@@ -237,7 +237,7 @@ export const countTotalPriceOrder = (
 
 export const requestTo = async (
   url: string,
-  options?: { [name: string]: any }
+  options?: RequestInit
 ): Promise<any> => {
   let res = null;
   if (options) {

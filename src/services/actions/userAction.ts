@@ -254,7 +254,7 @@ export const updateAccessTokenAction: AppThunk = (refreshToken: string) => {
         localStorage.setItem(
           "user",
           JSON.stringify({
-            ...JSON.parse(localStorage.getItem("user") || ""),
+            ...JSON.parse(localStorage.getItem("user") || "null"),
             accessToken: res.accessToken,
             refreshToken: res.refreshToken,
           })
@@ -290,7 +290,7 @@ export const updateUserDataAction: AppThunk = (
         localStorage.setItem(
           "user",
           JSON.stringify({
-            ...JSON.parse(localStorage.getItem("user") || ""),
+            ...JSON.parse(localStorage.getItem("user") || "null"),
             user: { name: res.user.name, email: res.user.email },
           })
         );

@@ -25,10 +25,10 @@ const ForgotPassword: React.FC = () => {
     }
   }, [forgotPasswordRequestSuccess]);
 
-  const onChange = (e: { target: HTMLInputElement }): void => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
-  const getNewPassword = (e: React.FormEvent): boolean => {
+  const getNewPassword = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
     dispatch(forgotPasswordAction(value.email));
     return false;

@@ -12,7 +12,7 @@ const PersonalAccount: React.FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { user } = useSelector(getUserState);
-  const logout = (): void => {
+  const logout = (e: React.SyntheticEvent): void => {
     if (user) {
       dispatch(logoutAction(user.refreshToken));
     }
