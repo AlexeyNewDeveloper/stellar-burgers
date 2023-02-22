@@ -4,16 +4,13 @@ import FeedOfOrdersComponent from "../../components/feed-of-orders-component/fee
 import { useDispatch, useSelector } from "../../hooks/hooks";
 import { getUserWsState } from "../../services/selectors/wsUserStateSelector";
 import { wsUserInit } from "../../services/actions/wsUserAction";
-import { updateAccessTokenAction } from "../../services/actions/userAction";
-import { getUserState } from "../../services/selectors/userStateSelectors";
-import { getInitialStateForToken } from "../../services/actions/userAction";
 import Spinner from "../../components/spinner/spinner";
 import { wsUserConnectionClosed } from "../../services/actions/wsUserAction";
 
 const OrderHistory: React.FC = () => {
   const dispatch = useDispatch();
-  const { data, wsConnectedSuccess, wsError } = useSelector(getUserWsState);
-  const { updateTokenRequestSuccess } = useSelector(getUserState);
+  const { data, wsConnectedSuccess } = useSelector(getUserWsState);
+  // const { updateTokenRequestSuccess } = useSelector(getUserState);
   const wsConnecting = React.useRef(false);
 
   React.useEffect(() => {

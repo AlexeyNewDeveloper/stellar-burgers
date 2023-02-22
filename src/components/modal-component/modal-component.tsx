@@ -6,7 +6,7 @@ import { MODAL_ROOT } from "../../utils/constants";
 import React from "react";
 import { useNavigate, useMatch } from "react-router-dom";
 import { useDispatch } from "../../hooks/hooks";
-import { CLOSE_POPUP } from "../../services/actions/popupDetailInfoAction";
+import { getClosePopupAction } from "../../services/actions/popupDetailInfoAction";
 
 interface IModalComponent {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ const ModalComponent: React.FC<IModalComponent> = ({ children }) => {
   const dispatch = useDispatch();
   const closePopupCallback = (e?: React.SyntheticEvent): void => {
     setOpenPopup(false);
-    dispatch({ type: CLOSE_POPUP });
+    dispatch(getClosePopupAction());
     !matchIndex && navigate(-1);
   };
 

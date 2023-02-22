@@ -8,8 +8,8 @@ import {
 import { Link, Navigate } from "react-router-dom";
 import { resetPasswordAction } from "../../services/actions/resetPasswordAction";
 import { useDispatch, useSelector } from "../../hooks/hooks";
-import { RESET_PASSWORD_INITIAL_STATE } from "../../services/actions/resetPasswordAction";
-import { FORGOT_PASSWORD_INITIAL_STATE } from "../../services/actions/forgotPasswordAction";
+import { getResetPasswordInitialState } from "../../services/actions/resetPasswordAction";
+import { getForgotInitialState } from "../../services/actions/forgotPasswordAction";
 import { getResetPasswordState } from "../../services/selectors/resetPasswordStateSelector";
 import { getForgotPasswordState } from "../../services/selectors/forgotPasswordStateSelector";
 
@@ -30,8 +30,8 @@ const ResetPassword: React.FC = () => {
 
   const redirectToLogin = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
-    dispatch({ type: FORGOT_PASSWORD_INITIAL_STATE });
-    dispatch({ type: RESET_PASSWORD_INITIAL_STATE });
+    dispatch(getForgotInitialState());
+    dispatch(getResetPasswordInitialState());
     setResetSuccess(true);
     return false;
   };
