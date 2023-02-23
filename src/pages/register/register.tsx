@@ -11,9 +11,10 @@ import { useDispatch, useSelector } from "../../hooks/hooks";
 import { registerAction } from "../../services/actions/registerAction";
 import { getRegisterState } from "../../services/selectors/registerStateSelector";
 import { IUserData } from "../../types";
+import { useForm } from "../../hooks/useForm";
 
 const Register: React.FC = () => {
-  const [value, setValue] = React.useState<IUserData>({
+  const { values, setValues } = useForm<IUserData>({
     name: "",
     email: "",
     password: "",
@@ -24,12 +25,12 @@ const Register: React.FC = () => {
   const dispatch = useDispatch();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const registerCallback = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
-    dispatch(registerAction(value));
+    dispatch(registerAction(values));
     return false;
   };
 
@@ -49,19 +50,19 @@ const Register: React.FC = () => {
               type="text"
               placeholder="Имя"
               extraClass={styles.input}
-              value={value.name}
+              value={values.name}
             />
             <EmailInput
               onChange={onChange}
               name={"email"}
               extraClass={styles.input}
-              value={value.email}
+              value={values.email}
             />
             <PasswordInput
               onChange={onChange}
               name={"password"}
               extraClass={styles.input}
-              value={value.password}
+              value={values.password}
             />
             <Button
               htmlType="submit"
