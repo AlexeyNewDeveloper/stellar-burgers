@@ -14,13 +14,7 @@ export const burgerConstructorTargetReducer = (
 ) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
-      console.log(action.ingredient.type === TYPE_BUN);
       if (action.ingredient.type === TYPE_BUN) {
-        const aaaaa = {
-          ...state,
-          bun: action.ingredient,
-        };
-        console.log(aaaaa);
         return {
           ...state,
           bun: action.ingredient,
@@ -38,12 +32,6 @@ export const burgerConstructorTargetReducer = (
       return {
         ...state,
         ingredients: ingredients,
-        // totalPrice: calcTotalPrice(
-        //   ingredients,
-        //   state.ingredientsForConstructor.bun
-        //     ? state.ingredientsForConstructor.bun
-        //     : { price: 0 }
-        // ),
       };
     }
     case MOVE_INGREDIENT: {

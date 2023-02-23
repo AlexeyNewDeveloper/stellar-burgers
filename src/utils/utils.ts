@@ -119,19 +119,18 @@ export function calcTotalPrice(
 
 export function countItems(
   ingredients: Array<IIngredient>,
-  bun: IIngredient | null,
-  ...otherIngredient: Array<IIngredient>
+  bun: IIngredient | null
+  // ...otherIngredient: Array<IIngredient>
 ): { [name: string]: number } {
-  let allIngredients: Array<IIngredient> = [];
-  if (bun) {
-    allIngredients = ingredients;
-    allIngredients.push(bun);
-  }
-  if (otherIngredient.length && otherIngredient.some((item) => !item)) {
-    allIngredients = ingredients;
-  } else {
-    allIngredients = ingredients.concat(otherIngredient);
-  }
+  let allIngredients: Array<IIngredient> = bun
+    ? [...ingredients].concat(bun)
+    : [...ingredients];
+
+  // if (otherIngredient.length && otherIngredient.some((item) => !item)) {
+  //   allIngredients = [...ingredients];
+  // } else {
+  //   allIngredients = [...ingredients].concat(otherIngredient);
+  // }
   return allIngredients.reduce((acc: { [name: string]: number }, current) => {
     if (current["_id"]) {
       if (current["_id"] in acc) {
