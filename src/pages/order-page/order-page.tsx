@@ -1,6 +1,5 @@
 import styles from "./order-page.module.css";
 import React from "react";
-import PropTypes from "prop-types";
 import { useLocation, useMatch, useParams } from "react-router-dom";
 import { ORDER_STATUS_DONE } from "../../utils/constants";
 import CircleIconIngredient from "../../components/circle-icon-ingredient/circle-icon-ingredient";
@@ -12,7 +11,6 @@ import { getIngredientsState } from "../../services/selectors/getIngredientsStat
 import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
 import { getCompositionOrder } from "../../utils/utils";
 import { countTotalPriceOrder } from "../../utils/utils";
-import { IngredientsContext } from "../../components/app/App";
 import { getUserWsState } from "../../services/selectors/wsUserStateSelector";
 import { wsUserInit } from "../../services/actions/wsUserAction";
 import { getOrderById } from "../../utils/utils";
@@ -40,7 +38,7 @@ const OrderPage: React.FC<IOrderPage> = ({ modal }) => {
   const { data } = useSelector(
     matchFeedLink ? getWsState : matchUserLink ? getUserWsState : getWsState
   );
-  const { ingredients } = React.useContext(IngredientsContext);
+  const { ingredients } = useSelector(getIngredientsState);
   const { id } = useParams();
 
   React.useEffect(() => {

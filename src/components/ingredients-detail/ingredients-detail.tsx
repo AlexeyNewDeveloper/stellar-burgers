@@ -5,8 +5,7 @@ import { useSelector, useDispatch } from "../../hooks/hooks";
 import { useParams } from "react-router-dom";
 // import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
 import { getPopupDetailInfoState } from "../../services/selectors/popupDetailInfoStateSelector";
-// import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
-import { IngredientsContext } from "../app/App";
+import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
 import {
   getOpenPopupAction,
   getClosePopupAction,
@@ -19,7 +18,7 @@ interface IIngredientDetails {
 
 const IngredientDetails: React.FC<IIngredientDetails> = ({ noModal }) => {
   const { currentDetailInfoIngredient } = useSelector(getPopupDetailInfoState);
-  const { ingredients } = React.useContext(IngredientsContext);
+  const { ingredients } = useSelector(getIngredientsState);
   const { id } = useParams();
   const dispatch = useDispatch();
   let detailInfo: IIngredient;

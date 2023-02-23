@@ -5,7 +5,8 @@ import { useLocation, Link } from "react-router-dom";
 import moment from "moment";
 import { getCompositionOrder } from "../../utils/utils";
 import { countTotalPriceOrder } from "../../utils/utils";
-import { IngredientsContext } from "../app/App";
+import { useSelector } from "../../hooks/hooks";
+import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
 import { IOrder } from "../../types";
 
 interface IFeedOfOrdersComponent {
@@ -19,7 +20,7 @@ const FeedOfOrdersComponent: React.FC<IFeedOfOrdersComponent> = ({
   extraClassContainer,
   showStatus,
 }) => {
-  const { ingredients } = React.useContext(IngredientsContext);
+  const { ingredients } = useSelector(getIngredientsState);
   const location = useLocation();
   const getDateMoment = (orderDate: string): string =>
     moment(orderDate).calendar(null, {
