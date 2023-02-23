@@ -9,18 +9,24 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "../../hooks/hooks";
 import { loginAction } from "../../services/actions/loginAction";
 import { getLoginState } from "../../services/selectors/loginStateSelector";
+import { useForm } from "../../hooks/useForm";
+
+interface ILogin {
+  email: string;
+  password: string;
+}
 
 const Login: React.FC = () => {
-  const [value, setValue] = React.useState({ email: "", password: "" });
+  const { values, setValues } = useForm<ILogin>({ email: "", password: "" });
   const { loginRequest, loginRequestFailed } = useSelector(getLoginState);
   const dispatch = useDispatch();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setValue({ ...value, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const loginCallback = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
-    dispatch(loginAction(value));
+    dispatch(loginAction(values));
     return false;
   };
 
@@ -34,13 +40,13 @@ const Login: React.FC = () => {
             <legend className={styles.title}>Вход</legend>
             <EmailInput
               onChange={onChange}
-              value={value.email}
+              value={values.email}
               extraClass={styles.input}
               name={"email"}
             />
             <PasswordInput
               onChange={onChange}
-              value={value.password}
+              value={values.password}
               extraClass={styles.input}
               name={"password"}
             />
