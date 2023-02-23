@@ -1,3 +1,10 @@
+import { TYPE_BUN, TYPE_MAIN, TYPE_SAUCE } from "./utils/constants";
+
+export type TTypeIngredient =
+  | typeof TYPE_BUN
+  | typeof TYPE_MAIN
+  | typeof TYPE_SAUCE;
+
 export interface IIngredient {
   [name: string]: number | string | undefined;
   calories?: number;

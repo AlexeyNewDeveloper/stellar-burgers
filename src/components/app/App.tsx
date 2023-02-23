@@ -19,17 +19,6 @@ import ModalComponent from "../modal-component/modal-component";
 import { useSelector, useDispatch } from "../../hooks/hooks";
 import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
 import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
-import { IIngredient } from "../../types";
-
-type TIngredientsContext =
-  | {
-      ingredients: Array<IIngredient>;
-    }
-  | { ingredients: [] };
-
-export const IngredientsContext = React.createContext<TIngredientsContext>({
-  ingredients: [],
-});
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -40,12 +29,11 @@ const App: React.FC = () => {
     if (!ingredients.length) {
       dispatch(getIngredientsAction());
     }
+    // eslint-disable-next-line
   }, []);
 
   return (
-    <IngredientsContext.Provider
-      value={ingredients.length ? { ingredients } : { ingredients: [] }}
-    >
+    <>
       {ingredients.length && (
         <div className={styles.page}>
           <AppHeader />
@@ -160,7 +148,7 @@ const App: React.FC = () => {
           </Routes>
         </div>
       )}
-    </IngredientsContext.Provider>
+    </>
   );
 };
 

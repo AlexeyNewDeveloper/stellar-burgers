@@ -12,11 +12,18 @@ import { getResetPasswordInitialState } from "../../services/actions/resetPasswo
 import { getForgotInitialState } from "../../services/actions/forgotPasswordAction";
 import { getResetPasswordState } from "../../services/selectors/resetPasswordStateSelector";
 import { getForgotPasswordState } from "../../services/selectors/forgotPasswordStateSelector";
+import { useForm } from "../../hooks/useForm";
+
+interface IResetPasswordForm {
+  password: string;
+  token: string;
+}
 
 const ResetPassword: React.FC = () => {
-  const [value, setValue] = React.useState<{ password: string; token: string }>(
-    { password: "", token: "" }
-  );
+  const { values, setValues } = useForm<IResetPasswordForm>({
+    password: "",
+    token: "",
+  });
   const [resetSuccess, setResetSuccess] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   const { resetPasswordRequest, resetPasswordRequestSuccess } = useSelector(
@@ -25,7 +32,7 @@ const ResetPassword: React.FC = () => {
   const { forgotPasswordRequestSuccess } = useSelector(getForgotPasswordState);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const redirectToLogin = (e: React.FormEvent<HTMLFormElement>): boolean => {
@@ -38,7 +45,7 @@ const ResetPassword: React.FC = () => {
 
   const resetPassword = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
-    dispatch(resetPasswordAction(value.password, value.token));
+    dispatch(resetPasswordAction(values.password, values.token));
     return false;
   };
 
@@ -63,7 +70,7 @@ const ResetPassword: React.FC = () => {
               extraClass={styles.input}
               onChange={onChange}
               name={"password"}
-              value={value.password}
+              value={values.password}
               disabled={resetPasswordRequestSuccess}
             />
             <Input
@@ -72,7 +79,7 @@ const ResetPassword: React.FC = () => {
               extraClass={styles.input}
               onChange={onChange}
               name={"token"}
-              value={value.token}
+              value={values.token}
               disabled={resetPasswordRequestSuccess}
             />
             <Button

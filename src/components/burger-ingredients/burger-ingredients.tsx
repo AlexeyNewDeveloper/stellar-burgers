@@ -4,11 +4,9 @@ import Tabs from "../tabs/tabs";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import { CATEGORIES } from "../../utils/constants";
 import { filterIngredients } from "../../utils/utils";
-import { useDispatch, useSelector } from "../../hooks/hooks";
-import { getIngredientsAction } from "../../services/actions/getIngredientsAction";
+import { useSelector } from "../../hooks/hooks";
 import { TYPE_BUN, TYPE_SAUCE, TYPE_MAIN } from "../../utils/constants";
 import { getIngredientsState } from "../../services/selectors/getIngredientsStateSelector";
-import { IngredientsContext } from "../app/App";
 
 export type TActiveTabs =
   | typeof TYPE_BUN
@@ -17,11 +15,10 @@ export type TActiveTabs =
 
 const BurgerIngredients: React.FC = () => {
   const [activeTab, setActiveTab] = React.useState<TActiveTabs>(TYPE_BUN);
-  const { ingredients } = React.useContext(IngredientsContext);
+  const { ingredients } = useSelector(getIngredientsState);
   // const { ingredients, ingredientsRequest, ingredientsFailed } =
   //   useSelector(getIngredientsState);
 
-  const dispatch = useDispatch();
   const filtredIngredients = React.useMemo(() => {
     return filterIngredients(ingredients, {
       bun: [],

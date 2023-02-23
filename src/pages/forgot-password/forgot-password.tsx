@@ -8,9 +8,14 @@ import { Link, Navigate } from "react-router-dom";
 import { forgotPasswordAction } from "../../services/actions/forgotPasswordAction";
 import { useDispatch, useSelector } from "../../hooks/hooks";
 import { getForgotPasswordState } from "../../services/selectors/forgotPasswordStateSelector";
+import { useForm } from "../../hooks/useForm";
+
+interface IFormForgotPassword {
+  email: string;
+}
 
 const ForgotPassword: React.FC = () => {
-  const [value, setValue] = React.useState({ email: "" });
+  const { values, setValues } = useForm<IFormForgotPassword>({ email: "" });
   const [redirect, setRedirect] = React.useState(false);
   const dispatch = useDispatch();
   const { forgotPasswordRequest, forgotPasswordRequestSuccess } = useSelector(
@@ -26,11 +31,11 @@ const ForgotPassword: React.FC = () => {
   }, [forgotPasswordRequestSuccess]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setValue({ ...value, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
   const getNewPassword = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
-    dispatch(forgotPasswordAction(value.email));
+    dispatch(forgotPasswordAction(values.email));
     return false;
   };
 
@@ -42,7 +47,7 @@ const ForgotPassword: React.FC = () => {
             <p className={styles.text_redirect}>
               Через 5 секунд вы будете перенаправлены на страницу сброса пароля.
               Код для сброса пароля отправлен на{" "}
-              <span className={styles.email_redirect}>{value.email}</span>
+              <span className={styles.email_redirect}>{values.email}</span>
               {redirect && <Navigate to="/reset-password" replace={true} />}
             </p>
           </div>
@@ -56,7 +61,7 @@ const ForgotPassword: React.FC = () => {
                   placeholder="Укажите e-mail"
                   extraClass={styles.input}
                   name={"email"}
-                  value={value.email}
+                  value={values.email}
                 />
                 <Button
                   htmlType="submit"
