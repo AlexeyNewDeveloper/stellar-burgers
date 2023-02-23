@@ -13,9 +13,9 @@ export interface ISPECIFICATIONS {
   carbohydrates: string;
 }
 
-export const TYPE_BUN: "bun" = "bun";
-export const TYPE_SAUCE: "sauce" = "sauce";
-export const TYPE_MAIN: "main" = "main";
+export const TYPE_BUN = "bun" as const;
+export const TYPE_SAUCE = "sauce" as const;
+export const TYPE_MAIN = "main" as const;
 
 export const SPECIFICATIONS: ISPECIFICATIONS = {
   calories: "Калории,ккал",
@@ -31,15 +31,15 @@ export const CATEGORIES: ICATEGORIES = {
 };
 
 export const MODAL_ROOT: HTMLElement | null = document.getElementById("modals");
-export const URL_FOR_GET_DATA: "https://norma.nomoreparties.space/api" =
-  "https://norma.nomoreparties.space/api";
+export const URL_FOR_GET_DATA =
+  "https://norma.nomoreparties.space/api" as const;
 
-export const MAX_NUMBER_OF_ORDER_NUMBERS_IN_LIST: 20 = 20;
-export const ORDER_STATUS_DONE: "done" = "done";
-export const ORDER_STATUS_AT_WORK: "pending" = "pending";
-export const ORDER_STATUS_CREATED: "created" = "created";
+export const MAX_NUMBER_OF_ORDER_NUMBERS_IN_LIST = 20 as const;
+export const ORDER_STATUS_DONE = "done" as const;
+export const ORDER_STATUS_AT_WORK = "pending" as const;
+export const ORDER_STATUS_CREATED = "created" as const;
 
-export const WS_URL_FEED_ORDERS: "wss://norma.nomoreparties.space/orders/all" =
-  "wss://norma.nomoreparties.space/orders/all";
-export const WS_URL_USER_ORDERS_HISTORY: "wss://norma.nomoreparties.space/orders" =
-  "wss://norma.nomoreparties.space/orders";
+export const WS_URL_FEED_ORDERS =
+  "wss://norma.nomoreparties.space/orders/all" as const;
+export const WS_URL_USER_ORDERS_HISTORY =
+  "wss://norma.nomoreparties.space/orders" as const;
