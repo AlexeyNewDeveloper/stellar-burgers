@@ -99,12 +99,9 @@ export function calcTotalPrice(
   arrayIngredients: Array<IIngredient>,
   bun: IIngredient | null
 ): number {
-  let allIngredients: Array<IIngredient>;
-  if (bun) {
-    allIngredients = arrayIngredients.concat(bun);
-  } else {
-    allIngredients = arrayIngredients;
-  }
+  let allIngredients: Array<IIngredient> = bun
+    ? [...arrayIngredients].concat(bun)
+    : [...arrayIngredients];
 
   return allIngredients.reduce((acc, current) => {
     if (current.price) {
