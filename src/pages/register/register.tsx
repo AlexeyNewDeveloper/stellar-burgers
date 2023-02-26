@@ -14,7 +14,7 @@ import { IUserData } from "../../types";
 import { useForm } from "../../hooks/useForm";
 
 const Register: React.FC = () => {
-  const { values, setValues } = useForm<IUserData>({
+  const { values, setValues, handleChange } = useForm<IUserData>({
     name: "",
     email: "",
     password: "",
@@ -24,9 +24,9 @@ const Register: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+  // const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setValues({ ...values, [e.target.name]: e.target.value });
+  // };
 
   const registerCallback = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
@@ -45,7 +45,7 @@ const Register: React.FC = () => {
           <fieldset className={styles.fieldset}>
             <legend className={styles.title}>Регистрация</legend>
             <Input
-              onChange={onChange}
+              onChange={handleChange}
               name={"name"}
               type="text"
               placeholder="Имя"
@@ -53,13 +53,13 @@ const Register: React.FC = () => {
               value={values.name}
             />
             <EmailInput
-              onChange={onChange}
+              onChange={handleChange}
               name={"email"}
               extraClass={styles.input}
               value={values.email}
             />
             <PasswordInput
-              onChange={onChange}
+              onChange={handleChange}
               name={"password"}
               extraClass={styles.input}
               value={values.password}

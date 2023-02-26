@@ -20,7 +20,7 @@ interface IResetPasswordForm {
 }
 
 const ResetPassword: React.FC = () => {
-  const { values, setValues } = useForm<IResetPasswordForm>({
+  const { values, setValues, handleChange } = useForm<IResetPasswordForm>({
     password: "",
     token: "",
   });
@@ -31,9 +31,9 @@ const ResetPassword: React.FC = () => {
   );
   const { forgotPasswordRequestSuccess } = useSelector(getForgotPasswordState);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+  // const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setValues({ ...values, [e.target.name]: e.target.value });
+  // };
 
   const redirectToLogin = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
@@ -68,7 +68,7 @@ const ResetPassword: React.FC = () => {
             <PasswordInput
               placeholder="Введите новый пароль"
               extraClass={styles.input}
-              onChange={onChange}
+              onChange={handleChange}
               name={"password"}
               value={values.password}
               disabled={resetPasswordRequestSuccess}
@@ -77,7 +77,7 @@ const ResetPassword: React.FC = () => {
               placeholder="Введите код из письма"
               type="text"
               extraClass={styles.input}
-              onChange={onChange}
+              onChange={handleChange}
               name={"token"}
               value={values.token}
               disabled={resetPasswordRequestSuccess}
