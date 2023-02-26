@@ -17,12 +17,15 @@ interface ILogin {
 }
 
 const Login: React.FC = () => {
-  const { values, setValues } = useForm<ILogin>({ email: "", password: "" });
+  const { values, handleChange, setValues } = useForm<ILogin>({
+    email: "",
+    password: "",
+  });
   const { loginRequest, loginRequestFailed } = useSelector(getLoginState);
   const dispatch = useDispatch();
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+  // const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  //   setValues({ ...values, [e.target.name]: e.target.value });
+  // };
 
   const loginCallback = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
@@ -39,13 +42,13 @@ const Login: React.FC = () => {
           <fieldset className={styles.fieldset}>
             <legend className={styles.title}>Вход</legend>
             <EmailInput
-              onChange={onChange}
+              onChange={handleChange}
               value={values.email}
               extraClass={styles.input}
               name={"email"}
             />
             <PasswordInput
-              onChange={onChange}
+              onChange={handleChange}
               value={values.password}
               extraClass={styles.input}
               name={"password"}

@@ -15,7 +15,9 @@ interface IFormForgotPassword {
 }
 
 const ForgotPassword: React.FC = () => {
-  const { values, setValues } = useForm<IFormForgotPassword>({ email: "" });
+  const { values, setValues, handleChange } = useForm<IFormForgotPassword>({
+    email: "",
+  });
   const [redirect, setRedirect] = React.useState(false);
   const dispatch = useDispatch();
   const { forgotPasswordRequest, forgotPasswordRequestSuccess } = useSelector(
@@ -30,9 +32,9 @@ const ForgotPassword: React.FC = () => {
     }
   }, [forgotPasswordRequestSuccess]);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+  // const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  //   setValues({ ...values, [e.target.name]: e.target.value });
+  // };
   const getNewPassword = (e: React.FormEvent<HTMLFormElement>): boolean => {
     e.preventDefault();
     dispatch(forgotPasswordAction(values.email));
@@ -57,7 +59,7 @@ const ForgotPassword: React.FC = () => {
               <fieldset className={styles.fieldset}>
                 <legend className={styles.title}>Восстановление пароля</legend>
                 <EmailInput
-                  onChange={onChange}
+                  onChange={handleChange}
                   placeholder="Укажите e-mail"
                   extraClass={styles.input}
                   name={"email"}
