@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import { rootReducer } from "./services/reducers/rootReducer";
 import { socketMiddleware } from "./services/middlewares/wsMiddleware";
 import { BrowserRouter } from "react-router-dom";
+import { configureStore } from "@reduxjs/toolkit";
 
 declare const window: any;
 
@@ -21,9 +22,9 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware()));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware));
 
-const store = createStore(rootReducer, enhancer);
+export const store = createStore(rootReducer, enhancer);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
